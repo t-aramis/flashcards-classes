@@ -1005,6 +1005,35 @@ button.chb:active:not(:disabled){transform:none}
 .cgse{font-size:12.5px;color:var(--mt)}
 .cgbt{display:flex;gap:6px;justify-content:flex-end;flex-wrap:wrap;margin-left:auto}
 .cgc .padd input{min-width:0}
+.cgch .cgbt{flex:none;flex-wrap:nowrap}
+#cgv{position:fixed;inset:0;z-index:210;background:var(--bg);color:var(--tx);overflow:auto;padding:0 16px calc(28px + env(safe-area-inset-bottom,0px))}
+.cgvw{max-width:760px;margin:0 auto}
+.cgvh{position:sticky;top:0;z-index:2;display:flex;align-items:center;gap:10px;padding:14px 0 12px;margin:0 0 6px;background:var(--bg);border-bottom:1px solid var(--bd)}
+.cgvh>div{flex:1;min-width:0}
+.cgvh b{display:block;font:750 20px/1.2 var(--fd);overflow-wrap:anywhere}
+.cgvh small{display:block;color:var(--mt);font-size:13px}
+.cgvh .ib{font-size:24px;line-height:1}
+#cgv .seg{margin:12px 0}
+#cgv h3{margin:20px 0 8px}
+.cgvt{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:14px 0 4px}
+.cgvt>div{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:12px}
+.cgvt b{display:block;font:800 24px/1.1 var(--fd)}
+.cgvt b small{font-size:15px;font-weight:650;color:var(--mt)}
+.cgvt span{display:block;font-size:12.5px;color:var(--mt);margin-top:3px}
+.cgvc{margin:0 0 8px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;overflow:hidden}
+#cgv .cgvb{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:2px 12px;width:100%;text-align:left;padding:12px 14px;border:0;border-radius:0;background:transparent;box-shadow:none;color:inherit;font:inherit}
+.cgvb:hover{background:var(--sf2)}
+.cgvn b{display:block;overflow-wrap:anywhere}
+.cgvn small{display:block;color:var(--mt);font-size:13px;font-weight:400}
+.cgvp{font:800 19px var(--fd);font-variant-numeric:tabular-nums}
+.cgvb .bar{grid-column:1/-1}
+.cgvl{border-top:1px solid var(--bd);padding:4px 14px}
+.cgvk{padding:9px 0;border-bottom:1px solid var(--bd)}
+.cgvk:last-child{border-bottom:0}
+.cgvk span{display:block;font-weight:600;overflow-wrap:anywhere}
+.cgvk small{display:block;color:var(--mt);font-size:13px;margin-top:2px}
+.cgvf{margin-top:18px;font-size:13px}
+@media(max-width:560px){.cgvt{grid-template-columns:repeat(2,minmax(0,1fr))}}
 #cgprint{display:none}
 @media print{
  html,body.cgp{background:#fff!important;overflow:visible!important;height:auto!important;position:static!important}
@@ -1225,7 +1254,7 @@ function tHtml(){
  if(!CL){if(!CLe)loadCL();return`<h3>Mes classes</h3><p class="mt">${esc(CLe||'Chargement…')}</p>${CLe?'<div class="row"><button class="sm" id="cgrt">Réessayer</button></div>':''}${acc}`}
  const R=roster();
  return`<h3>Mes classes</h3><p class="mt" style="margin:2px 0 10px">Une classe donne accès à un paquet. Chaque élève reçoit un identifiant et un mot de passe, à saisir sur la page d’accueil du site. Aucun nom n’est envoyé en ligne : les étiquettes et les mots de passe affichés ici restent sur cet appareil.</p>
- ${CL.length?CL.map(c=>{const op=OPEN.has(c.id),n=c.students.length,k=online(c.pack);return`<div class="cgc" data-c="${c.id}"><div class="cgch"><div><b>${esc(c.name||'Classe sans nom')}</b><small>Paquet « ${esc(pkN(c.pack))} » · ${n} élève${n>1?'s':''} · ${k} carte${k>1?'s':''} en ligne</small></div><button class="sm" data-cgt aria-expanded="${op}">${op?'Fermer':'Ouvrir'}</button></div>${op?`
+ ${CL.length?CL.map(c=>{const op=OPEN.has(c.id),n=c.students.length,k=online(c.pack);return`<div class="cgc" data-c="${c.id}"><div class="cgch"><div><b>${esc(c.name||'Classe sans nom')}</b><small>Paquet « ${esc(pkN(c.pack))} » · ${n} élève${n>1?'s':''} · ${k} carte${k>1?'s':''} en ligne</small></div><span class="cgbt"><button class="sm pri" data-cgtv>Suivi</button><button class="sm" data-cgt aria-expanded="${op}">${op?'Fermer':'Gérer'}</button></span></div>${op?`
   <div class="cgs">${c.students.map(s=>{const r=R[s.id]||{};return`<div class="cgr" data-s="${s.id}"><span class="cgn">${s.num}</span><input class="cgla" maxlength="40" placeholder="Étiquette (reste sur cet appareil)" aria-label="Étiquette de l’élève ${s.num}" value="${esc(r.l||'')}"><span class="cgid"><code title="Identifiant">${esc(fId(s.login))}</code><code title="Mot de passe">${r.p?esc(fPw(r.p)):'········'}</code></span><span class="cgl3"><span class="cgse">${seen(s.seen)}</span><span class="cgbt"><button class="sm" data-cgpw>Nouveau mot de passe</button><button class="sm del" data-cgsd>Retirer</button></span></span></div>`}).join('')||'<p class="mt">Aucun élève.</p>'}</div>
   <div class="row"><button class="sm pri" data-cgpr>Imprimer les fiches</button><button class="sm" data-cgdl>Télécharger la liste</button></div>
   <label class="l">Ajouter des élèves</label><div class="row padd"><input type="number" inputmode="numeric" min="1" max="60" value="1" data-cgan aria-label="Nombre d’élèves à ajouter"><button class="sm" data-cgad>Ajouter</button></div>
@@ -1255,7 +1284,7 @@ function bind(pb){
  {const rt=q('#cgrt');if(rt)rt.onclick=()=>{CLe='';loadCL();redraw()}}
  if(S.kind!='t'||!CL)return;
  pb.querySelectorAll('.cgc').forEach(el=>{const c=CL.find(x=>x.id==el.dataset.c);if(!c)return;const g=s=>el.querySelector(s);
-  g('[data-cgt]').onclick=()=>{OPEN.has(c.id)?OPEN.delete(c.id):OPEN.add(c.id);redraw()};
+  g('[data-cgt]').onclick=()=>{OPEN.has(c.id)?OPEN.delete(c.id):OPEN.add(c.id);redraw()};g('[data-cgtv]').onclick=()=>openTrack(c);
   if(!OPEN.has(c.id))return;
   el.querySelectorAll('.cgr').forEach(r=>{const sid=r.dataset.s,st=c.students.find(x=>x.id==sid);
    r.querySelector('.cgla').onchange=e=>{const R=roster();R[sid]=Object.assign(R[sid]||{},{l:e.target.value.trim()});rosterSet(R)};
@@ -1277,6 +1306,48 @@ function printClass(c){const old=document.getElementById('cgprint');if(old)old.r
  setTimeout(()=>{try{window.print()}catch(e){end()}},60)}
 function csvClass(c){const z=v=>'"'+String(v).replace(/"/g,'""')+'"',t='﻿'+[['Numéro','Étiquette','Identifiant','Mot de passe']].concat(rows(c).map(r=>[r.num,r.l,r.login,r.pw])).map(a=>a.map(z).join(';')).join('\r\n');
  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:'text/csv;charset=utf-8'}));a.download='classe-'+(c.name||'liste').replace(/[^\w\-]+/g,'_')+'.csv';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)}
+
+/* ------------------------------------------------------------ enseignant : suivi de la progression d'une classe */
+let TV=null;
+const pct=x=>Math.round(Math.max(0,Math.min(1,+x||0))*100);
+const pv=(prog,id)=>{const x=prog&&typeof prog=='object'?prog[id]:null,ok=x&&typeof x=='object';return{s:ok&&typeof x.s=='number'&&isFinite(x.s)?Math.max(0,Math.min(1,x.s)):null,n:ok?Math.max(0,Math.round(+x.n)||0):0,lr:ok&&typeof x.lr=='number'?x.lr:null}};
+const qtx=c=>esc(String(c.q||'(image)').replace(/\*\*|__|==|\/\//g,'').replace(/\s+/g,' ').slice(0,160));
+function packView(p){return withPack(p,()=>{const by=new Map();ST.cards.forEach(c=>{const f=c.f||'';if(!by.has(f))by.set(f,[]);by.get(f).push(c)});
+  const fs=folders().filter(f=>by.has(f));by.forEach((v,f)=>{if(f&&!fs.includes(f))fs.push(f)});if(by.has(''))fs.push('');
+  return fs.map(f=>({f,cards:by.get(f).slice().sort((a,b)=>ordk(a)-ordk(b))}))})}
+function stuStat(st,CH){const all=CH.reduce((a,c)=>a.concat(c.cards),[]);let sum=0,seen=0;all.forEach(c=>{const v=pv(st.prog,c.id);if(v.s!=null){sum+=v.s;seen++}});
+ const h=st.y&&st.y.hist&&typeof st.y.hist=='object'?st.y.hist:{};let a7=0,o7=0;for(let i=0;i<7;i++){const d=new Date();d.setDate(d.getDate()-i);const x=h[dkey(d)];if(Array.isArray(x)){a7+=Math.max(0,+x[0]||0);o7+=Math.max(0,+x[1]||0)}}
+ return{m:all.length?sum/all.length:0,seen,tot:all.length,a7,o7,xp:Math.max(0,Math.round(+(st.y&&st.y.xp))||0)}}
+const chStat=(st,ch)=>{let sum=0,seen=0;ch.cards.forEach(c=>{const v=pv(st.prog,c.id);if(v.s!=null){sum+=v.s;seen++}});return{m:ch.cards.length?sum/ch.cards.length:0,seen}};
+const bar=x=>`<div class="bar"><i style="width:${pct(x)}%;background:${mc(x)}"></i></div>`;
+const stName=st=>{const l=(roster()[st.id]||{}).l;return l?esc(l):'Élève n° '+esc(st.num)};
+async function openTrack(c){TV={c,data:null,tab:'s',sid:null,open:new Set(),err:''};PST=false;pbar();drawTrack();await loadTrack()}
+async function loadTrack(){if(!TV)return;const T=TV;T.err='';T.busy=true;drawTrack();try{const d=await rpc('cg_t_progress',{p_class:T.c.id});T.data=d&&Array.isArray(d.students)?d:{students:[]}}catch(e){T.err=errMsg(e)}T.busy=false;if(TV===T)drawTrack()}
+function closeTrack(){TV=null;const o=document.getElementById('cgv');if(o)o.remove();document.body.classList.remove('lock');document.removeEventListener('keydown',trackKey)}
+function trackKey(e){if(e.key=='Escape'&&TV){if(TV.sid){TV.sid=null;TV.open.clear();drawTrack()}else closeTrack()}}
+function drawTrack(){
+ if(!TV)return;let o=document.getElementById('cgv');
+ if(!o){o=document.createElement('div');o.id='cgv';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');o.setAttribute('aria-label','Suivi de la classe');document.body.appendChild(o);document.body.classList.add('lock');document.addEventListener('keydown',trackKey);
+  o.addEventListener('click',e=>{const b=e.target.closest('[data-tv]');if(!b||!TV)return;const k=b.dataset.tv,v=b.dataset.v;
+   if(k=='x')return closeTrack();if(k=='r')return loadTrack();
+   if(k=='tab'){TV.tab=v;TV.sid=null;TV.open.clear()}else if(k=='stu'){TV.sid=v;TV.open.clear()}else if(k=='back'){TV.sid=null;TV.open.clear()}else if(k=='ch'){TV.open.has(v)?TV.open.delete(v):TV.open.add(v)}
+   const y=o.scrollTop;drawTrack();o.scrollTop=k=='ch'?y:0})}
+ const T=TV,c=T.c,D=T.data;let CH=[];try{CH=packView(c.pack)}catch(e){console.error(e)}
+ const nc=CH.reduce((a,x)=>a+x.cards.length,0),S=D?D.students:[];
+ const head=`<div class="cgvh"><button class="ib ghost" data-tv="${T.sid?'back':'x'}" aria-label="${T.sid?'Retour à la classe':'Fermer le suivi'}">${T.sid?'‹':ICO.x}</button><div><b>${T.sid?(st=>st?stName(st):'')(S.find(s=>s.id==T.sid)):esc(c.name||'Classe')}</b><small>${T.sid?esc(c.name||'Classe')+' · ':''}Paquet « ${esc(pkN(c.pack))} » · ${nc} carte${nc>1?'s':''}</small></div><button class="sm" data-tv="r" ${T.busy?'disabled':''}>${T.busy?'Chargement…':'Actualiser'}</button></div>`;
+ let body='';
+ if(T.err)body=`<p class="mt">${esc(T.err)}</p>`;
+ else if(!D)body='<p class="mt">Chargement…</p>';
+ else if(!nc)body='<p class="mt">Ce paquet ne contient encore aucune carte.</p>';
+ else if(T.sid){const st=S.find(s=>s.id==T.sid);if(!st)body='<p class="mt">Élève introuvable.</p>';else{const g=stuStat(st,CH);
+   body=`<div class="cgvt"><div><b>${pct(g.m)} %</b><span>maîtrise du paquet</span></div><div><b>${g.seen}<small>/${g.tot}</small></b><span>cartes vues</span></div><div><b>${g.a7}</b><span>réponses en 7 jours${g.a7?' · '+Math.round(g.o7/g.a7*100)+' % justes':''}</span></div><div><b>${fmt(g.xp)}</b><span>XP · ${esc(seen(st.seen).toLowerCase())}</span></div></div>
+   <h3>Par chapitre</h3>${CH.map((ch,i)=>{const x=chStat(st,ch),op=T.open.has(String(i));return`<div class="cgvc"><button class="cgvb" data-tv="ch" data-v="${i}" aria-expanded="${op}"><span class="cgvn"><b>${esc(ch.f||'Sans chapitre')}</b><small>${x.seen}/${ch.cards.length} carte${ch.cards.length>1?'s':''} vue${ch.cards.length>1?'s':''}</small></span><span class="cgvp" style="color:${x.seen?mc(x.m):'var(--mt)'}">${x.seen?pct(x.m)+' %':'—'}</span>${bar(x.m)}</button>${op?`<div class="cgvl">${ch.cards.map(k=>{const v=pv(st.prog,k.id);return`<div class="cgvk"><span>${qtx(k)}</span><small>${v.s==null?'Jamais vue':`Maîtrise <b style="color:${mc(v.s)}">${pct(v.s)} %</b> · vue ${v.n} fois${v.lr==null?'':v.lr>=.8?' · dernière réponse réussie':' · dernière réponse ratée'}`}</small></div>`}).join('')}</div>`:''}</div>`}).join('')}`}}
+ else{const A=S.map(st=>({st,g:stuStat(st,CH)})),act=A.filter(x=>x.g.seen>0);
+  const seg=`<div class="seg segi" role="tablist" aria-label="Affichage"><button role="tab" aria-selected="${T.tab=='s'}" class="${T.tab=='s'?'on':''}" data-tv="tab" data-v="s"><b>Élèves</b></button><button role="tab" aria-selected="${T.tab=='c'}" class="${T.tab=='c'?'on':''}" data-tv="tab" data-v="c"><b>Chapitres</b></button></div>`;
+  if(T.tab=='s')body=seg+`<p class="mt">${S.length} élève${S.length>1?'s':''}, dont ${act.length} ${act.length>1?'ont':'a'} commencé à réviser. Touche un élève pour voir le détail par chapitre et par carte.</p>`+(A.map(({st,g})=>`<div class="cgvc"><button class="cgvb" data-tv="stu" data-v="${esc(st.id)}"><span class="cgvn"><b>${stName(st)}</b><small>${g.seen?`${g.seen}/${g.tot} cartes vues · ${esc(seen(st.seen).toLowerCase())}`:esc(seen(st.seen))}</small></span><span class="cgvp" style="color:${g.seen?mc(g.m):'var(--mt)'}">${g.seen?pct(g.m)+' %':'—'}</span>${bar(g.m)}</button></div>`).join('')||'<p class="mt">Aucun élève dans cette classe.</p>');
+  else body=seg+`<p class="mt">Moyenne des ${act.length} élève${act.length>1?'s':''} qui ${act.length>1?'ont':'a'} commencé à réviser. Une carte jamais vue compte pour 0 %.</p>`+(act.length?CH.map((ch,i)=>{const m=act.reduce((a,x)=>a+chStat(x.st,ch).m,0)/act.length,op=T.open.has(String(i));
+    return`<div class="cgvc"><button class="cgvb" data-tv="ch" data-v="${i}" aria-expanded="${op}"><span class="cgvn"><b>${esc(ch.f||'Sans chapitre')}</b><small>${ch.cards.length} carte${ch.cards.length>1?'s':''}</small></span><span class="cgvp" style="color:${mc(m)}">${pct(m)} %</span>${bar(m)}</button>${op?`<div class="cgvl">${ch.cards.map(k=>{let sum=0,n=0;act.forEach(x=>{const v=pv(x.st.prog,k.id);if(v.s!=null){sum+=v.s;n++}});return`<div class="cgvk"><span>${qtx(k)}</span><small>${n?`Maîtrise moyenne <b style="color:${mc(sum/n)}">${pct(sum/n)} %</b> · vue par ${n} élève${n>1?'s':''} sur ${act.length}`:'Vue par aucun élève'}</small></div>`}).join('')}</div>`:''}</div>`}).join(''):'');}
+ o.innerHTML=`<div class="cgvw">${head}${body}<p class="mt cgvf">La maîtrise est celle que voit l’élève dans son appli : elle monte à chaque bonne réponse et baisse à chaque erreur.</p></div>`}
 
 /* ------------------------------------------------------------ élève : le contenu du professeur est en lecture seule */
 const isT=id=>!!S&&S.kind=='s'&&PID=='p1'&&tks.has(id);
@@ -1477,7 +1548,7 @@ function pfAsk(){const o=document.getElementById('md');if(o)o.remove();const m=d
  m.querySelector('#pfg').onclick=()=>{close();PST=true;SP='pf';pbar()};
  const c=m.querySelector('.pfi.cur');if(c)c.focus()}
 let SP='look';
-const dataHtml=()=>{const pk=esc(pkName(PID)),pn=esc(PF.list.find(p=>p.id==PF.cur).name);return`<h3>Où sont mes données ?</h3><p class="mt">${DB?'Tes cartes et ta progression sont enregistrées en ligne, sur ton compte Culture G : tu les retrouves sur tous tes appareils.':'Tes cartes et ta progression sont enregistrées dans ce navigateur, sur cet appareil. Pense à faire une sauvegarde intégrale de temps en temps.'}</p><p class="mt">${DB?'Cet appareil ne garde qu’une copie de travail légère (textes et progression) : les images restent sur ton compte, qui n’est limité que par son propre espace.':'Le navigateur limite cet espace à quelques mégaoctets.'} Copie sur cet appareil : <b>${(lsSize()/1e6).toFixed(1).replace('.',',')} Mo</b>.${LSE?` Dernier incident d’enregistrement local : ${esc(LSE)}.`:''}</p><h3>Sauvegarde intégrale</h3><p class="mt">Un seul fichier avec tous les paquets, toutes les leçons, tous les profils et leur progression. Pour garder une copie de secours, ou reprendre les cartes d’une autre version de Culture G.</p><div class="row"><button class="pri" id="fxe">${ICO.dl}<span>Tout sauvegarder</span></button><label class="btn">${ICO.up}<span>Restaurer une sauvegarde</span><input type="file" id="fxi" accept=".txt,.json,text/plain,application/json" hidden></label></div><h3>Paquet « ${pk} »</h3><p class="mt">Des fichiers .txt pour ce paquet seulement, avec la progression du profil <b>${pn}</b>.</p><div class="dgrp"><div class="dln"><div><b>Exporter</b><small>Les cartes et les leçons, la progression, ou les deux.</small></div><div class="dbt"><button class="sm" data-x="cards">Cartes</button><button class="sm" data-x="prog">Progression</button><button class="sm" data-x="all">Tout</button></div></div><div class="dln"><div><b>Importer</b><small>Le contenu est reconnu tout seul : des cartes s’ajoutent ou se mettent à jour, une progression s’applique aux cartes présentes, un export « Tout » remplace le paquet.</small></div><div class="dbt"><label class="btn sm">${ICO.up}<span>Choisir un fichier</span><input type="file" id="imf" accept=".txt,.json,text/plain,application/json" hidden></label></div></div><div class="dln"><div><b>Réinitialiser la progression</b><small>Remet à zéro la maîtrise des cartes de ce paquet. Les cartes et les XP du profil sont conservés.</small></div><div class="dbt"><button class="sm del" id="rp">Réinitialiser</button></div></div></div><h3>Menu du jour</h3><p class="mt">Il est composé une fois par jour pour le profil <b>${pn}</b>, puis ne bouge plus. Après un import de progression, il se recompose tout seul.</p><div class="dgrp"><div class="dln"><div><b>Recomposer le menu du jour</b><small>Refait le menu d’aujourd’hui d’après la progression actuelle. Les étapes déjà faites aujourd’hui ne sont plus cochées.</small></div><div class="dbt"><button class="sm" id="mrd">Recomposer</button></div></div></div><p class="mt ver">Culture G · Classes · version 4.0.0</p>`};
+const dataHtml=()=>{const pk=esc(pkName(PID)),pn=esc(PF.list.find(p=>p.id==PF.cur).name);return`<h3>Où sont mes données ?</h3><p class="mt">${DB?'Tes cartes et ta progression sont enregistrées en ligne, sur ton compte Culture G : tu les retrouves sur tous tes appareils.':'Tes cartes et ta progression sont enregistrées dans ce navigateur, sur cet appareil. Pense à faire une sauvegarde intégrale de temps en temps.'}</p><p class="mt">${DB?'Cet appareil ne garde qu’une copie de travail légère (textes et progression) : les images restent sur ton compte, qui n’est limité que par son propre espace.':'Le navigateur limite cet espace à quelques mégaoctets.'} Copie sur cet appareil : <b>${(lsSize()/1e6).toFixed(1).replace('.',',')} Mo</b>.${LSE?` Dernier incident d’enregistrement local : ${esc(LSE)}.`:''}</p><h3>Sauvegarde intégrale</h3><p class="mt">Un seul fichier avec tous les paquets, toutes les leçons, tous les profils et leur progression. Pour garder une copie de secours, ou reprendre les cartes d’une autre version de Culture G.</p><div class="row"><button class="pri" id="fxe">${ICO.dl}<span>Tout sauvegarder</span></button><label class="btn">${ICO.up}<span>Restaurer une sauvegarde</span><input type="file" id="fxi" accept=".txt,.json,text/plain,application/json" hidden></label></div><h3>Paquet « ${pk} »</h3><p class="mt">Des fichiers .txt pour ce paquet seulement, avec la progression du profil <b>${pn}</b>.</p><div class="dgrp"><div class="dln"><div><b>Exporter</b><small>Les cartes et les leçons, la progression, ou les deux.</small></div><div class="dbt"><button class="sm" data-x="cards">Cartes</button><button class="sm" data-x="prog">Progression</button><button class="sm" data-x="all">Tout</button></div></div><div class="dln"><div><b>Importer</b><small>Le contenu est reconnu tout seul : des cartes s’ajoutent ou se mettent à jour, une progression s’applique aux cartes présentes, un export « Tout » remplace le paquet.</small></div><div class="dbt"><label class="btn sm">${ICO.up}<span>Choisir un fichier</span><input type="file" id="imf" accept=".txt,.json,text/plain,application/json" hidden></label></div></div><div class="dln"><div><b>Réinitialiser la progression</b><small>Remet à zéro la maîtrise des cartes de ce paquet. Les cartes et les XP du profil sont conservés.</small></div><div class="dbt"><button class="sm del" id="rp">Réinitialiser</button></div></div></div><h3>Menu du jour</h3><p class="mt">Il est composé une fois par jour pour le profil <b>${pn}</b>, puis ne bouge plus. Après un import de progression, il se recompose tout seul.</p><div class="dgrp"><div class="dln"><div><b>Recomposer le menu du jour</b><small>Refait le menu d’aujourd’hui d’après la progression actuelle. Les étapes déjà faites aujourd’hui ne sont plus cochées.</small></div><div class="dbt"><button class="sm" id="mrd">Recomposer</button></div></div></div><p class="mt ver">Culture G · Classes · version 4.1.0</p>`};
 function pbar(){applyTh();const cur=PR.list.find(p=>p.id==PID),pf=PF.list.find(p=>p.id==PF.cur),sk=streakN(),S=subsOf();
  $('#pkw').innerHTML=S.length>1?`<label class="pks"><span class="sr">Paquet</span><select id="pf" aria-label="Paquet" title="Changer de paquet">${pkOpts()}</select></label>`:`<span class="pk1">${esc(cur.name)}</span>`;
  {const s=$('#pf');if(s)s.onchange=e=>pickP(e.target.value)}
