@@ -1049,6 +1049,32 @@ button.chb:active:not(:disabled){transform:none}
 @keyframes sdrop{from{opacity:0;transform:translateY(-60px) rotate(calc((var(--i) - 2)*-9deg))}to{opacity:1;transform:rotate(calc((var(--i) - 2)*2deg))}}
 @keyframes schk{from{transform:rotate(-45deg) scale(0)}to{transform:rotate(-45deg) scale(1)}}
 @keyframes shop{0%,100%{transform:none}45%{transform:translateY(-16px)}}
+/* visite guidée */
+#cgt{position:fixed;inset:0;z-index:5200;opacity:0;transition:opacity .26s ease}
+#cgt.on{opacity:1}
+.cgtm{position:absolute;inset:0;width:100%;height:100%}
+.cgtm path{fill:rgba(2,8,8,.8)}
+.cgtm rect{fill:none;stroke:var(--ac);pointer-events:none}
+.cgto{stroke-width:2}
+.cgtg{stroke-width:8;stroke-opacity:.2;animation:cgtp 1.8s ease-in-out infinite}
+@keyframes cgtp{0%,100%{stroke-opacity:.28;stroke-width:5}50%{stroke-opacity:.1;stroke-width:11}}
+.cgtc{position:absolute;left:0;top:0;box-sizing:border-box;background:var(--sf);color:var(--tx);border:1px solid var(--bd);border-radius:20px;padding:16px 18px 14px;box-shadow:0 18px 50px rgba(0,0,0,.6);will-change:transform}
+.cgti{transition:opacity .16s ease}
+.cgtc h2{margin:2px 0 6px;font:750 22px/1.2 var(--fd);letter-spacing:-.02em}
+.cgtc p{margin:0;color:var(--mt);line-height:1.5}
+.cgts{display:block;font-size:11.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--ac)}
+.cgtd{display:flex;gap:5px;margin:14px 0 12px}
+.cgtd i{width:7px;height:7px;border-radius:50%;background:var(--bd)}
+.cgtd i.on{width:20px;background:var(--ac)}
+.cgtb{display:flex;align-items:center;gap:8px}
+.cgtb span{flex:1}
+#cgt .cgtk{background:transparent;border-color:transparent;box-shadow:none;color:var(--mt);padding-left:4px;padding-right:8px}
+.cgtw{text-align:center;padding:26px 22px 18px}
+.cgtw h2{font-size:28px}
+.cgtw .sdeck{margin:26px auto 40px}
+.cgtw .sdeck i{animation:shand .7s cubic-bezier(.3,1.4,.5,1) calc(var(--i)*.07s) both}
+.cgtw .cgtd{justify-content:center}
+@media (prefers-reduced-motion:reduce){#cgt,.cgti{transition:none}.cgtg{animation:none}}
 #cgprint{display:none}
 @media print{
  html,body.cgp{background:#fff!important;overflow:visible!important;height:auto!important;position:static!important}
@@ -1068,7 +1094,7 @@ button.chb:active:not(:disabled){transform:none}
 <main id="app"></main><div id="sy"></div><datalist id="fl"></datalist><div id="toast" role="status"></div>
 <nav class="tabs" aria-label="Navigation principale"><button data-t="rev"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect class="nv-a" x="3" y="7" width="13" height="14" rx="2.5"/><path class="nv-b" d="M7.5 3.5H18a3 3 0 0 1 3 3V17"/></svg><span>Réviser</span></button><button data-t="list"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path class="nv-f" d="M3 7.5A2.5 2.5 0 0 1 5.5 5H9l2 2.2h7.5A2.5 2.5 0 0 1 21 9.7v7.8a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5z"/></svg><span>Mes cartes</span></button><button data-t="new"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle class="nv-c" cx="12" cy="12" r="9"/><path class="nv-p" d="M12 8v8M8 12h8"/></svg><span>Créer</span></button><button data-t="stats"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path class="nv-s" style="--d:0s" d="M5 20v-6"/><path class="nv-s" style="--d:.09s" d="M11 20V5"/><path class="nv-s" style="--d:.18s" d="M17 20v-9"/><path d="M3 20h18"/></svg><span>Stats</span></button></nav>
 <script src="config.js"></script>
-<script>window.CG_VERSION="4.4.0";
+<script>window.CG_VERSION="4.5.0";
 /* Culture G · Classes — amorçage : connexion, stockage par compte, liaison avec la base en ligne.
    Ce script s'exécute avant l'application. Il fournit à l'application V3, inchangée par ailleurs :
      · KV      : remplace localStorage (mémoire + IndexedDB, une base par compte) ;
@@ -1182,7 +1208,7 @@ let subs=[],emT=0,started=false,first=false;
 const tks=new Set();   // cartes et leçons du professeur (côté élève)
 const tAdd=(id,v)=>{if(/^[cl]_/.test(id)){v&&v.t?tks.add(id.slice(2)):tks.delete(id.slice(2))}};
 const shallow=id=>/^[cli]_/.test(id);
-function snap(){const a=[];docs.forEach((v,id)=>a.push({id,t:!!v.t,data:()=>shallow(id)?Object.assign({},v.d):JSON.parse(JSON.stringify(v.d))}));return{docs:a}}
+function snap(){const a=[];docs.forEach((v,id)=>id[0]!='z'&&a.push({id,t:!!v.t,data:()=>shallow(id)?Object.assign({},v.d):JSON.parse(JSON.stringify(v.d))}));return{docs:a}}
 function emit(){if(emT||!first)return;emT=setTimeout(()=>{emT=0;const s=snap();subs.forEach(f=>{try{f(s)}catch(e){console.error(e)}})},30)}
 function setDoc(id,data){
  id=String(id);const cur=docs.get(id);
@@ -1251,7 +1277,7 @@ function ensurePack(p){let n=0;try{const P=packOf(p),x=pre(p);
 function ensureAll(){if(!S||S.kind!='t')return;try{if(typeof Q!='undefined'&&Q&&Q.list)return;
   if(!docs.has('g_profiles')&&okP(PR.list)){PR.u=PR.u||Date.now();savePR();setDoc('g_profiles',{u:PR.u,list:PR.list}).catch(()=>{})}
   PR.list.forEach(p=>ensurePack(p.id))}catch(e){console.error(e)}}
-function afterFirst(){if(S.kind=='t')setTimeout(ensureAll,2500);else docs.forEach((v,id)=>tAdd(id,v))}
+function afterFirst(){if(S.kind=='t')setTimeout(ensureAll,2500);else{docs.forEach((v,id)=>tAdd(id,v));setTimeout(()=>tourStart(),2700)}}
 const online=p=>{const x=p=='p1'?/^c_(?!p\d+\.)/:null,y='c_'+p+'.';let n=0;docs.forEach((v,id)=>{if((x?x.test(id):id.startsWith(y))&&v.d&&!v.d.del)n++});return n};
 
 /* ------------------------------------------------------------ CG : réglages « Classes » (enseignant) ou « Compte » (élève) */
@@ -1285,7 +1311,7 @@ function sHtml(){const i=S.info||{};
  <div class="dln"><div><b>Tes propres cartes</b><small>Tu peux ajouter des cartes, des leçons et des chapitres : ils s’ajoutent pour toi seulement.</small></div></div>
  <div class="dln"><div><b>Ta progression</b><small>Elle est enregistrée en ligne : tu la retrouves sur ton téléphone comme sur un ordinateur. Ton professeur pourra la consulter.</small></div></div>
  <div class="dln"><div><b>Ton prénom</b><small>Il reste sur cet appareil : il n’est pas envoyé sur Internet.</small></div></div></div>
- <div class="row"><button class="sm" id="cgo">Se déconnecter</button></div>`}
+ <div class="row"><button class="sm" id="cgtu">Revoir la visite guidée</button><button class="sm" id="cgo">Se déconnecter</button></div>`}
 async function logout(b){if(b){b.disabled=true;b.textContent='Déconnexion…'}
  try{if(typeof save=='function')save();if(typeof sync=='function')sync(true)}catch(e){}
  for(let i=0;i<30&&out.size;i++){if(!flushing&&!fT)kick(0);await sleep(200)}
@@ -1296,6 +1322,7 @@ function two(b,txt){if(!b.dataset.s){b.dataset.s=1;b.textContent=txt;return fals
 async function act(b,fn){if(b.disabled)return;b.disabled=true;try{await fn()}catch(e){say(errMsg(e))}b.disabled=false}
 function bind(pb){
  const q=s=>pb.querySelector(s),o=q('#cgo');if(o)o.onclick=()=>logout(o);
+ {const tu=q('#cgtu');if(tu)tu.onclick=()=>{PST=false;pbar();setTimeout(()=>tourStart(true),250)}}
  {const rt=q('#cgrt');if(rt)rt.onclick=()=>{CLe='';loadCL();redraw()}}
  if(S.kind!='t'||!CL)return;
  pb.querySelectorAll('.cgc').forEach(el=>{const c=CL.find(x=>x.id==el.dataset.c);if(!c)return;const g=s=>el.querySelector(s);
@@ -1384,6 +1411,78 @@ function drawTrack(){
     return`<div class="cgvc"><button class="cgvb" data-tv="ch" data-v="${i}" aria-expanded="${op}"><span class="cgvn"><b>${esc(ch.f||'Sans chapitre')}</b><small>${ch.cards.length} carte${ch.cards.length>1?'s':''}</small></span><span class="cgvp" style="color:${mc(m)}">${pct(m)} %</span>${bar(m)}</button>${op?`<div class="cgvl">${ch.cards.map(k=>{let sum=0,n=0;act.forEach(x=>{const v=pv(x.st.prog,k.id);if(v.s!=null){sum+=v.s;n++}});return`<div class="cgvk"><span>${qtx(k)}</span><small>${n?`Maîtrise moyenne <b style="color:${mc(sum/n)}">${pct(sum/n)} %</b> · vue par ${n} élève${n>1?'s':''} sur ${act.length}`:'Vue par aucun élève'}</small></div>`}).join('')}</div>`:''}</div>`}).join(''):'');}
  o.innerHTML=`<div class="cgvw">${head}${body}<p class="mt cgvf">La maîtrise est celle que voit l’élève dans son appli : elle monte à chaque bonne réponse et baisse à chaque erreur.</p></div>`}
 
+/* ------------------------------------------------------------ élève : visite guidée à la première connexion */
+let TU=null;
+const tourDone=()=>docs.has('z_tuto')||KV.getItem('cg_tuto')=='1';
+function tourSteps(){const i=S.info||{};let nm='';try{nm=PF.list.find(p=>p.id==PF.cur).name||''}catch(e){}
+ return[
+ {deck:1,t:`Bienvenue${nm&&nm!='Moi'?', '+esc(nm):''} !`,x:`Flashcards t’aide à retenir les cours de ta classe${i.cls?' « '+esc(i.cls)+' »':''}, une carte après l’autre. On fait le tour en une minute ?`,ok:'Commencer la visite'},
+ {go:'rev',q:['.menu .mhd','.menu .mitem'],one:1,t:'Le menu du jour',x:'Chaque jour, un parcours tout prêt t’attend : nouveaux chapitres, révisions, erreurs à corriger. Touche le bouton rond pour lancer une étape ; la suivante se débloque quand tu as fini.'},
+ {go:'rev',q:['h3.sec','h3.sec + .seg'],t:'La séance libre',x:'Envie de choisir toi-même ? Révise un chapitre précis, ou laisse le hasard tirer des cartes dans tout le paquet.'},
+ {go:'rev',q:['#hx .pill'],t:'XP, série et combos',x:'Chaque bonne réponse rapporte des XP. Enchaîne-les pour déclencher un combo, et reviens chaque jour pour allonger ta série.'},
+ {go:'list',nav:1,q:['.fgrid .fblk'],one:1,t:'Mes cartes',x:'Toutes les cartes de ta classe, rangées par chapitre, avec ta maîtrise pour chacun. Ouvre un chapitre pour relire sa leçon, parcourir ses cartes ou le réviser seul.'},
+ {go:'new',nav:1,q:['#tyl','.tyg'],t:'Créer tes propres cartes',x:'Ajoute tes cartes, dans un chapitre de ton professeur ou dans un chapitre à toi : elles ne sont visibles que par toi. Neuf types de questions, du QCM au texte à trous.'},
+ {go:'stats',nav:1,q:['.kp2 .tile:nth-child(-n+6)'],t:'Tes statistiques',x:'Maîtrise, cartes réussies, séries : suis tes progrès jour après jour. Ton professeur peut lui aussi voir où tu en es.'},
+ {go:'rev',q:['#pfb','#stb'],t:'Les réglages',x:'Change la couleur de l’appli ou ton prénom. Cette visite reste disponible dans Réglages › Compte.'},
+ {deck:1,go:'rev',t:'À toi de jouer !',x:'Le plus simple pour commencer : la première étape du menu du jour.',ok:'C’est parti !'}]}
+function tourStart(force){if(TU||!S||S.kind!='s')return;if(!force&&(tourDone()||window.CG_NOTOUR))return;
+ try{if((typeof Q!='undefined'&&Q&&Q.list)||PST||document.getElementById('cgl')||document.getElementById('md'))return force?say('Termine d’abord ce que tu es en train de faire.'):setTimeout(()=>tourStart(),4000)}catch(e){return}
+ const o=document.createElement('div');o.id='cgt';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');o.setAttribute('aria-label','Visite guidée');
+ o.innerHTML='<svg class="cgtm" aria-hidden="true" preserveAspectRatio="none"><path fill-rule="evenodd"/><rect class="cgtg"/><rect class="cgto"/><rect class="cgtg"/><rect class="cgto"/></svg><div class="cgtc"><div class="cgti" aria-live="polite"></div></div>';
+ document.body.appendChild(o);let rm=false;try{rm=matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}
+ const B=()=>({x:0,y:0,w:0,h:0,r:16,a:0,on:false,t:null});
+ TU={o,i:0,shown:-1,steps:tourSteps(),b:[B(),B()],c:{x:0,y:0,on:false},rm,last:0,raf:0,
+  kh:e=>{if(!TU)return;if(e.key=='Escape'){e.preventDefault();tourEnd()}else if(e.key=='ArrowRight'){e.preventDefault();tourGo(1)}else if(e.key=='ArrowLeft'){e.preventDefault();tourGo(-1)}}};
+ document.addEventListener('keydown',TU.kh,true);
+ o.addEventListener('click',e=>{const b=e.target.closest('[data-tu]');if(!b)return;const k=b.dataset.tu;k=='n'?tourGo(1):k=='p'?tourGo(-1):tourEnd()});
+ const T=TU,fr=ts=>{if(TU!==T)return;tourFrame(ts);T.raf=requestAnimationFrame(fr)};T.raf=requestAnimationFrame(fr);
+ requestAnimationFrame(()=>o.classList.add('on'));tourShow(true)}
+function tourGo(d){if(!TU||TU.busy)return;const n=TU.i+d;if(n<0)return;if(n>=TU.steps.length)return tourEnd(true);TU.i=n;tourShow()}
+function tourTab(t){try{if(tab!=t){const b=document.querySelector('nav [data-t="'+t+'"]');if(b)b.click();return true}}catch(e){}return false}
+function tourHtml(T){const s=T.steps[T.i],n=T.steps.length,last=T.i==n-1;
+ return`${s.deck?`<div class="sdeck" aria-hidden="true">${[0,1,2,3,4].map(i=>`<i style="--i:${i}"></i>`).join('')}</div>`:`<span class="cgts">Visite guidée · ${T.i} sur ${n-2}</span>`}<h2 id="cgtt">${s.t}</h2><p>${s.x}</p><div class="cgtd" aria-hidden="true">${T.steps.map((x,k)=>`<i class="${k==T.i?'on':''}"></i>`).join('')}</div><div class="cgtb">${last?'':`<button class="cgtk" data-tu="x">${T.i?'Passer':'Passer la visite'}</button>`}<span></span>${T.i&&!last?'<button data-tu="p">Retour</button>':''}<button class="pri" data-tu="n">${s.ok||'Suivant'}</button></div>`}
+/* changement d'étape : le texte s'efface, la page se met en place sous le voile, puis le cadre et la bulle glissent */
+function tourShow(first){const T=TU,c=T.o.querySelector('.cgtc'),inn=c.querySelector('.cgti');T.busy=true;inn.style.opacity='0';
+ setTimeout(()=>{if(TU!==T)return;const s=T.steps[T.i];if(s.go)tourTab(s.go);
+  c.classList.toggle('cgtw',!!s.deck);inn.innerHTML=tourHtml(T);
+  requestAnimationFrame(()=>{if(TU!==T)return;T.shown=T.i;tourScroll(T,s,c.offsetHeight);T.busy=false;inn.style.opacity='1';try{inn.querySelector('.pri').focus({preventScroll:true})}catch(e){}})},first||T.rm?0:150)}
+function tourEls(s){const a=[];(s.q||[]).forEach(q=>{try{const l=app.querySelectorAll(q).length?app.querySelectorAll(q):document.querySelectorAll(q);[...l].slice(0,s.one?1:12).forEach(e=>{const r=e.getBoundingClientRect();if(r.width>4&&r.height>4)a.push(e)})}catch(e){}});return a}
+function tourBox(els,pad,O){if(!els.length)return null;let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;els.forEach(e=>{const r=e.getBoundingClientRect();x0=Math.min(x0,r.left-O.left);y0=Math.min(y0,r.top-O.top);x1=Math.max(x1,r.right-O.left);y1=Math.max(y1,r.bottom-O.top)});
+ let r=18;if(els.length==1){try{r=(parseFloat(getComputedStyle(els[0]).borderTopLeftRadius)||10)+pad}catch(e){}}
+ const W=O.width,H=O.height;x0=Math.max(8,x0-pad);y0=Math.max(8,y0-pad);x1=Math.min(W-8,x1+pad);y1=Math.min(H-8,y1+pad);
+ return x1-x0>24&&y1-y0>16?{x:x0,y:y0,w:x1-x0,h:y1-y0,r:Math.max(10,Math.min(30,r))}:null}
+/* place l'élément et la bulle ensemble au milieu de l'écran, sous la barre du haut */
+function tourScroll(T,s,ch){const els=tourEls(s);if(!els.length){if(s.go)try{scrollTo(0,0)}catch(e){}return}
+ let y0=1e9,y1=-1e9;els.forEach(e=>{const r=e.getBoundingClientRect();y0=Math.min(y0,r.top);y1=Math.max(y1,r.bottom)});const H=innerHeight,h=y1-y0,top=76,want=Math.max(top,Math.min((H-h-ch-22)/2,H*.3));
+ try{const f=getComputedStyle(els[0].closest('header,nav')||document.body).position;if(els[0].closest('header,nav')&&(f=='fixed'||f=='sticky')){scrollTo(0,0);return}}catch(e){}
+ if(y0<top||y1+ch+22>H||Math.abs(y0-want)>H*.25)try{scrollBy(0,y0-want)}catch(e){}}
+const rr=(x,y,w,h,r)=>`M${x+r} ${y}h${w-2*r}a${r} ${r} 0 0 1 ${r} ${r}v${h-2*r}a${r} ${r} 0 0 1 -${r} ${r}h-${w-2*r}a${r} ${r} 0 0 1 -${r} -${r}v-${h-2*r}a${r} ${r} 0 0 1 ${r} -${r}z`;
+function tourFrame(ts){const T=TU,O=T.o.getBoundingClientRect(),W=Math.round(O.width),H=Math.round(O.height),dt=Math.min(64,ts-(T.last||ts));T.last=ts;const k=T.rm?1:1-Math.exp(-dt/95);
+ const s=T.steps[T.shown<0?0:T.shown],c=T.o.querySelector('.cgtc'),sv=T.o.querySelector('.cgtm'),R=sv.querySelectorAll('rect');
+ const cw=Math.min(380,W-24),ch=c.offsetHeight;if(c.style.width!=cw+'px')c.style.width=cw+'px';
+ let t0=tourBox(tourEls(s),6,O),t1=null;
+ if(s.nav){const e=document.querySelector('nav [data-t="'+s.go+'"]');if(e)t1=tourBox([e],3,O)}
+ if(T.busy){if(!t0)t0=T.b[0].t;if(!t1&&s.nav)t1=T.b[1].t}
+ /* bulle : sous l'élément si la place le permet, sinon au-dessus */
+ const floor=t1&&t1.y>H*.6?t1.y-10:H-10;let cx=(W-cw)/2,cy;
+ if(!t0)cy=Math.max(10,(Math.min(floor,H)-ch)/2);
+ else{cx=Math.max(12,Math.min(W-cw-12,t0.x+t0.w/2-cw/2));cy=t0.y+t0.h+14+ch<=floor?t0.y+t0.h+14:t0.y-14-ch>=10?t0.y-14-ch:Math.max(10,floor-ch)}
+ const C=T.c;if(!C.on){C.x=cx;C.y=cy;C.on=true}else{C.x+=(cx-C.x)*k;C.y+=(cy-C.y)*k}
+ c.style.transform=`translate3d(${C.x.toFixed(1)}px,${C.y.toFixed(1)}px,0)`;
+ let d=`M0 0h${W}v${H}h-${W}z`;
+ [t0,t1].forEach((t,j)=>{const b=T.b[j];b.t=t;
+  if(t){if(!b.on){const mx=j?t.x+t.w/2:C.x+cw/2,my=j?t.y+t.h/2:C.y+ch/2;b.x=mx;b.y=my;b.w=0;b.h=0;b.r=t.r;b.on=true}
+   b.x+=(t.x-b.x)*k;b.y+=(t.y-b.y)*k;b.w+=(t.w-b.w)*k;b.h+=(t.h-b.h)*k;b.r+=(t.r-b.r)*k;b.a+=(1-b.a)*k}
+  else if(b.on){b.x+=b.w*k/2;b.y+=b.h*k/2;b.w-=b.w*k;b.h-=b.h*k;b.a-=b.a*k;if(b.a<.02){b.on=false;b.a=0;b.w=b.h=0}}
+  const g=R[j*2],l=R[j*2+1],vis=b.on&&b.w>6&&b.h>6;
+  if(vis){const r=Math.max(0,Math.min(b.r,b.w/2,b.h/2));d+=rr(+b.x.toFixed(1),+b.y.toFixed(1),+b.w.toFixed(1),+b.h.toFixed(1),+r.toFixed(1));
+   [g,l].forEach(e=>{e.setAttribute('x',b.x.toFixed(1));e.setAttribute('y',b.y.toFixed(1));e.setAttribute('width',b.w.toFixed(1));e.setAttribute('height',b.h.toFixed(1));e.setAttribute('rx',r.toFixed(1));e.style.opacity=b.a.toFixed(2)})}
+  else{g.style.opacity='0';l.style.opacity='0'}});
+ if(sv.getAttribute('viewBox')!=`0 0 ${W} ${H}`)sv.setAttribute('viewBox',`0 0 ${W} ${H}`);sv.firstChild.setAttribute('d',d)}
+function tourEnd(done){if(!TU)return;const T=TU;TU=null;cancelAnimationFrame(T.raf);document.removeEventListener('keydown',T.kh,true);T.o.classList.remove('on');setTimeout(()=>T.o.remove(),T.rm?0:260);
+ KV.setItem('cg_tuto','1');if(!docs.has('z_tuto'))setDoc('z_tuto',{u:Date.now(),v:1}).catch(()=>{});
+ tourTab('rev');try{scrollTo(0,0)}catch(e){}if(!done)say('Tu peux revoir la visite dans Réglages › Compte.')}
+
 /* ------------------------------------------------------------ élève : le contenu du professeur est en lecture seule */
 const isT=id=>!!S&&S.kind=='s'&&PID=='p1'&&tks.has(id);
 const chT=f=>!!S&&S.kind=='s'&&PID=='p1'&&(ST.cards.some(c=>c.f==f&&tks.has(c.id))||Object.values(ST.les||{}).some(l=>l.f==f&&tks.has(l.id)));
@@ -1431,7 +1530,7 @@ function runApp(){
  window.KV=KV;
  NAT=window.claude&&typeof window.claude.use=='function'?window.claude:null;
  window.CGC={use:k=>k=='downloads'&&NAT?Promise.resolve(NAT.use('downloads')).catch(()=>null):Promise.resolve(k=='db'?DBX:k=='user'?{id:()=>Promise.resolve(S.space)}:null)};
- window.CG={t:S.kind=='t',s:S.kind=='s',html:()=>S.kind=='t'?tHtml():sHtml(),bind,isT,dif,difL,ready,wel,sData,sBind,x:CGX,logout,ensureAll,_:{docs,out,tks,tick,flush:()=>{kick(0)},get since(){return since}}};
+ window.CG={t:S.kind=='t',s:S.kind=='s',html:()=>S.kind=='t'?tHtml():sHtml(),bind,isT,dif,difL,ready,wel,sData,sBind,tour:tourStart,x:CGX,logout,ensureAll,_:{docs,out,tks,tick,flush:()=>{kick(0)},get since(){return since}}};
  const src=document.getElementById('cgmain'),s=document.createElement('script');s.textContent=src.textContent;document.body.appendChild(s);
  setTimeout(()=>{let okk=false;try{okk=typeof ST!='undefined'}catch(e){}if(!okk)fail(window.CG_ERR||'le script principal ne s’est pas lancé')},3500)}
 function fail(m){try{screen(`<div class="card cgk"><h2 style="margin-top:0">L’application n’a pas pu démarrer</h2><p class="mt">Détail technique : ${esc(String((m&&m.message)||m))}</p><div class="row"><button class="pri" id="cgrl">Réessayer</button><button id="cgqt">Revenir à la connexion</button></div></div>`);document.getElementById('cgrl').onclick=()=>location.reload();document.getElementById('cgqt').onclick=()=>over('')}catch(e){}}
@@ -1601,7 +1700,7 @@ function pfAsk(){const o=document.getElementById('md');if(o)o.remove();const m=d
  m.querySelector('#pfg').onclick=()=>{close();PST=true;SP='pf';pbar()};
  const c=m.querySelector('.pfi.cur');if(c)c.focus()}
 let SP='look';
-const dataHtml=()=>{const pk=esc(pkName(PID)),pn=esc(PF.list.find(p=>p.id==PF.cur).name);return`<h3>Où sont mes données ?</h3><p class="mt">${DB?'Tes cartes et ta progression sont enregistrées en ligne, sur ton compte Flashcards : tu les retrouves sur tous tes appareils.':'Tes cartes et ta progression sont enregistrées dans ce navigateur, sur cet appareil. Pense à faire une sauvegarde intégrale de temps en temps.'}</p><p class="mt">${DB?'Cet appareil ne garde qu’une copie de travail légère (textes et progression) : les images restent sur ton compte, qui n’est limité que par son propre espace.':'Le navigateur limite cet espace à quelques mégaoctets.'} Copie sur cet appareil : <b>${(lsSize()/1e6).toFixed(1).replace('.',',')} Mo</b>.${LSE?` Dernier incident d’enregistrement local : ${esc(LSE)}.`:''}</p><h3>Sauvegarde intégrale</h3><p class="mt">Un seul fichier avec tous les paquets, toutes les leçons, tous les profils et leur progression. Pour garder une copie de secours, ou reprendre les cartes d’une autre version de Culture G.</p><div class="row"><button class="pri" id="fxe">${ICO.dl}<span>Tout sauvegarder</span></button><label class="btn">${ICO.up}<span>Restaurer une sauvegarde</span><input type="file" id="fxi" accept=".txt,.json,text/plain,application/json" hidden></label></div><h3>Paquet « ${pk} »</h3><p class="mt">Des fichiers .txt pour ce paquet seulement, avec la progression du profil <b>${pn}</b>.</p><div class="dgrp"><div class="dln"><div><b>Exporter</b><small>Les cartes et les leçons, la progression, ou les deux.</small></div><div class="dbt"><button class="sm" data-x="cards">Cartes</button><button class="sm" data-x="prog">Progression</button><button class="sm" data-x="all">Tout</button></div></div><div class="dln"><div><b>Importer</b><small>Le contenu est reconnu tout seul : des cartes s’ajoutent ou se mettent à jour, une progression s’applique aux cartes présentes, un export « Tout » remplace le paquet.</small></div><div class="dbt"><label class="btn sm">${ICO.up}<span>Choisir un fichier</span><input type="file" id="imf" accept=".txt,.json,text/plain,application/json" hidden></label></div></div><div class="dln"><div><b>Réinitialiser la progression</b><small>Remet à zéro la maîtrise des cartes de ce paquet. Les cartes et les XP du profil sont conservés.</small></div><div class="dbt"><button class="sm del" id="rp">Réinitialiser</button></div></div></div><h3>Menu du jour</h3><p class="mt">Il est composé une fois par jour pour le profil <b>${pn}</b>, puis ne bouge plus. Après un import de progression, il se recompose tout seul.</p><div class="dgrp"><div class="dln"><div><b>Recomposer le menu du jour</b><small>Refait le menu d’aujourd’hui d’après la progression actuelle. Les étapes déjà faites aujourd’hui ne sont plus cochées.</small></div><div class="dbt"><button class="sm" id="mrd">Recomposer</button></div></div></div><p class="mt ver">Flashcards · version 4.4.0</p>`};
+const dataHtml=()=>{const pk=esc(pkName(PID)),pn=esc(PF.list.find(p=>p.id==PF.cur).name);return`<h3>Où sont mes données ?</h3><p class="mt">${DB?'Tes cartes et ta progression sont enregistrées en ligne, sur ton compte Flashcards : tu les retrouves sur tous tes appareils.':'Tes cartes et ta progression sont enregistrées dans ce navigateur, sur cet appareil. Pense à faire une sauvegarde intégrale de temps en temps.'}</p><p class="mt">${DB?'Cet appareil ne garde qu’une copie de travail légère (textes et progression) : les images restent sur ton compte, qui n’est limité que par son propre espace.':'Le navigateur limite cet espace à quelques mégaoctets.'} Copie sur cet appareil : <b>${(lsSize()/1e6).toFixed(1).replace('.',',')} Mo</b>.${LSE?` Dernier incident d’enregistrement local : ${esc(LSE)}.`:''}</p><h3>Sauvegarde intégrale</h3><p class="mt">Un seul fichier avec tous les paquets, toutes les leçons, tous les profils et leur progression. Pour garder une copie de secours, ou reprendre les cartes d’une autre version de Culture G.</p><div class="row"><button class="pri" id="fxe">${ICO.dl}<span>Tout sauvegarder</span></button><label class="btn">${ICO.up}<span>Restaurer une sauvegarde</span><input type="file" id="fxi" accept=".txt,.json,text/plain,application/json" hidden></label></div><h3>Paquet « ${pk} »</h3><p class="mt">Des fichiers .txt pour ce paquet seulement, avec la progression du profil <b>${pn}</b>.</p><div class="dgrp"><div class="dln"><div><b>Exporter</b><small>Les cartes et les leçons, la progression, ou les deux.</small></div><div class="dbt"><button class="sm" data-x="cards">Cartes</button><button class="sm" data-x="prog">Progression</button><button class="sm" data-x="all">Tout</button></div></div><div class="dln"><div><b>Importer</b><small>Le contenu est reconnu tout seul : des cartes s’ajoutent ou se mettent à jour, une progression s’applique aux cartes présentes, un export « Tout » remplace le paquet.</small></div><div class="dbt"><label class="btn sm">${ICO.up}<span>Choisir un fichier</span><input type="file" id="imf" accept=".txt,.json,text/plain,application/json" hidden></label></div></div><div class="dln"><div><b>Réinitialiser la progression</b><small>Remet à zéro la maîtrise des cartes de ce paquet. Les cartes et les XP du profil sont conservés.</small></div><div class="dbt"><button class="sm del" id="rp">Réinitialiser</button></div></div></div><h3>Menu du jour</h3><p class="mt">Il est composé une fois par jour pour le profil <b>${pn}</b>, puis ne bouge plus. Après un import de progression, il se recompose tout seul.</p><div class="dgrp"><div class="dln"><div><b>Recomposer le menu du jour</b><small>Refait le menu d’aujourd’hui d’après la progression actuelle. Les étapes déjà faites aujourd’hui ne sont plus cochées.</small></div><div class="dbt"><button class="sm" id="mrd">Recomposer</button></div></div></div><p class="mt ver">Flashcards · version 4.5.0</p>`};
 function pbar(){applyTh();const cur=PR.list.find(p=>p.id==PID),pf=PF.list.find(p=>p.id==PF.cur),sk=streakN(),S=subsOf();
  $('#pkw').innerHTML=S.length>1?`<label class="pks"><span class="sr">Paquet</span><select id="pf" aria-label="Paquet" title="Changer de paquet">${pkOpts()}</select></label>`:`<span class="pk1">${esc(cur.name)}</span>`;
  {const s=$('#pf');if(s)s.onchange=e=>pickP(e.target.value)}
