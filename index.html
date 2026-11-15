@@ -1006,22 +1006,22 @@ button.chb:active:not(:disabled){transform:none}
 .cgbt{display:flex;gap:6px;justify-content:flex-end;flex-wrap:wrap;margin-left:auto}
 .cgc .padd input{min-width:0}
 .cgch .cgbt{flex:none;flex-wrap:nowrap}
-#cgv{position:fixed;inset:0;z-index:210;background:var(--bg);color:var(--tx);overflow:auto;padding:0 16px calc(28px + env(safe-area-inset-bottom,0px))}
+.cgov{position:fixed;inset:0;z-index:210;background:var(--bg);color:var(--tx);overflow:auto;padding:0 16px calc(28px + env(safe-area-inset-bottom,0px))}
 .cgvw{max-width:760px;margin:0 auto}
 .cgvh{position:sticky;top:0;z-index:2;display:flex;align-items:center;gap:10px;padding:14px 0 12px;margin:0 0 6px;background:var(--bg);border-bottom:1px solid var(--bd)}
 .cgvh>div{flex:1;min-width:0}
 .cgvh b{display:block;font:750 20px/1.2 var(--fd);overflow-wrap:anywhere}
 .cgvh small{display:block;color:var(--mt);font-size:13px}
 .cgvh .ib{font-size:24px;line-height:1}
-#cgv .seg{margin:12px 0}
-#cgv h3{margin:20px 0 8px}
+.cgov .seg{margin:12px 0}
+.cgov h3{margin:20px 0 8px}
 .cgvt{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:14px 0 4px}
 .cgvt>div{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:12px}
 .cgvt b{display:block;font:800 24px/1.1 var(--fd)}
 .cgvt b small{font-size:15px;font-weight:650;color:var(--mt)}
 .cgvt span{display:block;font-size:12.5px;color:var(--mt);margin-top:3px}
 .cgvc{margin:0 0 8px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;overflow:hidden}
-#cgv .cgvb{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:2px 12px;width:100%;text-align:left;padding:12px 14px;border:0;border-radius:0;background:transparent;box-shadow:none;color:inherit;font:inherit}
+.cgov .cgvb{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:2px 12px;width:100%;text-align:left;padding:12px 14px;border:0;border-radius:0;background:transparent;box-shadow:none;color:inherit;font:inherit}
 .cgvb:hover{background:var(--sf2)}
 .cgvn b{display:block;overflow-wrap:anywhere}
 .cgvn small{display:block;color:var(--mt);font-size:13px;font-weight:400}
@@ -1049,6 +1049,29 @@ button.chb:active:not(:disabled){transform:none}
 @keyframes sdrop{from{opacity:0;transform:translateY(-60px) rotate(calc((var(--i) - 2)*-9deg))}to{opacity:1;transform:rotate(calc((var(--i) - 2)*2deg))}}
 @keyframes schk{from{transform:rotate(-45deg) scale(0)}to{transform:rotate(-45deg) scale(1)}}
 @keyframes shop{0%,100%{transform:none}45%{transform:translateY(-16px)}}
+/* signalements */
+.cgbl{position:relative}
+.cgbl svg{width:21px;height:21px}
+.cgbl.on{color:var(--tx)}
+.cgbl i{position:absolute;top:1px;right:0;min-width:17px;height:17px;padding:0 4px;box-sizing:border-box;border-radius:9px;background:var(--ko);color:#fff;font:700 10.5px/17px var(--fb,system-ui);font-style:normal;text-align:center}
+.cgrp{max-width:440px;width:100%}
+.cgrp h2{margin:0 34px 6px 0}
+.cgrp textarea{width:100%;box-sizing:border-box;resize:vertical;min-height:84px}
+.cgrq{margin:0 0 4px;overflow-wrap:anywhere}
+.cgrn{margin:10px 0 0;font-size:13px}
+.cgrb{margin-top:14px;align-items:center}
+.cgrb span{flex:1}
+.cgrh{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:12px 14px;flex-wrap:wrap}
+.cgrh>div{flex:1;min-width:200px}
+.cgrh b{display:block;overflow-wrap:anywhere}
+.cgrh small{display:block;color:var(--mt);font-size:13px;margin-top:2px}
+.cgri{display:flex;align-items:flex-start;gap:12px;justify-content:space-between}
+.cgri>div{min-width:0;flex:1}
+.cgvk .cgrw{display:inline-block;font-weight:700;font-size:13.5px;color:var(--warn,#e8b84a)}
+.cgrm{margin:4px 0;overflow-wrap:anywhere}
+.cgri small b{color:var(--tx);font-weight:600}
+.cgve{padding:28px 8px;text-align:center}
+.cgve b{font:750 20px var(--fd)}
 /* visite guidée */
 #cgt{position:fixed;inset:0;z-index:5200;opacity:0;transition:opacity .26s ease}
 #cgt.on{opacity:1}
@@ -1094,7 +1117,7 @@ button.chb:active:not(:disabled){transform:none}
 <main id="app"></main><div id="sy"></div><datalist id="fl"></datalist><div id="toast" role="status"></div>
 <nav class="tabs" aria-label="Navigation principale"><button data-t="rev"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect class="nv-a" x="3" y="7" width="13" height="14" rx="2.5"/><path class="nv-b" d="M7.5 3.5H18a3 3 0 0 1 3 3V17"/></svg><span>Réviser</span></button><button data-t="list"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path class="nv-f" d="M3 7.5A2.5 2.5 0 0 1 5.5 5H9l2 2.2h7.5A2.5 2.5 0 0 1 21 9.7v7.8a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5z"/></svg><span>Mes cartes</span></button><button data-t="new"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle class="nv-c" cx="12" cy="12" r="9"/><path class="nv-p" d="M12 8v8M8 12h8"/></svg><span>Créer</span></button><button data-t="stats"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path class="nv-s" style="--d:0s" d="M5 20v-6"/><path class="nv-s" style="--d:.09s" d="M11 20V5"/><path class="nv-s" style="--d:.18s" d="M17 20v-9"/><path d="M3 20h18"/></svg><span>Stats</span></button></nav>
 <script src="config.js"></script>
-<script>window.CG_VERSION="4.5.0";
+<script>window.CG_VERSION="4.6.0";
 /* Culture G · Classes — amorçage : connexion, stockage par compte, liaison avec la base en ligne.
    Ce script s'exécute avant l'application. Il fournit à l'application V3, inchangée par ailleurs :
      · KV      : remplace localStorage (mémoire + IndexedDB, une base par compte) ;
@@ -1208,7 +1231,7 @@ let subs=[],emT=0,started=false,first=false;
 const tks=new Set();   // cartes et leçons du professeur (côté élève)
 const tAdd=(id,v)=>{if(/^[cl]_/.test(id)){v&&v.t?tks.add(id.slice(2)):tks.delete(id.slice(2))}};
 const shallow=id=>/^[cli]_/.test(id);
-function snap(){const a=[];docs.forEach((v,id)=>id[0]!='z'&&a.push({id,t:!!v.t,data:()=>shallow(id)?Object.assign({},v.d):JSON.parse(JSON.stringify(v.d))}));return{docs:a}}
+function snap(){const a=[];docs.forEach((v,id)=>id[0]!='z'&&id[0]!='r'&&a.push({id,t:!!v.t,data:()=>shallow(id)?Object.assign({},v.d):JSON.parse(JSON.stringify(v.d))}));return{docs:a}}
 function emit(){if(emT||!first)return;emT=setTimeout(()=>{emT=0;const s=snap();subs.forEach(f=>{try{f(s)}catch(e){console.error(e)}})},30)}
 function setDoc(id,data){
  id=String(id);const cur=docs.get(id);
@@ -1240,13 +1263,14 @@ async function flush(){
   try{stat('Synchronisé')}catch(e){}}
  finally{flushing=false}
  }
+function unflag(k){try{withPack('p1',()=>{const c=ST.cards.find(x=>x.id==k);if(c&&c.fl){c.fl=0;c.u=Date.now();save()}})}catch(e){}}
 let pulling=false,pullQ=false;
 async function pull(){
  if(pulling){pullQ=true;return false}pulling=true;let ch=false;
  try{for(;;){
    const r=await rpc(S.kind=='t'?'cg_t_pull':'cg_s_pull',{p_since:since,p_lim:25});
    ((r&&r.docs)||[]).forEach(d=>{if(+d.rev>since)since=+d.rev;if(out.has(d.id))return;
-    if(d.gone||d.data==null){if(docs.delete(d.id))ch=true;del('d:'+d.id);tks.delete(d.id.slice(2))}
+    if(d.gone||d.data==null){if(d.id[0]=='r'&&S.kind=='s'&&docs.has(d.id))unflag(d.id.slice(2));if(docs.delete(d.id))ch=true;del('d:'+d.id);tks.delete(d.id.slice(2))}
     else{const v={d:d.data,t:!!d.t};docs.set(d.id,v);put('d:'+d.id,v);tAdd(d.id,v);ch=true}});
    put('m:since',since);
    if(r&&r.info&&S.kind=='s'){const i=r.info,n={cls:i.cls||'',num:i.num,login:i.login,pack:(i.pack&&i.pack.name)||''};if(JSON.stringify(n)!=JSON.stringify(S.info)){S.info=n;wrS()}}
@@ -1277,7 +1301,7 @@ function ensurePack(p){let n=0;try{const P=packOf(p),x=pre(p);
 function ensureAll(){if(!S||S.kind!='t')return;try{if(typeof Q!='undefined'&&Q&&Q.list)return;
   if(!docs.has('g_profiles')&&okP(PR.list)){PR.u=PR.u||Date.now();savePR();setDoc('g_profiles',{u:PR.u,list:PR.list}).catch(()=>{})}
   PR.list.forEach(p=>ensurePack(p.id))}catch(e){console.error(e)}}
-function afterFirst(){if(S.kind=='t')setTimeout(ensureAll,2500);else{docs.forEach((v,id)=>tAdd(id,v));setTimeout(()=>tourStart(),2700)}}
+function afterFirst(){if(S.kind=='t'){setTimeout(ensureAll,2500);setTimeout(loadReports,1200);setInterval(()=>{if(document.visibilityState=='visible')loadReports()},90000)}else{docs.forEach((v,id)=>tAdd(id,v));setTimeout(()=>tourStart(),2700)}}
 const online=p=>{const x=p=='p1'?/^c_(?!p\d+\.)/:null,y='c_'+p+'.';let n=0;docs.forEach((v,id)=>{if((x?x.test(id):id.startsWith(y))&&v.d&&!v.d.del)n++});return n};
 
 /* ------------------------------------------------------------ CG : réglages « Classes » (enseignant) ou « Compte » (élève) */
@@ -1386,7 +1410,7 @@ function closeTrack(){TV=null;const o=document.getElementById('cgv');if(o)o.remo
 function trackKey(e){if(e.key=='Escape'&&TV){if(TV.sid){TV.sid=null;TV.open.clear();drawTrack()}else closeTrack()}}
 function drawTrack(){
  if(!TV)return;let o=document.getElementById('cgv');
- if(!o){o=document.createElement('div');o.id='cgv';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');o.setAttribute('aria-label','Suivi de la classe');document.body.appendChild(o);document.body.classList.add('lock');document.addEventListener('keydown',trackKey);
+ if(!o){o=document.createElement('div');o.id='cgv';o.className='cgov';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');o.setAttribute('aria-label','Suivi de la classe');document.body.appendChild(o);document.body.classList.add('lock');document.addEventListener('keydown',trackKey);
   o.addEventListener('click',e=>{const b=e.target.closest('[data-tv]');if(!b||!TV)return;const k=b.dataset.tv,v=b.dataset.v;
    if(k=='x')return closeTrack();if(k=='r')return loadTrack();
    if(k=='xp')return act(b,()=>stuExport(TV.sid));
@@ -1410,6 +1434,63 @@ function drawTrack(){
   else body=seg+`<p class="mt">Moyenne des ${act.length} élève${act.length>1?'s':''} qui ${act.length>1?'ont':'a'} commencé à réviser. Une carte jamais vue compte pour 0 %.</p>`+(act.length?CH.map((ch,i)=>{const m=act.reduce((a,x)=>a+chStat(x.st,ch).m,0)/act.length,op=T.open.has(String(i));
     return`<div class="cgvc"><button class="cgvb" data-tv="ch" data-v="${i}" aria-expanded="${op}"><span class="cgvn"><b>${esc(ch.f||'Sans chapitre')}</b><small>${ch.cards.length} carte${ch.cards.length>1?'s':''}</small></span><span class="cgvp" style="color:${mc(m)}">${pct(m)} %</span>${bar(m)}</button>${op?`<div class="cgvl">${ch.cards.map(k=>{let sum=0,n=0;act.forEach(x=>{const v=pv(x.st.prog,k.id);if(v.s!=null){sum+=v.s;n++}});return`<div class="cgvk"><span>${qtx(k)}</span><small>${n?`Maîtrise moyenne <b style="color:${mc(sum/n)}">${pct(sum/n)} %</b> · vue par ${n} élève${n>1?'s':''} sur ${act.length}`:'Vue par aucun élève'}</small></div>`}).join('')}</div>`:''}</div>`}).join(''):'');}
  o.innerHTML=`<div class="cgvw">${head}${body}<p class="mt cgvf">La maîtrise est celle que voit l’élève dans son appli : elle monte à chaque bonne réponse et baisse à chaque erreur.</p></div>`}
+
+/* ------------------------------------------------------------ signalements : l'élève signale une carte, l'enseignant les reçoit */
+const RSN=[['clair','La question n’est pas claire'],['accept','Ma réponse aurait dû être acceptée'],['faux','La bonne réponse me semble fausse'],['faute','Il y a une faute d’orthographe ou de frappe'],['media','L’image ou le son ne s’affiche pas'],['cours','On n’a pas encore vu ça en cours'],['bug','J’ai rencontré un bug'],['autre','Autre chose']];
+const rsn=k=>{const x=RSN.find(r=>r[0]===k);return x?x[1]:'Autre chose'};
+const plain=(h,n)=>{const d=document.createElement('div');d.innerHTML=String(h==null?'':h).replace(/<br\s*\/?>/gi,' ');return(d.textContent||'').replace(/\s+/g,' ').trim().slice(0,n||300)};
+const qPlain=c=>String(c.q||'').replace(/\*\*|__|==|\/\//g,'').replace(/\s+/g,' ').trim().slice(0,200);
+/* côté élève : fenêtre de signalement (une raison, un mot facultatif) */
+function report(c,fg){
+ const id='r_'+c.id,cur=docs.get(id),old=cur&&cur.d||null;closeMd();
+ const lg=(()=>{try{for(let i=Q.log.length-1;i>=0;i--)if(Q.log[i].c===c||Q.log[i].c.id==c.id)return Q.log[i]}catch(e){}return null})();
+ const m=document.createElement('div');m.className='md';m.id='md';
+ m.innerHTML=`<div class="mb cgrp" role="dialog" aria-modal="true" aria-labelledby="cgrt"><button class="x mx" id="mx" title="Fermer" aria-label="Fermer">${ICO.x}</button><h2 id="cgrt">${old?'Ton signalement':'Signaler cette carte'}</h2><p class="mt cgrq">« ${esc(qPlain(c))||'Question en image'} »</p>
+ <label class="l" for="cgrw">Quel est le problème ?</label><select id="cgrw"><option value="" ${old?'':'selected'} disabled>Choisis dans la liste…</option>${RSN.map(r=>`<option value="${r[0]}" ${old&&old.why==r[0]?'selected':''}>${r[1]}</option>`).join('')}</select>
+ <label class="l" for="cgrx">Tu peux préciser <span class="mt">(facultatif)</span></label><textarea id="cgrx" rows="3" maxlength="500" placeholder="Par exemple : ce que tu as répondu, ce qui te semble faux…">${esc(old&&old.txt||'')}</textarea>
+ <p class="mt cgrn">Ton professeur recevra ce signalement${lg?', avec la réponse que tu viens de donner':''}.</p>
+ <div class="row cgrb">${old?'<button class="del" id="cgrd">Retirer mon signalement</button>':''}<span></span><button id="cgrc">Annuler</button><button class="pri" id="cgrs">${old?'Mettre à jour':'Envoyer'}</button></div></div>`;
+ document.body.appendChild(m);const q=s=>m.querySelector(s),flag=v=>{c.fl=v?1:0;c.u=Date.now();try{save()}catch(e){}if(fg&&fg.isConnected){fg.classList.toggle('on',!!v);fg.querySelector('span').textContent=v?'Signalée':'Signaler'}};
+ m.addEventListener('keydown',e=>{e.stopPropagation();if(e.key=='Escape')closeMd()});m.addEventListener('click',e=>{if(e.target===m)closeMd()});
+ q('#mx').onclick=q('#cgrc').onclick=closeMd;
+ if(old)q('#cgrd').onclick=()=>{setDoc(id,null).catch(()=>{});flag(0);closeMd();say('Signalement retiré')};
+ q('#cgrs').onclick=()=>{const w=q('#cgrw').value;if(!w){q('#cgrw').focus();return say('Choisis d’abord le problème dans la liste.')}
+  const d={u:Date.now(),card:c.id,why:w,txt:q('#cgrx').value.trim().slice(0,500),q:qPlain(c)};if(lg){d.mine=plain(lg.mine);d.right=plain(lg.right);d.ok=lg.r>=.8?1:0}else if(old){['mine','right','ok'].forEach(k=>{if(old[k]!=null)d[k]=old[k]})}
+  setDoc(id,d).catch(()=>{flag(0);say('Le signalement n’a pas pu être envoyé.')});flag(1);closeMd();say('Signalement envoyé à ton professeur. Merci !')};
+ setTimeout(()=>{try{q('#cgrw').focus()}catch(e){}},50)}
+/* côté enseignant : cloche de la barre du haut et liste des signalements */
+const RP={list:null,busy:false,err:'',gen:0};
+const BELL='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 0 1 12 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/></svg>';
+const bellN=()=>RP.list?RP.list.length:0;
+const bell=()=>{const n=bellN();return`<button class="ib ghost cgbl${n?' on':''}" id="cgbl" aria-haspopup="dialog" aria-label="Signalements des élèves : ${n}" title="Signalements des élèves">${BELL}${n?`<i>${n>99?'99+':n}</i>`:''}</button>`};
+function bellBind(){const b=document.getElementById('cgbl');if(b)b.onclick=openReports}
+function bellDraw(){const b=document.getElementById('cgbl');if(b){b.outerHTML=bell();bellBind()}}
+async function loadReports(){if(RP.busy||!S||S.kind!='t')return;RP.busy=true;const g=RP.gen;try{const r=await rpc('cg_t_reports',{});if(g!==RP.gen){RP.busy=false;return loadReports()}RP.list=Array.isArray(r)?r.filter(x=>x&&x.data&&typeof x.data=='object'):[];RP.err=''}catch(e){RP.err=errMsg(e)}RP.busy=false;bellDraw();if(document.getElementById('cgw'))drawReports()}
+function closeReports(){const o=document.getElementById('cgw');if(o)o.remove();document.body.classList.remove('lock');document.removeEventListener('keydown',repKey)}
+function repKey(e){if(e.key=='Escape'&&document.getElementById('cgw')&&!document.getElementById('md'))closeReports()}
+function openReports(){if(document.getElementById('cgw'))return;PST=false;try{pbar()}catch(e){}
+ const o=document.createElement('div');o.id='cgw';o.className='cgov';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');o.setAttribute('aria-label','Signalements des élèves');document.body.appendChild(o);document.body.classList.add('lock');document.addEventListener('keydown',repKey);
+ o.addEventListener('click',e=>{const b=e.target.closest('[data-rp]');if(!b)return;const k=b.dataset.rp;
+  if(k=='x')return closeReports();if(k=='r')return loadReports();
+  if(k=='ed')return repEdit(b.dataset.p,b.dataset.c);
+  if(k=='ok')return act(b,()=>repDone([RP.list.find(x=>x.sid==b.dataset.s&&x.id==b.dataset.i)]));
+  if(k=='all'){if(!two(b,'Confirmer ?'))return;return act(b,()=>repDone(RP.list.filter(x=>x.pack==b.dataset.p&&x.data.card==b.dataset.c)))}});
+ drawReports();loadReports()}
+async function repDone(L){L=L.filter(Boolean);for(const x of L){RP.gen++;await rpc('cg_t_report_done',{p_student:x.sid,p_id:x.id});RP.gen++;RP.list=RP.list.filter(y=>!(y.sid==x.sid&&y.id==x.id))}bellDraw();drawReports();if(L.length)say(L.length>1?L.length+' signalements traités':'Signalement traité')}
+function repEdit(p,cid){try{if(PID!=p)setP(p);const c=ST.cards.find(x=>x.id==cid);if(!c)return say('Cette carte n’existe plus.');closeReports();D=JSON.parse(JSON.stringify(c));tab='new';nav();scrollTo(0,0)}catch(e){say('Impossible d’ouvrir cette carte.')}}
+const repWhen=u=>{const d=new Date(+u||0);return isNaN(d)||!+u?'':d.toLocaleDateString('fr-FR',{day:'numeric',month:'short'})+' à '+d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})};
+function drawReports(){const o=document.getElementById('cgw');if(!o)return;const L=RP.list||[],R=roster(),G=new Map();
+ L.forEach(x=>{const k=x.pack+'|'+String(x.data.card||'');if(!G.has(k))G.set(k,{pack:x.pack,card:String(x.data.card||''),it:[]});G.get(k).it.push(x)});
+ const groups=[...G.values()].sort((a,b)=>Math.max(...b.it.map(x=>+x.data.u||0))-Math.max(...a.it.map(x=>+x.data.u||0)));
+ const head=`<div class="cgvh"><button class="ib ghost" data-rp="x" aria-label="Fermer les signalements">${ICO.x}</button><div><b>Signalements</b><small>${RP.list?(L.length?`${L.length} signalement${L.length>1?'s':''} sur ${groups.length} carte${groups.length>1?'s':''}`:'Aucun signalement en attente'):'Chargement…'}</small></div><button class="sm" data-rp="r" ${RP.busy?'disabled':''}>${RP.busy?'Chargement…':'Actualiser'}</button></div>`;
+ let body='';
+ if(RP.err&&!RP.list)body=`<p class="mt">${esc(RP.err)}</p>`;
+ else if(!RP.list)body='<p class="mt">Chargement…</p>';
+ else if(!L.length)body='<div class="cgve"><b>Tout est traité.</b><p class="mt">Quand un élève signale une carte pendant une révision, le signalement arrive ici : la raison choisie, son message s’il en a écrit un, et la réponse qu’il venait de donner.</p></div>';
+ else body=groups.map(g=>{let c=null;try{c=withPack(g.pack,()=>ST.cards.find(x=>x.id==g.card))||null}catch(e){}const it=g.it.slice().sort((a,b)=>(+b.data.u||0)-(+a.data.u||0));
+  return`<div class="cgvc cgrg"><div class="cgrh"><div><b>${c?qtx(c):esc(String(it[0].data.q||'').slice(0,200))||'Carte'}</b><small>${c?'':'Carte supprimée · '}Paquet « ${esc(pkN(g.pack))} »${c&&c.f?' · '+esc(c.f):''} · ${it.length} signalement${it.length>1?'s':''}</small></div><span class="cgbt">${c?`<button class="sm pri" data-rp="ed" data-p="${esc(g.pack)}" data-c="${esc(g.card)}">Modifier la carte</button>`:''}${it.length>1?`<button class="sm" data-rp="all" data-p="${esc(g.pack)}" data-c="${esc(g.card)}">Tout traiter</button>`:''}</span></div>
+  <div class="cgvl">${it.map(x=>{const d=x.data,l=(R[x.sid]||{}).l;return`<div class="cgvk cgri"><div><span class="cgrw">${esc(rsn(d.why))}</span><small>${esc(x.cname||'Classe')} · ${l?esc(l):'élève n° '+esc(x.num)}${repWhen(d.u)?' · '+repWhen(d.u):''}</small>${d.txt?`<p class="cgrm">« ${esc(String(d.txt).slice(0,500))} »</p>`:''}${d.mine||d.right?`<small>${d.mine?`Sa réponse${d.ok?' (acceptée)':''} : <b>${esc(String(d.mine).slice(0,300))}</b>`:''}${d.mine&&d.right?' · ':''}${d.right?`Réponse attendue : <b>${esc(String(d.right).slice(0,300))}</b>`:''}</small>`:''}</div><button class="sm" data-rp="ok" data-s="${esc(x.sid)}" data-i="${esc(x.id)}">Traité</button></div>`}).join('')}</div></div>`}).join('');
+ const y=o.scrollTop;o.innerHTML=`<div class="cgvw">${head}${body}<p class="mt cgvf">« Traité » retire le signalement de cette liste et de la carte de l’élève. Les noms affichés sont tes étiquettes, enregistrées sur cet appareil.</p></div>`;o.scrollTop=y}
 
 /* ------------------------------------------------------------ élève : visite guidée à la première connexion */
 let TU=null;
@@ -1498,6 +1579,7 @@ function guard(){try{
   {const pr=document.getElementById('pr'),pd=document.getElementById('pd');if(pr)pr.remove();if(pd)pd.remove()}
   app.querySelectorAll('[data-e],[data-d]').forEach(b=>{if(tks.has(b.dataset.e||b.dataset.d))b.remove()});
   app.querySelectorAll('[data-cm]').forEach(b=>{if(tks.has(b.dataset.ci))b.remove()});
+  app.querySelectorAll('[data-u]').forEach(b=>{if(tks.has(b.dataset.u))b.remove()});
   app.querySelectorAll('[data-ch]').forEach(b=>{if(tks.has(b.dataset.ch)&&!b.dataset.cgk){b.dataset.cgk=1;b.style.pointerEvents='none';b.tabIndex=-1;b.removeAttribute('title');b.setAttribute('aria-label','Chapitre : '+b.textContent.trim());const i=b.querySelector('i');if(i)i.remove()}});
   app.querySelectorAll('[data-rn],[data-df]').forEach(b=>{if(chT(b.dataset.rn||b.dataset.df))b.remove()});
   app.querySelectorAll('[data-lese]').forEach(b=>{const l=lessonOf(b.dataset.lese);if(l&&tks.has(l.id))b.remove()});
@@ -1530,7 +1612,7 @@ function runApp(){
  window.KV=KV;
  NAT=window.claude&&typeof window.claude.use=='function'?window.claude:null;
  window.CGC={use:k=>k=='downloads'&&NAT?Promise.resolve(NAT.use('downloads')).catch(()=>null):Promise.resolve(k=='db'?DBX:k=='user'?{id:()=>Promise.resolve(S.space)}:null)};
- window.CG={t:S.kind=='t',s:S.kind=='s',html:()=>S.kind=='t'?tHtml():sHtml(),bind,isT,dif,difL,ready,wel,sData,sBind,tour:tourStart,x:CGX,logout,ensureAll,_:{docs,out,tks,tick,flush:()=>{kick(0)},get since(){return since}}};
+ window.CG={t:S.kind=='t',s:S.kind=='s',html:()=>S.kind=='t'?tHtml():sHtml(),bind,isT,dif,difL,ready,wel,sData,sBind,tour:tourStart,report,bell,bellBind,x:CGX,logout,ensureAll,_:{docs,out,tks,tick,flush:()=>{kick(0)},get since(){return since}}};
  const src=document.getElementById('cgmain'),s=document.createElement('script');s.textContent=src.textContent;document.body.appendChild(s);
  setTimeout(()=>{let okk=false;try{okk=typeof ST!='undefined'}catch(e){}if(!okk)fail(window.CG_ERR||'le script principal ne s’est pas lancé')},3500)}
 function fail(m){try{screen(`<div class="card cgk"><h2 style="margin-top:0">L’application n’a pas pu démarrer</h2><p class="mt">Détail technique : ${esc(String((m&&m.message)||m))}</p><div class="row"><button class="pri" id="cgrl">Réessayer</button><button id="cgqt">Revenir à la connexion</button></div></div>`);document.getElementById('cgrl').onclick=()=>location.reload();document.getElementById('cgqt').onclick=()=>over('')}catch(e){}}
@@ -1700,12 +1782,12 @@ function pfAsk(){const o=document.getElementById('md');if(o)o.remove();const m=d
  m.querySelector('#pfg').onclick=()=>{close();PST=true;SP='pf';pbar()};
  const c=m.querySelector('.pfi.cur');if(c)c.focus()}
 let SP='look';
-const dataHtml=()=>{const pk=esc(pkName(PID)),pn=esc(PF.list.find(p=>p.id==PF.cur).name);return`<h3>Où sont mes données ?</h3><p class="mt">${DB?'Tes cartes et ta progression sont enregistrées en ligne, sur ton compte Flashcards : tu les retrouves sur tous tes appareils.':'Tes cartes et ta progression sont enregistrées dans ce navigateur, sur cet appareil. Pense à faire une sauvegarde intégrale de temps en temps.'}</p><p class="mt">${DB?'Cet appareil ne garde qu’une copie de travail légère (textes et progression) : les images restent sur ton compte, qui n’est limité que par son propre espace.':'Le navigateur limite cet espace à quelques mégaoctets.'} Copie sur cet appareil : <b>${(lsSize()/1e6).toFixed(1).replace('.',',')} Mo</b>.${LSE?` Dernier incident d’enregistrement local : ${esc(LSE)}.`:''}</p><h3>Sauvegarde intégrale</h3><p class="mt">Un seul fichier avec tous les paquets, toutes les leçons, tous les profils et leur progression. Pour garder une copie de secours, ou reprendre les cartes d’une autre version de Culture G.</p><div class="row"><button class="pri" id="fxe">${ICO.dl}<span>Tout sauvegarder</span></button><label class="btn">${ICO.up}<span>Restaurer une sauvegarde</span><input type="file" id="fxi" accept=".txt,.json,text/plain,application/json" hidden></label></div><h3>Paquet « ${pk} »</h3><p class="mt">Des fichiers .txt pour ce paquet seulement, avec la progression du profil <b>${pn}</b>.</p><div class="dgrp"><div class="dln"><div><b>Exporter</b><small>Les cartes et les leçons, la progression, ou les deux.</small></div><div class="dbt"><button class="sm" data-x="cards">Cartes</button><button class="sm" data-x="prog">Progression</button><button class="sm" data-x="all">Tout</button></div></div><div class="dln"><div><b>Importer</b><small>Le contenu est reconnu tout seul : des cartes s’ajoutent ou se mettent à jour, une progression s’applique aux cartes présentes, un export « Tout » remplace le paquet.</small></div><div class="dbt"><label class="btn sm">${ICO.up}<span>Choisir un fichier</span><input type="file" id="imf" accept=".txt,.json,text/plain,application/json" hidden></label></div></div><div class="dln"><div><b>Réinitialiser la progression</b><small>Remet à zéro la maîtrise des cartes de ce paquet. Les cartes et les XP du profil sont conservés.</small></div><div class="dbt"><button class="sm del" id="rp">Réinitialiser</button></div></div></div><h3>Menu du jour</h3><p class="mt">Il est composé une fois par jour pour le profil <b>${pn}</b>, puis ne bouge plus. Après un import de progression, il se recompose tout seul.</p><div class="dgrp"><div class="dln"><div><b>Recomposer le menu du jour</b><small>Refait le menu d’aujourd’hui d’après la progression actuelle. Les étapes déjà faites aujourd’hui ne sont plus cochées.</small></div><div class="dbt"><button class="sm" id="mrd">Recomposer</button></div></div></div><p class="mt ver">Flashcards · version 4.5.0</p>`};
+const dataHtml=()=>{const pk=esc(pkName(PID)),pn=esc(PF.list.find(p=>p.id==PF.cur).name);return`<h3>Où sont mes données ?</h3><p class="mt">${DB?'Tes cartes et ta progression sont enregistrées en ligne, sur ton compte Flashcards : tu les retrouves sur tous tes appareils.':'Tes cartes et ta progression sont enregistrées dans ce navigateur, sur cet appareil. Pense à faire une sauvegarde intégrale de temps en temps.'}</p><p class="mt">${DB?'Cet appareil ne garde qu’une copie de travail légère (textes et progression) : les images restent sur ton compte, qui n’est limité que par son propre espace.':'Le navigateur limite cet espace à quelques mégaoctets.'} Copie sur cet appareil : <b>${(lsSize()/1e6).toFixed(1).replace('.',',')} Mo</b>.${LSE?` Dernier incident d’enregistrement local : ${esc(LSE)}.`:''}</p><h3>Sauvegarde intégrale</h3><p class="mt">Un seul fichier avec tous les paquets, toutes les leçons, tous les profils et leur progression. Pour garder une copie de secours, ou reprendre les cartes d’une autre version de Culture G.</p><div class="row"><button class="pri" id="fxe">${ICO.dl}<span>Tout sauvegarder</span></button><label class="btn">${ICO.up}<span>Restaurer une sauvegarde</span><input type="file" id="fxi" accept=".txt,.json,text/plain,application/json" hidden></label></div><h3>Paquet « ${pk} »</h3><p class="mt">Des fichiers .txt pour ce paquet seulement, avec la progression du profil <b>${pn}</b>.</p><div class="dgrp"><div class="dln"><div><b>Exporter</b><small>Les cartes et les leçons, la progression, ou les deux.</small></div><div class="dbt"><button class="sm" data-x="cards">Cartes</button><button class="sm" data-x="prog">Progression</button><button class="sm" data-x="all">Tout</button></div></div><div class="dln"><div><b>Importer</b><small>Le contenu est reconnu tout seul : des cartes s’ajoutent ou se mettent à jour, une progression s’applique aux cartes présentes, un export « Tout » remplace le paquet.</small></div><div class="dbt"><label class="btn sm">${ICO.up}<span>Choisir un fichier</span><input type="file" id="imf" accept=".txt,.json,text/plain,application/json" hidden></label></div></div><div class="dln"><div><b>Réinitialiser la progression</b><small>Remet à zéro la maîtrise des cartes de ce paquet. Les cartes et les XP du profil sont conservés.</small></div><div class="dbt"><button class="sm del" id="rp">Réinitialiser</button></div></div></div><h3>Menu du jour</h3><p class="mt">Il est composé une fois par jour pour le profil <b>${pn}</b>, puis ne bouge plus. Après un import de progression, il se recompose tout seul.</p><div class="dgrp"><div class="dln"><div><b>Recomposer le menu du jour</b><small>Refait le menu d’aujourd’hui d’après la progression actuelle. Les étapes déjà faites aujourd’hui ne sont plus cochées.</small></div><div class="dbt"><button class="sm" id="mrd">Recomposer</button></div></div></div><p class="mt ver">Flashcards · version 4.6.0</p>`};
 function pbar(){applyTh();const cur=PR.list.find(p=>p.id==PID),pf=PF.list.find(p=>p.id==PF.cur),sk=streakN(),S=subsOf();
  $('#pkw').innerHTML=S.length>1?`<label class="pks"><span class="sr">Paquet</span><select id="pf" aria-label="Paquet" title="Changer de paquet">${pkOpts()}</select></label>`:`<span class="pk1">${esc(cur.name)}</span>`;
  {const s=$('#pf');if(s)s.onchange=e=>pickP(e.target.value)}
- $('#hx').innerHTML=`<span class="pill xp${GP&&GP.oc?' oc':''}" title="${GP&&GP.oc?'Surcharge d’XP active : XP doublés':'Points d’expérience'}">${ICO.bolt}<b>${fmt(ST.xp||0)}</b>XP${GP&&GP.oc?'<i class="x2">×2</i>':''}</span><span class="pill fire ${sk?'':'off'}" title="Jours de révision d’affilée">${ICO.flame}<b>${sk}</b>j</span><button class="pfb" id="pfb" aria-haspopup="dialog" title="Profil : ${esc(pf.name)}" aria-label="Changer de profil. Profil actuel : ${esc(pf.name)}">${avH(pf)}</button><button class="ib ghost stb" id="stb" aria-haspopup="dialog" aria-label="Réglages" title="Réglages">${ICO.cog}</button>`;
- $('#pfb').onclick=pfAsk;$('#stb').onclick=()=>{PST=true;pbar()};
+ $('#hx').innerHTML=`<span class="pill xp${GP&&GP.oc?' oc':''}" title="${GP&&GP.oc?'Surcharge d’XP active : XP doublés':'Points d’expérience'}">${ICO.bolt}<b>${fmt(ST.xp||0)}</b>XP${GP&&GP.oc?'<i class="x2">×2</i>':''}</span><span class="pill fire ${sk?'':'off'}" title="Jours de révision d’affilée">${ICO.flame}<b>${sk}</b>j</span>${CG.t?CG.bell():''}<button class="pfb" id="pfb" aria-haspopup="dialog" title="Profil : ${esc(pf.name)}" aria-label="Changer de profil. Profil actuel : ${esc(pf.name)}">${avH(pf)}</button><button class="ib ghost stb" id="stb" aria-haspopup="dialog" aria-label="Réglages" title="Réglages">${ICO.cog}</button>`;
+ if(CG.t)CG.bellBind();$('#pfb').onclick=pfAsk;$('#stb').onclick=()=>{PST=true;pbar()};
  const pb=$('#pb'),ob=pb.querySelector('.sbody'),was=!!ob,sc=ob?ob.scrollTop:0,q=x=>pb.querySelector(x);pb.classList.toggle('open',PST);document.body.classList.toggle('lock',PST);
  if(!PST){pb.innerHTML='';return}
  const TB=[['look','Apparence'],['pk','Paquets'],['pf','Profil'],['data','Données'],['acc',CG.t?'Classes':'Compte']];
@@ -1957,7 +2039,7 @@ function show(){stopLK();if(Q&&!Q.gmi){Q.gmi=1;if(!Q.test)Q.snap=snapQ();if(GP&&
  const old=A.querySelector('.hint');if(old)old.remove();const v=A.querySelector('#tb,#kv,#sb,#vb,#lv');
  if(!v){const w=document.createElement('div');w.className='hintw';w.append(hb,box);A.appendChild(w);return}
  const kp=v.closest('.kp');v.parentNode.insertBefore(hb,v);if(kp){v.style.gridColumn='auto';kp.after(box);return}
- const row=v.parentNode;row.after(box);hb.style.minWidth=v.style.minWidth='';requestAnimationFrame(()=>{const w=Math.max(hb.offsetWidth,v.offsetWidth);if(w){hb.style.minWidth=w+'px';v.style.minWidth=w+'px'}})};place();new MutationObserver(place).observe(A,{childList:true,subtree:true})}const fg=$('#fg');fg.onclick=()=>{c.fl=c.fl?0:1;c.u=Date.now();save();fg.classList.toggle('on',!!c.fl);fg.querySelector('span').textContent=c.fl?'Signalée':'Signaler';toast(c.fl?'Carte signalée : elle remontera en tête de Mes cartes.':'Signalement retiré')};
+ const row=v.parentNode;row.after(box);hb.style.minWidth=v.style.minWidth='';requestAnimationFrame(()=>{const w=Math.max(hb.offsetWidth,v.offsetWidth);if(w){hb.style.minWidth=w+'px';v.style.minWidth=w+'px'}})};place();new MutationObserver(place).observe(A,{childList:true,subtree:true})}const fg=$('#fg');fg.onclick=()=>{if(CG.s&&CG.isT(c.id))return CG.report(c,fg);c.fl=c.fl?0:1;c.u=Date.now();save();fg.classList.toggle('on',!!c.fl);fg.querySelector('span').textContent=c.fl?'Signalée':'Signaler';toast(c.fl?'Carte signalée : elle remontera en tête de Mes cartes.':'Signalement retiré')};
  {const sb=$('#skb');if(sb)sb.onclick=skipQ}
  const qx=$('#qx');qx.onclick=()=>{if(!qx.dataset.s){qx.dataset.s=1;qx.classList.add('armed');toast(Q.test?'Touche encore ✕ pour quitter le test':'Touche encore ✕ pour quitter : la séance sera annulée');setTimeout(()=>{if(qx.isConnected){delete qx.dataset.s;qx.classList.remove('armed')}},2600);return}if(Q.test)return endTest();quitUndo();Q=null;nav();scrollTo(0,0)}}
 const endHard=L=>{const h=c=>c.h&&!(c.lr<.8);return[...L.filter(c=>!h(c)),...L.filter(h)]};
