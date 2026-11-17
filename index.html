@@ -1282,6 +1282,103 @@ body.focus main{padding-top:calc(10px + env(safe-area-inset-top,0px))}
 .lmt{margin:6px 0 10px}.lmt .tyb{font-size:14.5px;font-weight:650;padding:13px 6px}
 .pkw.st{cursor:default;pointer-events:none}
 .pkw.fk{border-style:dashed;color:var(--mt);font-weight:550}
+/* 4.13.5 : menu du jour — paquets de cartes (cartes des animations) le long d'une courbe */
+.mcol{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;align-items:center;gap:14px}
+.mcol .mitem{position:relative;display:flex;flex-direction:column;align-items:center;width:100%;padding:0;border:0;background:none;box-shadow:none;border-radius:0;gap:0}
+.mcol .mitem::after{display:none}
+.mbx{--bc:var(--mt);position:relative;z-index:1;left:var(--dx,0);width:124px;height:140px;margin:0 0 4px;cursor:pointer;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;outline:0}
+.mbx:focus-visible{outline:2px solid var(--tx);outline-offset:6px;border-radius:14px}
+.mbc{--y:0px;--r:0deg;--x:0px;position:absolute;left:11px;top:22px;width:102px;height:112px;border-radius:12px;background-color:var(--sf2);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:13px 13px;border:1px solid var(--bd);border-top:7px solid var(--bc);box-shadow:0 3px 10px rgba(0,0,0,.35);transform:translate(var(--x),var(--y)) rotate(var(--r));transition:border-top-color .45s}
+.mbc.c4{z-index:1}.mbc.c3{z-index:2}.mbc.c2{z-index:3}.mbc.c1{z-index:4}
+
+
+
+
+.mbx.s-lock{filter:saturate(.6) brightness(.82)}
+.mcp{z-index:1;position:absolute;top:50%;transform:translateY(-62%);display:flex;flex-direction:column;gap:2px;cursor:pointer;-webkit-user-select:none;user-select:none;pointer-events:auto}
+.mcp-r{left:calc(50% + var(--dx) + 76px);right:0;text-align:left}
+.mcp-l{right:calc(50% - var(--dx) + 76px);left:0;text-align:right;align-items:flex-end}
+.mck{font-size:11px;font-weight:750;letter-spacing:.08em;text-transform:uppercase;color:var(--bc);transition:color .45s}
+.mct{font:650 15.5px/1.25 var(--fd);letter-spacing:-.005em;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.mcs{font-size:13px;font-weight:700;color:var(--bc)}
+.mcp.s-lock{opacity:.6}
+@keyframes mbcd{0%,100%{transform:translate(var(--x),var(--y)) rotate(var(--r))}
+ 40%{transform:translate(var(--sx),calc(var(--y) - 2px)) rotate(var(--sr))}}
+.mbx.hop .mbc{animation:mbcd .5s cubic-bezier(.3,.7,.3,1)}
+.mbx.hop .mbc.c3{animation-delay:.03s}.mbx.hop .mbc.c2{animation-delay:.06s}.mbx.hop .mbc.c1{animation-delay:.09s}
+@media (prefers-reduced-motion:reduce){.mbx.hop .mbc{animation:none}}
+.mpop{position:absolute;left:0;right:0;top:100%;z-index:30;box-shadow:0 14px 34px rgba(0,0,0,.5);margin:6px 0 0;padding:16px 18px 18px;border-radius:20px;background:var(--kc);color:var(--sf);display:flex;flex-direction:column;gap:4px;animation:mpin .22s ease-out}
+.mpop[hidden]{display:none}
+.mpop::before{content:'';position:absolute;top:-7px;left:var(--ax);width:16px;height:16px;border-radius:4px;background:var(--kc);transform:translateX(-50%) rotate(45deg)}
+.mpt{font:700 18px/1.25 var(--fd);overflow-wrap:anywhere}
+.mpd{font-size:15px;font-weight:600;opacity:.92}
+.mpn{font-size:13px;font-weight:600;opacity:.8}
+.mpg{margin-top:12px;width:100%;min-height:46px;border-radius:14px;border:0;background:var(--sf);color:var(--kc);font:750 15px/1 var(--fd);letter-spacing:.06em;text-transform:uppercase;box-shadow:0 4px 0 color-mix(in oklab,var(--sf) 62%,var(--kc));cursor:pointer;transition:transform .1s,box-shadow .1s}
+.mpg:active{transform:translateY(3px);box-shadow:0 1px 0 color-mix(in oklab,var(--sf) 62%,var(--kc))}
+@keyframes mpin{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.mpop{animation:none}}
+/* 4.13.8 : ligne reliant les paquets, séparateur, séance libre en deux paquets */
+.mlnk{position:absolute;left:calc(50% - 100px);top:0;overflow:visible;pointer-events:none;z-index:0}
+.mlk{fill:none;stroke:color-mix(in oklab,var(--tx) 30%,transparent);stroke-width:3.5;stroke-linecap:round;stroke-dasharray:.1 9}
+.mls{fill:none;stroke-width:3.5;stroke-linecap:round;stroke-dasharray:1}
+.sldiv{height:1px;background:var(--bd);margin:34px 0 0}
+h3.sec.sl1{margin-top:22px}
+.slwrap{position:relative;margin-bottom:8px}
+.slrow{display:flex;justify-content:center}
+.slcol{width:50%;display:flex;flex-direction:column;align-items:center;gap:10px}
+.slt{font:650 17px/1.2 var(--fd);cursor:pointer}
+.mpop{scroll-margin-bottom:120px}
+.mpop label.l{color:inherit;opacity:.9;margin:10px 0 4px}
+.mpop select,.mpop input[type=number]{background:var(--sf);color:var(--tx);border:0;border-radius:12px}
+.mpop .sm{background:transparent;color:inherit;border:1.5px solid color-mix(in oklab,var(--sf) 55%,transparent)}
+.mpop .sm.pri{background:var(--sf);color:var(--kc);border-color:var(--sf)}
+.slck{display:flex;gap:8px;align-items:center;margin-top:10px;font-size:15px;font-weight:600}
+.mpg:disabled{opacity:.5;cursor:default}
+.slwrap:has(.mpop:not([hidden])){margin-bottom:340px}
+
+/* 4.16.0 : accueil allégé, sous-titres centrés, date sous « Menu du jour » */
+.hero{padding-bottom:6px}.hero h1{margin-bottom:0}
+.mhd{position:relative;justify-content:center;text-align:center;min-height:58px}
+.mhd>div:first-child{flex:none;max-width:calc(100% - 140px)}
+.mhd .mring{position:absolute;right:0;top:50%;transform:translateY(-50%)}
+.mdate{margin:0;color:var(--mt);font-weight:550;font-size:13.5px}
+.mdate::first-letter{text-transform:uppercase}
+.mint{text-align:center;margin-top:4px}
+h3.sec.sl1{text-align:center}
+/* 4.17.0 : paquets plus espacés, fenêtres plus étroites et sobres (fond gris, fin contour de la couleur du paquet) */
+.mcol{gap:34px}
+.mhd{min-height:0}
+.mpop{left:0;right:0;width:min(272px,calc(100% - 24px));margin:8px auto 0;padding:14px 16px 16px;border-radius:18px;background:var(--sf);color:var(--tx);border:1px solid var(--kc);box-shadow:0 12px 30px rgba(0,0,0,.45)}
+.mpop::before{background:var(--sf);border:solid var(--kc);border-width:1px 0 0 1px;top:-8.5px}
+.mpt{font-size:17px}
+.mpd{opacity:1;color:var(--tx);font-size:14.5px;font-weight:550}
+.mpn{opacity:1;color:var(--mt);font-size:13px}
+.mpg{margin-top:12px;min-height:44px;border-radius:12px;background:var(--kc);color:var(--bg);font:750 14.5px/1 var(--fd);letter-spacing:.06em;box-shadow:0 3px 0 color-mix(in oklch,var(--kc) 68%,#000);transition:transform .12s,box-shadow .12s,filter .15s}
+.mpg:hover:not(:disabled){filter:brightness(1.07)}
+.mpg:active:not(:disabled){transform:translateY(2px);box-shadow:0 1px 0 color-mix(in oklch,var(--kc) 68%,#000)}
+.mpg:disabled{background:var(--sf2);color:var(--mt);opacity:1;box-shadow:0 3px 0 color-mix(in oklch,var(--sf2) 55%,#000);cursor:default;letter-spacing:.03em;text-transform:none;font-size:14px}
+.mpop label.l{color:var(--mt);opacity:1}
+.mpop select,.mpop input[type=number]{background:var(--sf2);color:var(--tx);border:1px solid var(--bd)}
+.mpop .sm{background:var(--sf2);color:var(--tx);border:1px solid var(--bd)}
+.mpop .sm.pri{background:var(--kc);color:var(--bg);border-color:var(--kc)}
+.slwrap{container-type:inline-size}
+
+/* 4.17.1 : fenêtres = design exact des chapitres (.gcp) */
+.mpop{border:1px solid color-mix(in oklab,var(--kc) 45%,var(--bd));background:color-mix(in oklab,var(--kc) 5%,var(--sf));border-radius:18px;box-shadow:none}
+.mpop::before{background:color-mix(in oklab,var(--kc) 5%,var(--sf));border:solid color-mix(in oklab,var(--kc) 45%,var(--bd));border-width:1px 0 0 1px}
+@media (max-width:560px){.mpop{border-radius:16px}}
+
+/* 4.17.3 : cartes des paquets alignées (bords supérieurs parallèles, sans inclinaison au repos) */
+
+
+
+
+
+/* 4.18.0 : tous les paquets identiques ; au survol, les cartes s'éparpillent très légèrement de part et d'autre */
+.mbx .c4{--y:-18px;--x:0px;--r:0deg;--sx:-7px;--sr:-3deg}
+.mbx .c3{--y:-12px;--x:0px;--r:0deg;--sx:8px;--sr:2.6deg}
+.mbx .c2{--y:-6px;--x:0px;--r:0deg;--sx:-4px;--sr:-1.6deg}
+.mbx .c1{--y:0px;--x:0px;--r:0deg;--sx:2px;--sr:.8deg}
 </style></head><body>
 <div id="spl" class="sin spl" role="status"><div class="sdeck" aria-hidden="true"><i style="--i:0;--x:-170px;--y:-230px;--r:-50deg"></i><i style="--i:1;--x:160px;--y:-250px;--r:40deg"></i><i style="--i:2;--x:-190px;--y:10px;--r:70deg"></i><i style="--i:3;--x:185px;--y:-20px;--r:-65deg"></i><i style="--i:4;--x:-150px;--y:240px;--r:35deg"></i><i style="--i:5;--x:170px;--y:230px;--r:-40deg"></i><i style="--i:6;--x:0px;--y:-280px;--r:25deg"></i><i style="--i:7;--x:-60px;--y:270px;--r:-75deg"></i><i style="--i:8;--x:70px;--y:-150px;--r:90deg"></i></div><b id="splt">Préparation des cartes…</b><span>Flashcards</span></div>
 <script>(function(){var s=document.getElementById('spl'),T=['Préparation des cartes…','On sort les fiches…','Les cartes arrivent…','On range le paquet…','Tri des fiches en cours…'],slow=true,done=false;try{slow=!matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}document.getElementById('splt').textContent=T[Math.random()*T.length|0];function go(){if(done)return;done=true;s.classList.add('out');setTimeout(function(){s.remove()},450)}s.onclick=go;setTimeout(go,slow?2300:600)})()</script>
@@ -1290,7 +1387,7 @@ body.focus main{padding-top:calc(10px + env(safe-area-inset-top,0px))}
 <main id="app"></main><div id="sy"></div><datalist id="fl"></datalist><div id="toast" role="status"></div>
 <nav class="tabs" aria-label="Navigation principale"><button data-t="rev"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect class="nv-a" x="3" y="7" width="13" height="14" rx="2.5"/><path class="nv-b" d="M7.5 3.5H18a3 3 0 0 1 3 3V17"/></svg><span>Réviser</span></button><button data-t="list"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path class="nv-f" d="M3 7.5A2.5 2.5 0 0 1 5.5 5H9l2 2.2h7.5A2.5 2.5 0 0 1 21 9.7v7.8a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5z"/></svg><span>Mes cartes</span></button><button data-t="new"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle class="nv-c" cx="12" cy="12" r="9"/><path class="nv-p" d="M12 8v8M8 12h8"/></svg><span>Créer</span></button><button data-t="stats"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path class="nv-s" style="--d:0s" d="M5 20v-6"/><path class="nv-s" style="--d:.09s" d="M11 20V5"/><path class="nv-s" style="--d:.18s" d="M17 20v-9"/><path d="M3 20h18"/></svg><span>Stats</span></button></nav>
 <script src="config.js"></script>
-<script>window.CG_VERSION="4.13.1";
+<script>window.CG_VERSION="4.18.0";
 /* Culture G · Classes — amorçage : connexion, stockage par compte, liaison avec la base en ligne.
    Ce script s'exécute avant l'application. Il fournit à l'application V3, inchangée par ailleurs :
      · KV      : remplace localStorage (mémoire + IndexedDB, une base par compte) ;
@@ -1690,8 +1787,8 @@ const tourDone=()=>docs.has('z_tuto')||KV.getItem('cg_tuto')=='1';
 function tourSteps(){const i=S.info||{};let nm='';try{nm=PF.list.find(p=>p.id==PF.cur).name||''}catch(e){}
  return[
  {deck:1,t:`Bienvenue${nm&&nm!='Moi'?', '+esc(nm):''} !`,x:`Flashcards t’aide à retenir les cours de ta classe${i.cls?' « '+esc(i.cls)+' »':''}, une carte après l’autre. On fait le tour en une minute ?`,ok:'Commencer la visite'},
- {go:'rev',q:['.menu .mhd','.menu .mitem'],one:1,t:'Le menu du jour',x:'Chaque jour, un parcours tout prêt t’attend : nouvelles unités, révisions, erreurs à corriger. Touche le bouton rond pour lancer une étape ; la suivante se débloque quand tu as fini.'},
- {go:'rev',q:['h3.sec','h3.sec + .seg'],t:'La séance libre',x:'Envie de choisir toi-même ? Révise une unité précise, ou laisse le hasard tirer des cartes dans tout le paquet.'},
+ {go:'rev',q:['.menu .mhd','.menu .mlist'],one:1,t:'Le menu du jour',x:'Chaque jour, un parcours tout prêt t’attend : nouvelles unités, révisions, erreurs à corriger. Touche une tuile ronde : une bulle s’ouvre pour lancer l’étape ; la suivante se débloque quand tu as fini.'},
+ {go:'rev',q:['h3.sec','.slrow'],t:'La séance libre',x:'Envie de choisir toi-même ? Touche un paquet : révise une unité précise, ou laisse le hasard tirer des cartes dans tout le paquet.'},
  {go:'rev',q:['#hx .pill'],t:'XP, série et combos',x:'Chaque bonne réponse rapporte des XP. Enchaîne-les pour déclencher un combo, et reviens chaque jour pour allonger ta série.'},
  {go:'list',nav:1,q:['.fgrid .fblk'],one:1,t:'Mes cartes',x:'Toutes les cartes de ta classe, rangées par chapitre et par unité, avec ta maîtrise pour chacune. Ouvre un chapitre pour voir ses unités, puis une unité pour relire sa leçon, parcourir ses cartes ou la réviser seule.'},
  {go:'new',nav:1,q:['#tyl','.tyg'],t:'Créer tes propres cartes',x:'Ajoute tes cartes, dans une unité de ton professeur ou dans une unité à toi : elles ne sont visibles que par toi. Neuf types de questions, du QCM au texte à trous.'},
@@ -1975,7 +2072,7 @@ function pfAsk(){const o=document.getElementById('md');if(o)o.remove();const m=d
  m.querySelector('#pfg').onclick=()=>{close();PST=true;SP='pf';pbar()};
  const c=m.querySelector('.pfi.cur');if(c)c.focus()}
 let SP='look';
-const dataHtml=()=>{const pk=esc(pkName(PID)),pn=esc(PF.list.find(p=>p.id==PF.cur).name);return`<h3>Où sont mes données ?</h3><p class="mt">${DB?'Tes cartes et ta progression sont enregistrées en ligne, sur ton compte Flashcards : tu les retrouves sur tous tes appareils.':'Tes cartes et ta progression sont enregistrées dans ce navigateur, sur cet appareil. Pense à faire une sauvegarde intégrale de temps en temps.'}</p><p class="mt">${DB?'Cet appareil ne garde qu’une copie de travail légère (textes et progression) : les images restent sur ton compte, qui n’est limité que par son propre espace.':'Le navigateur limite cet espace à quelques mégaoctets.'} Copie sur cet appareil : <b>${(lsSize()/1e6).toFixed(1).replace('.',',')} Mo</b>.${LSE?` Dernier incident d’enregistrement local : ${esc(LSE)}.`:''}</p><h3>Sauvegarde intégrale</h3><p class="mt">Un seul fichier avec tous les paquets, toutes les leçons, tous les profils et leur progression. Pour garder une copie de secours, ou reprendre les cartes d’une autre version de Culture G.</p><div class="row"><button class="pri" id="fxe">${ICO.dl}<span>Tout sauvegarder</span></button><label class="btn">${ICO.up}<span>Restaurer une sauvegarde</span><input type="file" id="fxi" accept=".txt,.json,text/plain,application/json" hidden></label></div><h3>Paquet « ${pk} »</h3><p class="mt">Des fichiers .txt pour ce paquet seulement, avec la progression du profil <b>${pn}</b>.</p><div class="dgrp"><div class="dln"><div><b>Exporter</b><small>Les cartes et les leçons, la progression, ou les deux.</small></div><div class="dbt"><button class="sm" data-x="cards">Cartes</button><button class="sm" data-x="prog">Progression</button><button class="sm" data-x="all">Tout</button></div></div><div class="dln"><div><b>Importer</b><small>Le contenu est reconnu tout seul : des cartes s’ajoutent ou se mettent à jour, une progression s’applique aux cartes présentes, un export « Tout » remplace le paquet.</small></div><div class="dbt"><label class="btn sm">${ICO.up}<span>Choisir un fichier</span><input type="file" id="imf" accept=".txt,.json,text/plain,application/json" hidden></label></div></div><div class="dln"><div><b>Réinitialiser la progression</b><small>Remet à zéro la maîtrise des cartes de ce paquet. Les cartes et les XP du profil sont conservés.</small></div><div class="dbt"><button class="sm del" id="rp">Réinitialiser</button></div></div></div><h3>Menu du jour</h3><p class="mt">Il est composé une fois par jour pour le profil <b>${pn}</b>, puis ne bouge plus. Après un import de progression, il se recompose tout seul.</p><div class="dgrp"><div class="dln"><div><b>Recomposer le menu du jour</b><small>Refait le menu d’aujourd’hui d’après la progression actuelle. Les étapes déjà faites aujourd’hui ne sont plus cochées.</small></div><div class="dbt"><button class="sm" id="mrd">Recomposer</button></div></div></div><p class="mt">Synchronisation : <b id="sy2">${window.CGST||'…'}</b></p><p class="mt ver">Flashcards · version 4.13.1</p>`};
+const dataHtml=()=>{const pk=esc(pkName(PID)),pn=esc(PF.list.find(p=>p.id==PF.cur).name);return`<h3>Où sont mes données ?</h3><p class="mt">${DB?'Tes cartes et ta progression sont enregistrées en ligne, sur ton compte Flashcards : tu les retrouves sur tous tes appareils.':'Tes cartes et ta progression sont enregistrées dans ce navigateur, sur cet appareil. Pense à faire une sauvegarde intégrale de temps en temps.'}</p><p class="mt">${DB?'Cet appareil ne garde qu’une copie de travail légère (textes et progression) : les images restent sur ton compte, qui n’est limité que par son propre espace.':'Le navigateur limite cet espace à quelques mégaoctets.'} Copie sur cet appareil : <b>${(lsSize()/1e6).toFixed(1).replace('.',',')} Mo</b>.${LSE?` Dernier incident d’enregistrement local : ${esc(LSE)}.`:''}</p><h3>Sauvegarde intégrale</h3><p class="mt">Un seul fichier avec tous les paquets, toutes les leçons, tous les profils et leur progression. Pour garder une copie de secours, ou reprendre les cartes d’une autre version de Culture G.</p><div class="row"><button class="pri" id="fxe">${ICO.dl}<span>Tout sauvegarder</span></button><label class="btn">${ICO.up}<span>Restaurer une sauvegarde</span><input type="file" id="fxi" accept=".txt,.json,text/plain,application/json" hidden></label></div><h3>Paquet « ${pk} »</h3><p class="mt">Des fichiers .txt pour ce paquet seulement, avec la progression du profil <b>${pn}</b>.</p><div class="dgrp"><div class="dln"><div><b>Exporter</b><small>Les cartes et les leçons, la progression, ou les deux.</small></div><div class="dbt"><button class="sm" data-x="cards">Cartes</button><button class="sm" data-x="prog">Progression</button><button class="sm" data-x="all">Tout</button></div></div><div class="dln"><div><b>Importer</b><small>Le contenu est reconnu tout seul : des cartes s’ajoutent ou se mettent à jour, une progression s’applique aux cartes présentes, un export « Tout » remplace le paquet.</small></div><div class="dbt"><label class="btn sm">${ICO.up}<span>Choisir un fichier</span><input type="file" id="imf" accept=".txt,.json,text/plain,application/json" hidden></label></div></div><div class="dln"><div><b>Réinitialiser la progression</b><small>Remet à zéro la maîtrise des cartes de ce paquet. Les cartes et les XP du profil sont conservés.</small></div><div class="dbt"><button class="sm del" id="rp">Réinitialiser</button></div></div></div><h3>Menu du jour</h3><p class="mt">Il est composé une fois par jour pour le profil <b>${pn}</b>, puis ne bouge plus. Après un import de progression, il se recompose tout seul.</p><div class="dgrp"><div class="dln"><div><b>Recomposer le menu du jour</b><small>Refait le menu d’aujourd’hui d’après la progression actuelle. Les étapes déjà faites aujourd’hui ne sont plus cochées.</small></div><div class="dbt"><button class="sm" id="mrd">Recomposer</button></div></div></div><p class="mt">Synchronisation : <b id="sy2">${window.CGST||'…'}</b></p><p class="mt ver">Flashcards · version 4.18.0</p>`};
 function pbar(){applyTh();const cur=PR.list.find(p=>p.id==PID),pf=PF.list.find(p=>p.id==PF.cur),sk=streakN(),S=subsOf();
  $('#pkw').innerHTML=S.length>1?`<label class="pks"><span class="sr">Paquet</span><select id="pf" aria-label="Paquet" title="Changer de paquet">${pkOpts()}</select></label>`:`<span class="pk1">${esc(cur.name)}</span>`;
  {const s=$('#pf');if(s)s.onchange=e=>pickP(e.target.value)}
@@ -2041,7 +2138,7 @@ function labPick(c,el){const d=c.d,T=labToks(d.text),R=T.map((x,i)=>x.r?i:-1).fi
  el.onclick=e=>{if(Q.done)return;const b=e.target.closest('.pkw');if(!b)return;const i=+b.dataset.i;if(all){sel.has(i)?sel.delete(i):sel.add(i)}else{const w=sel.has(i);sel.clear();if(!w)sel.add(i)}draw()};draw()}
 const rt=s=>esc(s).replace(/[ \u00a0\u202f]+([?!:;\u00bb%])/g,'\u00a0$1').replace(/(\u00ab)[ \u00a0\u202f]+/g,'$1\u00a0').replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/__(.+?)__/g,'<u>$1</u>').replace(/\/\/(.+?)\/\//g,'<i>$1</i>').replace(/==(.+?)==/g,'<span class="lb">$1</span>');
 const it=o=>(o.i?`<img src="${src(o.i)}">`:'')+`<span>${rt(o.t)}</span>`+(o.a?`<span class="pl" data-snd="${o.a}" title="Écouter">${ICO.spk}</span>`:'');
-let tab='rev',Q=null,D=null,RF='',LF='',LS='man',LP=0,BK=false,LV='f',LT='all',LRF='',SHL=true,QN=(()=>{try{return+KV.getItem('fcn')||10}catch(e){return 10}})(),QM=(()=>{try{return KV.getItem('fcm')||'learn'}catch(e){return'learn'}})();
+let SLO=null,tab='rev',Q=null,D=null,RF='',LF='',LS='man',LP=0,BK=false,LV='f',LT='all',LRF='',SHL=true,QN=(()=>{try{return+KV.getItem('fcn')||10}catch(e){return 10}})(),QM=(()=>{try{return KV.getItem('fcm')||'learn'}catch(e){return'learn'}})();
 function nav(){pbar();document.body.classList.toggle('focus',tab=='rev'&&!!(Q&&Q.list));if(!(Q&&Q.fin))endBarOff();const cur=tab=='les'?(LTAB?'new':'list'):tab=='gen'?'list':tab;document.querySelectorAll('nav button').forEach(b=>{b.classList.toggle('on',b.dataset.t==cur);b.setAttribute('aria-current',b.dataset.t==cur?'page':'false');b.onclick=()=>{if(GI!=null){GI=null;D=null}tab=b.dataset.t;SM=false;EM=false;SC.clear();SF.clear();if(tab=='new'&&(!D||(!ST.cards.some(c=>c.id==D.id)&&!(D.q||'').trim()&&!D.qi&&!D.qa)))D=Object.assign(blank('qcm'),{f:D?D.f:''});if(tab!='rev'||(Q&&Q.fin))Q=null;nav();scrollTo(0,0)}});
  $('#fl').innerHTML=folders().map(f=>`<option value="${esc(f)}">`).join('');({rev:home,list:list,new:form,stats:statsPage,les:lessonEd,gen:genPage})[tab]()}
 
@@ -2214,36 +2311,29 @@ function home(){if(Q&&Q.list&&Q.les&&!Q.lesDone&&!Q.lint){Q.lint=1;if(lesSkip())
  const M=QM=='rand'?'rand':'rv';QM=M;
  const stud=lpGet().filter(f=>folders().includes(f)&&!igf(f)&&(fcards(f).length||lessonOf(f)));
  if(!stud.includes(LRF))LRF=[...stud].sort((x,y)=>{const m=f=>{const c=fcards(f);return c.length?c.reduce((a,k)=>a+(k.s||0),0)/c.length:1};return m(x)-m(y)})[0]||'';
- let P=null,pool=[],les=null,body='';
- if(M=='learn'){P=learnPlan();les=P.f?lessonOf(P.f):null;
-  body=P.f?`<div class="mt" style="text-align:center">Unité ${P.k} sur ${P.n}</div><div class="pf">${esc(P.f)}</div><p class="mt" style="text-align:center">${P.nCur} carte${P.nCur>1?'s':''} dans cette unité${P.nAr?` · ${P.nAr} à revoir`:''}${P.nRev?` · ${P.nRev} de révision`:''}${les?' · la leçon s’affiche d’abord':''}</p>`
-   :`<p class="mt" style="text-align:center">${P.n?'Toutes les unités ont été parcourues.':'Aucune unité pour l’instant : va dans « + Créer ».'}</p>${P.n?'<div class="row" style="justify-content:center"><button class="sm" id="lpr">Recommencer l’apprentissage</button></div>':''}`}
- else if(M=='rv'){pool=LRF?fcards(LRF):[];les=LRF?lessonOf(LRF):null;
-  body=stud.length?`<label class="l">Unité déjà étudiée</label><select id="lrf">${stud.map(f=>`<option value="${esc(f)}" ${f==LRF?'selected':''}>${esc(f)}</option>`).join('')}</select><p class="mt">${pool.length} carte${pool.length>1?'s':''} · les cartes à revoir et les plus faibles passent en premier.</p>`
-   :'<p class="mt" style="text-align:center">Aucune unité étudiée pour l’instant : découvre d’abord une unité avec le menu du jour.</p>'}
- else{pool=ST.cards.filter(c=>!isIg(c)&&(c.s!=null||(CG.s&&!CG.isT(c.id))));
-  body=`<label class="l" style="text-align:center">Nombre de cartes</label><div class="row" style="justify-content:center;gap:6px">${QNS.map(x=>`<button class="sm ${x==QN?'pri':''}" data-n="${x}">${x}</button>`).join('')}<input type="number" id="qc" min="1" max="999" placeholder="Autre" value="${QNS.includes(QN)?'':QN}" style="width:84px"></div><p class="mt" style="text-align:center">${pool.length} carte${pool.length>1?'s':''} disponible${pool.length>1?'s':''} · tirées dans le désordre, les plus faibles étant privilégiées.</p>`}
- const n=M=='learn'?(P.list||[]).length:M=='rv'?pool.length:Math.min(QN,pool.length),ok=M=='learn'?!!P.f:n>0||!!les,
-  lab=()=>n?`Commencer (${n} carte${n>1?'s':''})`:les?'Lire la leçon':'Commencer';
+ const rvPool=LRF?fcards(LRF):[],rvLes=LRF?lessonOf(LRF):null,raPool=ST.cards.filter(c=>!isIg(c)&&(c.s!=null||(CG.s&&!CG.isT(c.id)))),nRa=Math.min(QN,raPool.length),
+  lab=(n,les)=>n?`Commencer (${n} carte${n>1?'s':''})`:les?'Lire la leçon':'Commencer',okRv=rvPool.length>0||!!rvLes,okRa=nRa>0;
+ const rvBody=stud.length?`<label class="l">Unité déjà étudiée</label><select id="lrf">${stud.map(f=>`<option value="${esc(f)}" ${f==LRF?'selected':''}>${esc(f)}</option>`).join('')}</select><span class="mpn">${rvPool.length} carte${rvPool.length>1?'s':''} · les cartes à revoir et les plus faibles passent en premier.</span>${rvLes?`<label class="slck"><input type="checkbox" id="shl" ${SHL?'checked':''}> Afficher la leçon au début</label>`:''}`
+   :'<span class="mpn">Aucune unité étudiée pour l’instant : découvre d’abord une unité avec le menu du jour.</span>',
+  raBody=`<label class="l">Nombre de cartes</label><div class="row" style="gap:6px;flex-wrap:wrap">${QNS.map(x=>`<button class="sm ${x==QN?'pri':''}" data-n="${x}">${x}</button>`).join('')}<input type="number" id="qc" min="1" max="999" placeholder="Autre" value="${QNS.includes(QN)?'':QN}" style="width:84px"></div><span class="mpn">${raPool.length} carte${raPool.length>1?'s':''} disponible${raPool.length>1?'s':''} · tirées dans le désordre, les plus faibles étant privilégiées.</span>`;
  const HK=gAll()?'all':PID,MN=menuBuild(HK),GR=greet(MN&&{all:MN.items.length&&MN.items.every(x=>x.sc!=null)}),act=HK=='all'?subsOf().flatMap(p=>withPack(p,()=>ST.cards.filter(c=>!isIg(c)))):ST.cards.filter(c=>!isIg(c)),nRv=act.filter(c=>c.lr<.8).length,nNw=act.filter(c=>c.s==null).length,mas=act.length?Math.round(act.reduce((a,c)=>a+(c.s||0),0)/act.length*100):0,hr=new Date().getHours(),pfn=PF.list.find(p=>p.id==PF.cur).name;
- app.innerHTML=`${welcome()}<section class="hero${HA?' in':''}"><p class="eyebrow"><span>${GR[0]}${pfn&&pfn!='Moi'?', '+esc(pfn):''}</span><span class="edate">${new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'})}</span></p><h1>${GR[1]}</h1><div class="kpis">${kpiTiles(MN,HK,mas)}</div></section>
- ${menuHtml(MN,HK)}<h3 class="sec">Séance libre</h3>${HK=='all'?`<label class="slp"><span>Dans le paquet</span><select id="slp" aria-label="Paquet de la séance libre">${subsOf().map(p=>`<option value="${p}" ${p==PID?'selected':''}>${esc(pkName(p))}</option>`).join('')}</select></label>`:''}<div class="seg" role="tablist" aria-label="Mode de révision">${MODES.map(([k,t])=>`<button role="tab" aria-selected="${M==k}" class="${M==k?'on':''}" data-m="${k}"><b>${t}</b><small>${MSUB[k]}</small></button>`).join('')}</div>
- <div class="card plan">${body}${les?`<label class="l" style="display:flex;gap:8px;align-items:center;justify-content:center;color:var(--tx);font-size:15px"><input type="checkbox" id="shl" ${SHL?'checked':''}> Afficher la leçon au début</label>`:''}<button class="pri go" id="go" ${ok?'':'disabled'}>${ICO.play}<span>${M=='learn'&&!P.f?'Commencer':lab()}</span></button></div>`;
+ app.innerHTML=`${welcome()}<section class="hero${HA?' in':''}"><p class="eyebrow"><span>${GR[0]}${pfn&&pfn!='Moi'?', '+esc(pfn):''}</span></p><h1>${GR[1]}</h1></section>
+ ${menuHtml(MN,HK)}<div class="sldiv" aria-hidden="true"></div><h3 class="sec sl1">Séance libre</h3>${HK=='all'?`<label class="slp"><span>Dans le paquet</span><select id="slp" aria-label="Paquet de la séance libre">${subsOf().map(p=>`<option value="${p}" ${p==PID?'selected':''}>${esc(pkName(p))}</option>`).join('')}</select></label>`:''}
+ <div class="slwrap"><div class="slrow">${[['rv','Révision','var(--ac)','v1'],['rand','Aléatoire','var(--rand)','v3']].map(([k,t,c,v])=>`<div class="slcol"><div class="mbx ${v} s-cur" role="button" tabindex="0" data-sl="${k}" aria-expanded="${SLO==k}" aria-controls="sp-${k}" aria-label="${t}" style="--bc:${c}"><span class="mbc c4"></span><span class="mbc c3"></span><span class="mbc c2"></span><span class="mbc c1"></span></div><b class="slt" data-sl="${k}">${t}</b></div>`).join('')}</div>
+ ${[['rv','Révision','var(--ac)','calc(50% - 25cqw)',rvBody,okRv,lab(rvPool.length,rvLes)],['rand','Aléatoire','var(--rand)','calc(50% + 25cqw)',raBody,okRa,lab(nRa,null)]].map(([k,t,c,ax,body,ok,lb])=>`<div class="mpop slpop" id="sp-${k}" data-sp="${k}" ${SLO==k?'':'hidden'} role="region" aria-label="${t}" style="--kc:${c};--ax:${ax}"><b class="mpt">${t}</b><span class="mpd">${MSUB[k]}</span>${body}<button class="mpg" data-go="${k}" ${ok?'':'disabled'}>${lb}</button></div>`).join('')}</div>`;
  HA=0;{const wf=$('#wimf');if(wf)wf.onchange=e=>impFiles(e.target.files);const wd=$('#wdemo');if(wd)wd.onclick=demo;const wn=$('#wnew');if(wn)wn.onclick=()=>{D=blank('qcm');tab='new';nav();scrollTo(0,0)}}
  app.querySelectorAll('[data-mi]').forEach(b=>{b.onclick=()=>menuStart(+b.dataset.mi,HK);b.onkeydown=e=>{if(e.key=='Enter'||e.key==' '){e.preventDefault();b.click()}}});
- app.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{QM=b.dataset.m;try{KV.setItem('fcm',QM)}catch(x){}home()});
  {const sp=$('#slp');if(sp)sp.onchange=e=>setP(e.target.value)}
- const lr=$('#lrf');if(lr)lr.onchange=e=>{LRF=e.target.value;home()};
- const rs=$('#lpr');if(rs)rs.onclick=()=>{ST.lp=[];ST.ou=Date.now();save();home()};
+ const lr=$('#lrf');if(lr)lr.onchange=e=>{LRF=e.target.value;SLO='rv';home()};
  const setN=v=>{QN=Math.max(1,Math.min(999,v|0));try{KV.setItem('fcn',QN)}catch(x){}};
- app.querySelectorAll('[data-n]').forEach(b=>b.onclick=()=>{setN(+b.dataset.n);home()});
- const qc=$('#qc');if(qc)qc.oninput=()=>{if(!qc.value)return;setN(+qc.value);app.querySelectorAll('[data-n]').forEach(b=>b.classList.remove('pri'));const m=Math.min(QN,pool.length);$('#go span').textContent=`Commencer (${m} carte${m>1?'s':''})`};
+ app.querySelectorAll('[data-n]').forEach(b=>b.onclick=()=>{setN(+b.dataset.n);SLO='rand';home()});
+ const qc=$('#qc');if(qc)qc.oninput=()=>{if(!qc.value)return;setN(+qc.value);app.querySelectorAll('[data-n]').forEach(b=>b.classList.remove('pri'));const g=app.querySelector('[data-go="rand"]');if(g){const m=Math.min(QN,raPool.length);g.textContent=lab(m,null);g.disabled=!m}};
  const sh=$('#shl');if(sh)sh.onchange=e=>{SHL=e.target.checked};
- $('#go').onclick=()=>{const sl=les&&(SHL||!n)?les:null,mk=(list,x)=>{Q=Object.assign({list,i:0,sum:0,fail:[],log:[],xp:0,retry:false,N:list.length,les:sl,lesDone:!sl,solo:!list.length},x);home()};
-  if(M=='learn'){if(P.f)mk(P.list,{lf:P.f});return}
+ SLO=null;
+ app.querySelectorAll('[data-go]').forEach(g=>g.onclick=()=>{const M=g.dataset.go,pool=M=='rv'?rvPool:raPool,les=M=='rv'?rvLes:null,n=M=='rv'?pool.length:Math.min(QN,pool.length),sl=les&&(SHL||!n)?les:null,mk=(list,x)=>{Q=Object.assign({list,i:0,sum:0,fail:[],log:[],xp:0,retry:false,N:list.length,les:sl,lesDone:!sl,solo:!list.length},x);home()};
   const w=new Map(pool.map(c=>[c,wgt(c)])),by=(a,b)=>w.get(b)-w.get(a),rv=pool.filter(c=>c.lr<.8).sort(by),rest=pool.filter(c=>!(c.lr<.8)).sort(by);
   if(M=='rv')return mk(endHard([...rv,...rest]),{});
-  mk(endHard(shuf([...rv.slice(0,QN),...rest].slice(0,QN))),{})}}
+  mk(endHard(shuf([...rv.slice(0,QN),...rest].slice(0,QN))),{})})}
 
 function show(){stopLK();if(Q&&!Q.gmi){Q.gmi=1;if(!Q.test)Q.snap=snapQ();if(GP&&!Q.test&&(GP.cb||0)>0&&(GP.cb||0)<5){GP.cb=0;GP.gt=Date.now()}}if(Q&&!Q.intro){Q.intro=1;if(Q.list.length)return sInter('start')}if(Q&&Q.cbk){const n=Q.cbk;Q.cbk=0;if(!((GP&&GP.cb||0)>=n))return sInter(Q.cbko&&n>=10?'brk2':'brk',n)}if(Q&&Q.ocq){Q.ocq=0;if(Q.kh){document.removeEventListener('keydown',Q.kh);Q.kh=null}return sInter('oc')}if(Q&&!Q.enc&&Q.log.filter(e=>e.r<.8).length>=5){Q.enc=1;return encInter()}if(Q&&Q.cbm&&Q.i<Q.list.length){const n=Q.cbm;Q.cbm=0;if(Q.kh){document.removeEventListener('keydown',Q.kh);Q.kh=null}return gmInter(n)}if(Q&&!Q.hrd&&!Q.retry&&Q.i>0&&Q.i<Q.list.length){let j=Q.list.length;while(j>0&&Q.list[j-1].h)j--;if(j==Q.i){Q.hrd=1;Q.cbm=0;return sInter('hard',Q.list.length-j)}}if(Q)Q.cbm=0;gmCls();if(Q.kh){document.removeEventListener('keydown',Q.kh);Q.kh=null}if(Q.i>=Q.list.length){if(Q.fail.length){Q.list=shuf(Q.fail);Q.fail=[];Q.i=0;Q.retry=true;if(!Q.fixi){Q.fixi=1;return sInter('fix')}return show()}if(!Q.cpt){Q.cpt=1;if(Q.N)return sInter('count')}const p=Math.round(Q.sum/Q.N*100);if(!Q.cnt){Q.cnt=1;if(!Q.test){if(Q.menu){menuDone(Q.menu,p);menuPerfect(Q.menu)}if(QM=='learn'&&Q.lf&&!lpGet().includes(Q.lf))ST.lp=[...ST.lp,Q.lf];ST.ses=(ST.ses||0)+1;ST.sn=[...(ST.sn||[]),snapVals()].slice(-2);ST.ou=Date.now();save()}}Q.fin=1;document.body.classList.remove('gm-cb','gm-oc');document.body.classList.add('focus');pbar();endShow(p);return}
  const c=Q.c=Q.list[Q.i];Q.done=false;document.body.classList.add('focus');const st=Q.retry?['var(--retry)','Erreur à corriger']:c.s==null?['var(--new)','Nouvelle carte']:c.lr<.8?['var(--warn)','Ratée la dernière fois']:['var(--ac)','Révision'],tot=Q.list.length;
@@ -3210,4 +3300,49 @@ function chapAsk(f){if(!f||document.getElementById('md'))return;const R=chaps().
  const go=()=>{const t=i.value.replace(/\s+/g,' ').trim();if(!t)return;close();const id=uid();ST.cats=ST.cats||{};ST.cats[id]=t;ST.order=[...layout(),HP+id];rangerDans(f,id)};
  k.onclick=go;i.onkeydown=e=>{if(e.key=='Enter'){e.preventDefault();go()}};m.querySelector('#cqx').onclick=close;m.onclick=e=>{if(e.target==m)close()};m.onkeydown=e=>{if(e.key=='Escape')close()};
  setTimeout(()=>{try{(m.querySelector('[data-cq]')||i).focus()}catch(e){}},30)}
+
+/* 4.13.2 : menu du jour en tuiles rondes ; une bulle s'ouvre sous la tuile touchée */
+const MKI={arrow:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.8 12a8.2 8.2 0 1 0 2.5-5.9"/><path d="M3.6 3.8v4.6H8.2"/></svg>',
+ q:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.8 9a3.3 3.3 0 0 1 6.4 1.1c0 2.3-3.2 2.7-3.2 4.9"/><path d="M12 19.2v.01"/></svg>',
+ cards:ICO.rev,book:ICO.book,lock:ICO.lock,check:ICO.check};
+const mIcon=k=>k=='crown'?crown():MKI[k]||'';
+function mHasLes(x,dp){try{const p=x.p||dp;return!!(x.f&&p&&PR.list.some(y=>y.id==p)&&withPack(p,()=>lessonOf(x.f)))}catch(e){return false}}
+function mDesc(x,les){const w=String(x.why||''),n=(re)=>{const m=re.exec(w);return m?+m[1]:0},s=n=>n>1?'s':'';
+ if(x.k=='err')return'Erreurs à corriger';if(x.k=='rand')return'Tirage aléatoire';if(x.un)return'Unité bilan';
+ if(x.k=='new')return les?'Une nouvelle leçon':'Nouvelles cartes';
+ if(/priorit/i.test(w))return'À consolider en priorité';const j=n(/(\d+)\s*jours?/);if(j)return'Pas vue depuis '+j+' jour'+s(j);const a=n(/^(\d+)\s*cartes?\s+à\s+revoir/);if(a)return a+' carte'+s(a)+' à revoir';return'Pour consolider'}
+function menuHtml(m,key){key=key||PID;const MG=34;if(!m||!m.items.length)return'';const I=m.items,nx=I.findIndex(x=>x.sc==null),dn=I.filter(x=>x.sc!=null).length,all=nx<0,N=I.length;
+ const sc=I.filter(x=>x.sc>=0).map(x=>x.sc),avg=sc.length?Math.round(sc.reduce((a,b)=>a+b,0)/sc.length):0;
+ const T=I.map((x,i)=>{const done=x.sc!=null,cur=i==nx,dp=mDef(key,x),les=x.k=='new'&&!x.un&&mHasLes(x,dp),ik=x.k=='err'?'arrow':x.k=='rand'?'q':x.un?'crown':les?'book':'cards',kc=MK[x.k][1],st=done?'s-done':cur?'s-cur':'s-lock',lab=`Étape ${i+1} sur ${N} : ${x.t}`;
+  const dx=Math.round(56*Math.sin(i*Math.PI/2)),sd=dx>0?'l':dx<0?'r':(i%4==0?'r':'l'),
+   kt=x.k=='err'?'À corriger':x.k=='rand'?'Au hasard':x.un?'Bilan':x.k=='new'?'Nouveauté':'Révision',
+   tt=x.k=='err'?(/suspens/i.test(x.t)?'Erreurs en suspens':'Erreurs d’hier'):x.k=='rand'?'Mélange surprise':esc(x.t),
+   cap=`<div class="mcp mcp-${sd} ${st}" data-mt="${i}" aria-hidden="true" style="--dx:${dx}px;--bc:__BC__"><span class="mck">${kt}</span><b class="mct">${tt}</b>${done&&x.sc>=0?`<span class="mcs">${x.sc} %</span>`:''}</div>`;
+  const bc=done?(x.sc<0?'var(--mt)':mEnd(x.sc)):cur?kc:'var(--mt)';
+  const nd=Math.round(56*Math.sin((i+1)*Math.PI/2)),gd=`M${dx} 70C${dx} 140 ${nd} ${70+MG+144-70} ${nd} ${70+MG+144}`,
+   lk=i<N-1?`<svg class="mlnk" viewBox="-100 0 200 ${70+MG+144}" width="200" height="${70+MG+144}" aria-hidden="true"><path class="mlk" d="${gd}"/><path class="mls" pathLength="1" d="${gd}" style="stroke:var(--ac);stroke-dashoffset:${done?0:1}"/></svg>`:'';
+  return{l:lk,c:cap.replace('__BC__',bc),t:`<div class="mbx v${i%5} ${st}" role="button" tabindex="0" data-mt="${i}" data-kc="${kc}" aria-expanded="false" aria-controls="mp${i}" aria-label="${esc(lab)}${done?' (terminée)':cur?'':' (verrouillée)'}" style="--bc:${bc};--dx:${dx}px"><span class="mbc c4"></span><span class="mbc c3"></span><span class="mbc c2"></span><span class="mbc c1"></span></div>`,
+   p:`<div class="mpop" id="mp${i}" data-pi="${i}" hidden role="region" aria-label="${esc(x.t)}" style="--kc:${done||cur?kc:'var(--ign)'};--ax:calc(50% + ${dx}px)"><b class="mpt">${x.k=='new'||x.k=='rev'?esc(x.t):x.t}</b><span class="mpd">${done?(x.sc<0?'Terminé':'Terminé · '+x.sc+' %'):cur?mDesc(x,les):'À débloquer après l’étape précédente'}</span><span class="mpn">${x.ids.length} carte${x.ids.length>1?'s':''}${key=='all'?' · '+esc(mPk(x,key)):''}</span>${cur?`<button class="mpg" data-mi="${i}">Commencer</button>`:done?'':'<button class="mpg" disabled>Pas encore débloqué</button>'}</div>`}});
+ return`<section class="menu" aria-labelledby="mnt"><div class="mhd"><div><h2 id="mnt">Menu du jour</h2><p class="mdate">${new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'})}</p>${all?`<p class="mint">Terminé : ${avg} % de réussite en moyenne.</p>`:''}</div></div>
+ <ol class="mlist mcol">${T.map(x=>`<li class="mitem">${x.l}${x.t}${x.c}${x.p}</li>`).join('')}</ol></section>`}
+function mTog(b){const S=b.closest('.menu,.slwrap');if(!S)return;if(!b.classList.contains('mbx'))b=b.closest('.mitem,.slcol').querySelector('.mbx');
+ const p=b.dataset.sl?S.querySelector(`.mpop[data-sp="${b.dataset.sl}"]`):S.querySelector(`.mpop[data-pi="${b.dataset.mt}"]`);if(!p)return;const was=!p.hidden;mClose();mHop(b);if(!was){p.hidden=false;b.setAttribute('aria-expanded','true');try{p.scrollIntoView({block:'nearest',behavior:'smooth'})}catch(e){}}}
+function mClose(){document.querySelectorAll('.mpop').forEach(p=>p.hidden=true);document.querySelectorAll('.mbx').forEach(b=>b.setAttribute('aria-expanded','false'))}
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-mt],[data-sl]');if(b)return mTog(b);if(!(e.target.closest&&e.target.closest('.mpop')))mClose()});
+function mHop(b){b.classList.remove('hop');void b.offsetWidth;b.classList.add('hop');clearTimeout(b._ht);b._ht=setTimeout(()=>b.classList.remove('hop'),680)}
+document.addEventListener('pointerover',e=>{if(e.pointerType!='mouse')return;const b=e.target.closest&&e.target.closest('.mbx');if(b&&!(e.relatedTarget&&b.contains(e.relatedTarget)))mHop(b)});
+document.addEventListener('keydown',e=>{const b=e.target.closest&&e.target.closest('[data-mt],[data-sl]');if(b&&(e.key=='Enter'||e.key==' ')){e.preventDefault();mTog(b)}else if(e.key=='Escape')mClose()});
+/* couleur du paquet validé = couleur de l'animation de fin de séance */
+function mEnd(p){return p>=100?'var(--ok)':p>75?'var(--ac)':p>50?'var(--gold)':p>25?'var(--warn)':p>0?'var(--retry)':'var(--ko)'}
+function mjPlay(){const J=MJ;MJ=null;if(!J)return;try{if(matchMedia('(prefers-reduced-motion: reduce)').matches)return}catch(e){}
+ const el=app.querySelectorAll('.mlist .mbx')[J.i];if(!el||!el.classList.contains('s-done'))return;
+ const nx=app.querySelector('.mlist .mbx.s-cur'),sg=el.closest('.mitem').querySelector('.mls'),sw=(a,x,y)=>{a.classList.remove(x);a.classList.add(y)},hop=mHop,bc=el.style.getPropertyValue('--bc');
+ sw(el,'s-done','s-cur');el.style.setProperty('--bc',el.dataset.kc);
+ if(sg){sg.style.transition='none';sg.style.strokeDashoffset=1}
+ if(nx){sw(nx,'s-cur','s-lock');nx.style.setProperty('--bc','var(--mt)')}
+ try{el.scrollIntoView({block:'center'})}catch(e){}
+ const T=(f,t)=>setTimeout(()=>{if(el.isConnected)f()},t);
+ T(()=>{sw(el,'s-cur','s-done');el.style.setProperty('--bc',bc);hop(el)},600);
+ if(sg)T(()=>{sg.style.transition='stroke-dashoffset .8s ease-in-out';sg.style.strokeDashoffset=0},1050);
+ if(nx)T(()=>{if(!nx.isConnected)return;sw(nx,'s-lock','s-cur');nx.style.setProperty('--bc',nx.dataset.kc);hop(nx)},sg?1900:1500)}
 </script></body></html>
