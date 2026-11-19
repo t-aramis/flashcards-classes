@@ -674,7 +674,6 @@ details.card.bkp summary{font-size:14px;color:var(--mt)}
  .pks select,.pk1{font-size:15px;font-weight:650;color:var(--tx)}
  .hx{gap:5px}
 }
-@media (max-width:350px){.pill.fire{display:none}}
 
 /* ---------- 3.0.1 : post-it, chapitre surligné, fiches dans Mes cartes ---------- */
 .pins{position:absolute;left:16px;top:-25px;z-index:0;display:flex;gap:6px}
@@ -1450,15 +1449,38 @@ h3.sec.sl1{text-align:center}
 /* 4.30.1 : légendes des paquets sur une seule ligne */
 .mcn,.mck{white-space:nowrap}
 .mcx[hidden]{display:none}
+
+/* 4.32.0 : barre du haut + paquet flottant */
+.hx{flex:1;justify-content:flex-start}
+.pill.fire{margin-right:auto}
+.pkd{position:fixed;z-index:14;right:10px;bottom:calc(84px + env(safe-area-inset-bottom,0px));width:77px;display:flex;flex-direction:column;align-items:flex-start;gap:3px;pointer-events:none}
+.pkd[hidden]{display:none}
+body.focus .pkd,body.lock .pkd{display:none}
+.pkn{pointer-events:auto;box-sizing:border-box;width:64px;margin-left:7px;padding:3px 4px;text-align:center;border-radius:999px;background:var(--sf);border:1px solid var(--bd);box-shadow:0 2px 8px rgba(0,0,0,.25);font:650 11px/1.3 var(--fd);color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
+.pkd.one .pkn{cursor:default}
+.pkz{pointer-events:auto;width:77px;height:87px;position:relative}
+.pkz .mbx{left:0;margin:0;transform:scale(.62);transform-origin:top left}
+.pkd.one .pkz{pointer-events:none}
+.pkm .pkg{display:grid;grid-template-columns:repeat(auto-fill,minmax(124px,1fr));gap:14px 8px;justify-items:center;overflow-y:auto;max-height:min(68vh,560px);padding:6px 0 4px}
+.pkm .skc .mbx{left:0;margin:0}
+.pkm .skl{max-width:124px;overflow-wrap:anywhere}
+.pkm .skl.cur{color:var(--ac);font-weight:750}
+@media (max-width:1019px){.pkd.nohome{display:none}}
+@media (min-width:1020px){
+ .pkd{right:24px;bottom:auto;top:50%;transform:translateY(-50%);gap:6px;width:124px}
+ .pkn{width:104px;margin-left:11px;font-size:13.5px;padding:5px 8px}
+ .pkz{width:124px;height:140px}
+ .pkz .mbx{transform:none}
+}
 </style></head><body>
 <div id="spl" class="sin spl" role="status"><div class="sdeck" aria-hidden="true"><i style="--i:0;--x:-170px;--y:-230px;--r:-50deg"></i><i style="--i:1;--x:160px;--y:-250px;--r:40deg"></i><i style="--i:2;--x:-190px;--y:10px;--r:70deg"></i><i style="--i:3;--x:185px;--y:-20px;--r:-65deg"></i><i style="--i:4;--x:-150px;--y:240px;--r:35deg"></i><i style="--i:5;--x:170px;--y:230px;--r:-40deg"></i><i style="--i:6;--x:0px;--y:-280px;--r:25deg"></i><i style="--i:7;--x:-60px;--y:270px;--r:-75deg"></i><i style="--i:8;--x:70px;--y:-150px;--r:90deg"></i></div><b id="splt">Préparation des cartes…</b><span>Flashcards</span></div>
 <script>(function(){var s=document.getElementById('spl'),T=['Préparation des cartes…','On sort les fiches…','Les cartes arrivent…','On range le paquet…','Tri des fiches en cours…'],slow=true,done=false;try{slow=!matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}document.getElementById('splt').textContent=T[Math.random()*T.length|0];function go(){if(done)return;done=true;s.classList.add('out');setTimeout(function(){s.remove()},450)}s.onclick=go;setTimeout(go,slow?2300:600)})()</script>
-<header class="top"><div class="topin"><div class="brand"><span class="logo" aria-hidden="true">F</span><div class="bkt"><b>Flashcards</b><span id="pkw"></span></div></div><div id="hx" class="hx"></div></div></header>
+<header class="top"><div class="topin"><div id="hx" class="hx"></div></div></header>
 <div id="pb"></div>
 <main id="app"></main><div id="sy"></div><datalist id="fl"></datalist><div id="toast" role="status"></div>
 <nav class="tabs" aria-label="Navigation principale"><button data-t="rev"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect class="nv-a" x="3" y="7" width="13" height="14" rx="2.5"/><path class="nv-b" d="M7.5 3.5H18a3 3 0 0 1 3 3V17"/></svg><span>Réviser</span></button><button data-t="list"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path class="nv-f" d="M3 7.5A2.5 2.5 0 0 1 5.5 5H9l2 2.2h7.5A2.5 2.5 0 0 1 21 9.7v7.8a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5z"/></svg><span>Mes cartes</span></button><button data-t="new"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle class="nv-c" cx="12" cy="12" r="9"/><path class="nv-p" d="M12 8v8M8 12h8"/></svg><span>Créer</span></button><button data-t="stats"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path class="nv-s" style="--d:0s" d="M5 20v-6"/><path class="nv-s" style="--d:.09s" d="M11 20V5"/><path class="nv-s" style="--d:.18s" d="M17 20v-9"/><path d="M3 20h18"/></svg><span>Stats</span></button></nav>
 <script src="config.js"></script>
-<script>window.CG_VERSION="4.31.0";
+<script>window.CG_VERSION="4.33.0";
 /* Culture G · Classes — amorçage : connexion, stockage par compte, liaison avec la base en ligne.
    Ce script s'exécute avant l'application. Il fournit à l'application V3, inchangée par ailleurs :
      · KV      : remplace localStorage (mémoire + IndexedDB, une base par compte) ;
@@ -2143,10 +2165,9 @@ function pfAsk(){const o=document.getElementById('md');if(o)o.remove();const m=d
  m.querySelector('#pfg').onclick=()=>{close();PST=true;SP='pf';pbar()};
  const c=m.querySelector('.pfi.cur');if(c)c.focus()}
 let SP='look';
-const dataHtml=()=>{const pk=esc(pkName(PID)),pn=esc(PF.list.find(p=>p.id==PF.cur).name);return`<h3>Où sont mes données ?</h3><p class="mt">${DB?'Tes cartes et ta progression sont enregistrées en ligne, sur ton compte Flashcards : tu les retrouves sur tous tes appareils.':'Tes cartes et ta progression sont enregistrées dans ce navigateur, sur cet appareil. Pense à faire une sauvegarde intégrale de temps en temps.'}</p><p class="mt">${DB?'Cet appareil ne garde qu’une copie de travail légère (textes et progression) : les images restent sur ton compte, qui n’est limité que par son propre espace.':'Le navigateur limite cet espace à quelques mégaoctets.'} Copie sur cet appareil : <b>${(lsSize()/1e6).toFixed(1).replace('.',',')} Mo</b>.${LSE?` Dernier incident d’enregistrement local : ${esc(LSE)}.`:''}</p><h3>Sauvegarde intégrale</h3><p class="mt">Un seul fichier avec tous les paquets, toutes les leçons, tous les profils et leur progression. Pour garder une copie de secours, ou reprendre les cartes d’une autre version de Culture G.</p><div class="row"><button class="pri" id="fxe">${ICO.dl}<span>Tout sauvegarder</span></button><label class="btn">${ICO.up}<span>Restaurer une sauvegarde</span><input type="file" id="fxi" accept=".txt,.json,text/plain,application/json" hidden></label></div><h3>Paquet « ${pk} »</h3><p class="mt">Des fichiers .txt pour ce paquet seulement, avec la progression du profil <b>${pn}</b>.</p><div class="dgrp"><div class="dln"><div><b>Exporter</b><small>Les cartes et les leçons, la progression, ou les deux.</small></div><div class="dbt"><button class="sm" data-x="cards">Cartes</button><button class="sm" data-x="prog">Progression</button><button class="sm" data-x="all">Tout</button></div></div><div class="dln"><div><b>Importer</b><small>Le contenu est reconnu tout seul : des cartes s’ajoutent ou se mettent à jour, une progression s’applique aux cartes présentes, un export « Tout » remplace le paquet.</small></div><div class="dbt"><label class="btn sm">${ICO.up}<span>Choisir un fichier</span><input type="file" id="imf" accept=".txt,.json,text/plain,application/json" hidden></label></div></div><div class="dln"><div><b>Réinitialiser la progression</b><small>Remet à zéro la maîtrise des cartes de ce paquet. Les cartes et les XP du profil sont conservés.</small></div><div class="dbt"><button class="sm del" id="rp">Réinitialiser</button></div></div></div><h3>Parcours du jour</h3><p class="mt">Il est composé une fois par jour pour le profil <b>${pn}</b>, puis ne bouge plus. Après un import de progression, il se recompose tout seul.</p><div class="dgrp"><div class="dln"><div><b>Recomposer le parcours du jour</b><small>Refait le parcours d’aujourd’hui d’après la progression actuelle. Les étapes déjà faites aujourd’hui ne sont plus cochées.</small></div><div class="dbt"><button class="sm" id="mrd">Recomposer</button></div></div></div><p class="mt">Synchronisation : <b id="sy2">${window.CGST||'…'}</b></p><p class="mt ver">Flashcards · version 4.31.0</p>`};
+const dataHtml=()=>{const pk=esc(pkName(PID)),pn=esc(PF.list.find(p=>p.id==PF.cur).name);return`<h3>Où sont mes données ?</h3><p class="mt">${DB?'Tes cartes et ta progression sont enregistrées en ligne, sur ton compte Flashcards : tu les retrouves sur tous tes appareils.':'Tes cartes et ta progression sont enregistrées dans ce navigateur, sur cet appareil. Pense à faire une sauvegarde intégrale de temps en temps.'}</p><p class="mt">${DB?'Cet appareil ne garde qu’une copie de travail légère (textes et progression) : les images restent sur ton compte, qui n’est limité que par son propre espace.':'Le navigateur limite cet espace à quelques mégaoctets.'} Copie sur cet appareil : <b>${(lsSize()/1e6).toFixed(1).replace('.',',')} Mo</b>.${LSE?` Dernier incident d’enregistrement local : ${esc(LSE)}.`:''}</p><h3>Sauvegarde intégrale</h3><p class="mt">Un seul fichier avec tous les paquets, toutes les leçons, tous les profils et leur progression. Pour garder une copie de secours, ou reprendre les cartes d’une autre version de Culture G.</p><div class="row"><button class="pri" id="fxe">${ICO.dl}<span>Tout sauvegarder</span></button><label class="btn">${ICO.up}<span>Restaurer une sauvegarde</span><input type="file" id="fxi" accept=".txt,.json,text/plain,application/json" hidden></label></div><h3>Paquet « ${pk} »</h3><p class="mt">Des fichiers .txt pour ce paquet seulement, avec la progression du profil <b>${pn}</b>.</p><div class="dgrp"><div class="dln"><div><b>Exporter</b><small>Les cartes et les leçons, la progression, ou les deux.</small></div><div class="dbt"><button class="sm" data-x="cards">Cartes</button><button class="sm" data-x="prog">Progression</button><button class="sm" data-x="all">Tout</button></div></div><div class="dln"><div><b>Importer</b><small>Le contenu est reconnu tout seul : des cartes s’ajoutent ou se mettent à jour, une progression s’applique aux cartes présentes, un export « Tout » remplace le paquet.</small></div><div class="dbt"><label class="btn sm">${ICO.up}<span>Choisir un fichier</span><input type="file" id="imf" accept=".txt,.json,text/plain,application/json" hidden></label></div></div><div class="dln"><div><b>Réinitialiser la progression</b><small>Remet à zéro la maîtrise des cartes de ce paquet. Les cartes et les XP du profil sont conservés.</small></div><div class="dbt"><button class="sm del" id="rp">Réinitialiser</button></div></div></div><h3>Parcours du jour</h3><p class="mt">Il est composé une fois par jour pour le profil <b>${pn}</b>, puis ne bouge plus. Après un import de progression, il se recompose tout seul.</p><div class="dgrp"><div class="dln"><div><b>Recomposer le parcours du jour</b><small>Refait le parcours d’aujourd’hui d’après la progression actuelle. Les étapes déjà faites aujourd’hui ne sont plus cochées.</small></div><div class="dbt"><button class="sm" id="mrd">Recomposer</button></div></div></div><p class="mt">Synchronisation : <b id="sy2">${window.CGST||'…'}</b></p><p class="mt ver">Flashcards · version 4.33.0</p>`};
 function pbar(){applyTh();const cur=PR.list.find(p=>p.id==PID),pf=PF.list.find(p=>p.id==PF.cur),sk=streakN(),S=subsOf();
- $('#pkw').innerHTML=S.length>1?`<label class="pks"><span class="sr">Paquet</span><select id="pf" aria-label="Paquet" title="Changer de paquet">${pkOpts()}</select></label>`:`<span class="pk1">${esc(cur.name)}</span>`;
- {const s=$('#pf');if(s)s.onchange=e=>pickP(e.target.value)}
+ pkDraw();
  $('#hx').innerHTML=`<span class="pill xp${GP&&GP.oc?' oc':''}" title="${GP&&GP.oc?'Surcharge d’XP active : XP doublés':'Points d’expérience'}">${ICO.bolt}<b>${fmt(ST.xp||0)}</b>XP${GP&&GP.oc?'<i class="x2">×2</i>':''}</span><span class="pill fire ${sk?'':'off'}" title="Jours de révision d’affilée">${ICO.flame}<b>${sk}</b>j</span>${CG.t?CG.bell():''}<button class="pfb" id="pfb" aria-haspopup="dialog" title="Profil : ${esc(pf.name)}" aria-label="Changer de profil. Profil actuel : ${esc(pf.name)}">${avH(pf)}</button><button class="ib ghost stb" id="stb" aria-haspopup="dialog" aria-label="Réglages" title="Réglages">${ICO.cog}</button>`;
  if(CG.t)CG.bellBind();$('#pfb').onclick=pfAsk;$('#stb').onclick=()=>{PST=true;pbar()};
  const pb=$('#pb'),ob=pb.querySelector('.sbody'),was=!!ob,sc=ob?ob.scrollTop:0,q=x=>pb.querySelector(x);pb.classList.toggle('open',PST);document.body.classList.toggle('lock',PST);
@@ -3476,4 +3497,22 @@ function mtxHtml(i,dx,sd,k,I){
 /* 4.30.1 : à côté des paquets, jamais de retour à la ligne : « x cartes à revoir » se réduit à « x cartes » si la place manque */
 function mFit(){const nat=e=>{const w=e.style.width;e.style.width='max-content';const r=e.offsetWidth;e.style.width=w;return r};document.querySelectorAll('.mcp').forEach(p=>{const W=p.clientWidth,n=p.querySelector('.mcn'),x=n&&n.querySelector('.mcx');if(x){x.hidden=false;if(nat(n)>W+1)x.hidden=true}const l=p.querySelector('.mck');if(l){l.textContent=l.dataset.f;if(nat(l)>W+1)l.textContent=l.dataset.s}})}
 {let ft=0;const q=()=>{cancelAnimationFrame(ft);ft=requestAnimationFrame(mFit)};new MutationObserver(q).observe(document.body,{childList:true,subtree:true});addEventListener('resize',q);try{document.fonts.ready.then(q)}catch(e){}}
+
+
+/* 4.32.0 : choix du paquet depuis un paquet de cartes flottant (barre du haut épurée) */
+function pkCl(ids){let n=0,t=0;ids.forEach(id=>{try{withPack(id,()=>{ST.cards.forEach(c=>{if(!isIg(c)&&c.s!=null){n++;t+=c.s}})})}catch(e){}});if(!n)return'var(--new)';let p=t/n*100;if(p>99.99)p=100;return mEnd(p)}
+function pkDk(id,n,col,cu){return `<div class="mbx pkx${cu?' cur':''}" role="button" tabindex="0" data-pk="${id}" aria-label="${esc(n)}${cu?' (paquet actuel)':''}" style="--bc:${col}"><span class="mbc c4"></span><span class="mbc c3"></span><span class="mbc c2"></span><span class="mbc c1"></span></div>`}
+function pkDraw(){let d=document.getElementById('pkd');if(!d){d=document.createElement('div');d.id='pkd';d.className='pkd';document.body.appendChild(d)}
+ const S=subsOf(),all=tab=='rev'&&gAll(),n=all?'Tous':pkName(PID),mu=S.length>1,k=all?'':PID;
+ d.className='pkd'+(mu?'':' one')+(tab=='rev'?'':' nohome');d.hidden=!PR.list.length;
+ d.innerHTML=`<div class="pkn" title="${esc(n)}">${esc(n)}</div><div class="pkz">${pkDk(all?'all':PID,n,pkCl(all?S:[PID]),1).replace('role="button" tabindex="0"',mu?'role="button" tabindex="0" aria-haspopup="dialog"':'aria-hidden="true"')}</div>`;
+ if(mu){const o=e=>{if(e&&e.type=='keydown'&&e.key!='Enter'&&e.key!=' ')return;if(e&&e.preventDefault)e.preventDefault();pkOpen()};d.querySelector('.pkn').onclick=o;const x=d.querySelector('.pkx');x.onclick=o;x.onkeydown=o}}
+function pkOpen(){const S=subsOf();if(S.length<2)return;const o0=document.getElementById('md');if(o0)o0.remove();
+ const A=tab=='rev',all=A&&gAll(),L=(A?[['all','Tous',pkCl(S),all]]:[]).concat(S.map(id=>[id,pkName(id),pkCl([id]),!all&&id==PID])),m=document.createElement('div');m.className='md fmenu';m.id='md';
+ m.innerHTML=`<div class="mb fsheet pkm" role="dialog" aria-modal="true" aria-labelledby="pkt"><div class="fsh"><h2 id="pkt">Choisir un paquet</h2><button class="ib ghost fmx" aria-label="Fermer">${ICO.x}</button></div><div class="pkg">${L.map(([id,n,c,cu])=>`<div class="skc">${pkDk(id,n,c,cu)}<div class="skl${cu?' cur':''}">${esc(n)}</div></div>`).join('')}</div></div>`;
+ document.body.appendChild(m);const k=e=>{if(e.key=='Escape')close()},close=()=>{m.remove();document.removeEventListener('keydown',k)};document.addEventListener('keydown',k);
+ m.onclick=e=>{if(e.target==m)close()};m.querySelector('.fmx').onclick=close;
+ const pick=b=>{const id=b.dataset.pk;mHop(b);setTimeout(()=>{close();if(id=='all'?!all:(all||id!=PID))pickP(id)},260)};
+ m.querySelectorAll('.pkx').forEach(b=>{b.onclick=()=>pick(b);b.onkeydown=e=>{if(e.key=='Enter'||e.key==' '){e.preventDefault();pick(b)}}});
+ const c=m.querySelector('.pkx.cur');if(c)c.focus()}
 </script></body></html>
