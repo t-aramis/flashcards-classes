@@ -1472,6 +1472,11 @@ body.focus .pkd,body.lock .pkd{display:none}
  .pkz{width:124px;height:140px}
  .pkz .mbx{transform:none}
 }
+/* 4.34.0 : unités supplémentaires d'une carte */
+.fxw{display:flex;flex-direction:column;gap:8px}
+.fxr{display:flex;gap:8px;align-items:stretch}
+.fxr input{flex:1;min-width:0}
+.fxb{flex:none;min-width:44px;font-size:20px;line-height:1;padding:0 12px}
 </style></head><body>
 <div id="spl" class="sin spl" role="status"><div class="sdeck" aria-hidden="true"><i style="--i:0;--x:-170px;--y:-230px;--r:-50deg"></i><i style="--i:1;--x:160px;--y:-250px;--r:40deg"></i><i style="--i:2;--x:-190px;--y:10px;--r:70deg"></i><i style="--i:3;--x:185px;--y:-20px;--r:-65deg"></i><i style="--i:4;--x:-150px;--y:240px;--r:35deg"></i><i style="--i:5;--x:170px;--y:230px;--r:-40deg"></i><i style="--i:6;--x:0px;--y:-280px;--r:25deg"></i><i style="--i:7;--x:-60px;--y:270px;--r:-75deg"></i><i style="--i:8;--x:70px;--y:-150px;--r:90deg"></i></div><b id="splt">Préparation des cartes…</b><span>Flashcards</span></div>
 <script>(function(){var s=document.getElementById('spl'),T=['Préparation des cartes…','On sort les fiches…','Les cartes arrivent…','On range le paquet…','Tri des fiches en cours…'],slow=true,done=false;try{slow=!matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}document.getElementById('splt').textContent=T[Math.random()*T.length|0];function go(){if(done)return;done=true;s.classList.add('out');setTimeout(function(){s.remove()},450)}s.onclick=go;setTimeout(go,slow?2300:600)})()</script>
@@ -1480,7 +1485,7 @@ body.focus .pkd,body.lock .pkd{display:none}
 <main id="app"></main><div id="sy"></div><datalist id="fl"></datalist><div id="toast" role="status"></div>
 <nav class="tabs" aria-label="Navigation principale"><button data-t="rev"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect class="nv-a" x="3" y="7" width="13" height="14" rx="2.5"/><path class="nv-b" d="M7.5 3.5H18a3 3 0 0 1 3 3V17"/></svg><span>Réviser</span></button><button data-t="list"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path class="nv-f" d="M3 7.5A2.5 2.5 0 0 1 5.5 5H9l2 2.2h7.5A2.5 2.5 0 0 1 21 9.7v7.8a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5z"/></svg><span>Mes cartes</span></button><button data-t="new"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle class="nv-c" cx="12" cy="12" r="9"/><path class="nv-p" d="M12 8v8M8 12h8"/></svg><span>Créer</span></button><button data-t="stats"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path class="nv-s" style="--d:0s" d="M5 20v-6"/><path class="nv-s" style="--d:.09s" d="M11 20V5"/><path class="nv-s" style="--d:.18s" d="M17 20v-9"/><path d="M3 20h18"/></svg><span>Stats</span></button></nav>
 <script src="config.js"></script>
-<script>window.CG_VERSION="4.33.0";
+<script>window.CG_VERSION="4.34.0";
 /* Culture G · Classes — amorçage : connexion, stockage par compte, liaison avec la base en ligne.
    Ce script s'exécute avant l'application. Il fournit à l'application V3, inchangée par ailleurs :
      · KV      : remplace localStorage (mémoire + IndexedDB, une base par compte) ;
@@ -1488,6 +1493,7 @@ body.focus .pkd,body.lock .pkd{display:none}
      · CG      : l'écran Classes (enseignant) ou Compte (élève) des réglages, et les protections côté élève. */
 (function(){
 'use strict';
+window.CGPULLED=false;
 const CFG=window.CG_CONFIG||{},BASE=String(CFG.url||'').trim().replace(/\/+$/,''),KEY=String(CFG.key||'').trim();
 const LS=(()=>{try{return window.localStorage}catch(e){return null}})();
 const lsGet=k=>{try{return LS.getItem(k)}catch(e){return null}},lsSet=(k,v)=>{try{LS.setItem(k,v)}catch(e){}},lsDel=k=>{try{LS.removeItem(k)}catch(e){}};
@@ -1606,8 +1612,10 @@ function setDoc(id,data){
  return new Promise((ok,ko)=>{let o=out.get(id);if(!o){o={w:[],v:0};out.set(id,o)}o.js=js;o.v++;o.w.push([ok,ko]);emit();kick(250)})}
 let fT=0,flushing=false,back=0;
 function kick(ms){if(fT)return;fT=setTimeout(()=>{fT=0;flush()},ms)}
+let pulledOnce=false;
+function relax(){if(window.CGPULLED!==false)return;window.CGPULLED=true;emit();setTimeout(()=>{try{if(typeof Q!='undefined'&&!Q&&tab!='new')softNav()}catch(e){}},120)}
 async function flush(){
- if(flushing||!out.size)return;flushing=true;let one=false;
+ if(flushing||!out.size||!pulledOnce)return;flushing=true;let one=false;
  try{while(out.size){
    const b=[];let sz=0;for(const[id,o]of out){const n=o.js?o.js.length:0;if(b.length&&(one||b.length>=40||sz+n>1500000))break;b.push([id,o.v,o.js]);sz+=n}
    let r;
@@ -1629,10 +1637,11 @@ async function flush(){
 function unflag(k){try{withPack('p1',()=>{const c=ST.cards.find(x=>x.id==k);if(c&&c.fl){c.fl=0;c.u=Date.now();save()}})}catch(e){}}
 let pulling=false,pullQ=false;
 async function pull(){
- if(pulling){pullQ=true;return false}pulling=true;let ch=false;
+ if(pulling){pullQ=true;return null}pulling=true;let ch=false;
  try{for(;;){
    const r=await rpc(S.kind=='t'?'cg_t_pull':'cg_s_pull',{p_since:since,p_lim:25});
-   ((r&&r.docs)||[]).forEach(d=>{if(+d.rev>since)since=+d.rev;if(out.has(d.id))return;
+   ((r&&r.docs)||[]).forEach(d=>{if(+d.rev>since)since=+d.rev;
+    if(out.has(d.id)){if(/^[yq]_/.test(d.id)&&d.data!=null&&!d.gone){/* l'application fusionne le distant avec son état puis réécrit : on abandonne l'ancienne écriture en attente */const o=out.get(d.id);out.delete(d.id);del('o:'+d.id);const v={d:d.data,t:!!d.t};docs.set(d.id,v);put('d:'+d.id,v);ch=true;try{o.w.forEach(w=>w[0]())}catch(e){}}return}
     if(d.gone||d.data==null){if(d.id[0]=='r'&&S.kind=='s'&&docs.has(d.id))unflag(d.id.slice(2));if(docs.delete(d.id))ch=true;del('d:'+d.id);tks.delete(d.id.slice(2))}
     else{const v={d:d.data,t:!!d.t};docs.set(d.id,v);put('d:'+d.id,v);tAdd(d.id,v);ch=true}});
    put('m:since',since);
@@ -1641,11 +1650,15 @@ async function pull(){
   CGX.online=true}
  finally{pulling=false;if(pullQ){pullQ=false;setTimeout(tick,50)}}
  return ch}
-async function tick(){try{const ch=await pull();if(!first){first=true;emit();afterFirst()}else if(ch||S.kind=='s')emit()}catch(e){CGX.online=false}if(out.size)kick(100)}
+async function tick(){let ok=false;try{const ch=await pull();ok=ch!==null;if(!first){first=true;emit();afterFirst()}else if(ch||S.kind=='s')emit()}catch(e){CGX.online=false}
+ /* première lecture terminée (réussie ou non) : l'application peut composer le parcours du jour ; les écritures en attente ne partent qu'après une lecture réussie */
+ if(ok&&!pulledOnce)pulledOnce=true;
+ relax();
+ if(out.size)kick(100)}
 function start(err){
  if(started)return;started=true;
  if(docs.size||since){first=true;emit();afterFirst()}
- tick().then(()=>{if(!first&&err){try{err()}catch(e){}}});
+ tick().then(()=>{if(!first&&err){try{err()}catch(e){}}});setTimeout(relax,6000);
  setInterval(()=>{if(document.visibilityState=='visible')tick()},25000);
  document.addEventListener('visibilitychange',()=>{if(document.visibilityState=='visible')tick();else wflush()});
  window.addEventListener('online',()=>{tick()});window.addEventListener('pagehide',wflush)}
@@ -1742,11 +1755,11 @@ let TV=null;const SORTS=[['n','Numéro'],['p','% de réussite'],['x','XP'],['s',
 const pct=x=>Math.round(Math.max(0,Math.min(1,+x||0))*100);
 const pv=(prog,id)=>{const x=prog&&typeof prog=='object'?prog[id]:null,ok=x&&typeof x=='object';return{s:ok&&typeof x.s=='number'&&isFinite(x.s)?Math.max(0,Math.min(1,x.s)):null,n:ok?Math.max(0,Math.round(+x.n)||0):0,lr:ok&&typeof x.lr=='number'?x.lr:null}};
 const qtx=c=>esc(String(c.q||'(image)').replace(/\*\*|__|==|\/\//g,'').replace(/\s+/g,' ').slice(0,160));
-function packView(p){return withPack(p,()=>{const by=new Map();ST.cards.forEach(c=>{const f=c.f||'';if(!by.has(f))by.set(f,[]);by.get(f).push(c)});
+function packView(p){return withPack(p,()=>{const by=new Map();ST.cards.forEach(c=>{(fsOf(c).length?fsOf(c):['']).forEach(f=>{if(!by.has(f))by.set(f,[]);by.get(f).push(c)})});
   const fs=folders().filter(f=>by.has(f));by.forEach((v,f)=>{if(f&&!fs.includes(f))fs.push(f)});if(by.has(''))fs.push('');
   return fs.map(f=>({f,cards:by.get(f).slice().sort((a,b)=>ordk(a)-ordk(b))}))})}
 const live=(st,c)=>!c.lk||!c.f||!!(st.prog&&typeof st.prog=='object'&&st.prog['ul::'+c.f]);
-function stuStat(st,CH){const all=CH.reduce((a,c)=>a.concat(c.cards),[]).filter(c=>live(st,c));let sum=0,seen=0;all.forEach(c=>{const v=pv(st.prog,c.id);if(v.s!=null){sum+=v.s;seen++}});
+function stuStat(st,CH){const all=[...new Map(CH.reduce((a,c)=>a.concat(c.cards),[]).map(c=>[c.id,c])).values()].filter(c=>live(st,c));let sum=0,seen=0;all.forEach(c=>{const v=pv(st.prog,c.id);if(v.s!=null){sum+=v.s;seen++}});
  const h=st.y&&st.y.hist&&typeof st.y.hist=='object'?st.y.hist:{};let a7=0,o7=0;for(let i=0;i<7;i++){const d=new Date();d.setDate(d.getDate()-i);const x=h[dkey(d)];if(Array.isArray(x)){a7+=Math.max(0,+x[0]||0);o7+=Math.max(0,+x[1]||0)}}
  let stk=0;{const d=new Date();if(!h[dkey(d)])d.setDate(d.getDate()-1);while(h[dkey(d)]&&stk<4000){stk++;d.setDate(d.getDate()-1)}}
  return{m:all.length?sum/all.length:0,seen,tot:all.length,a7,o7,stk,xp:Math.max(0,Math.round(+(st.y&&st.y.xp))||0)}}
@@ -1948,7 +1961,7 @@ function tourEnd(done){if(!TU)return;const T=TU;TU=null;cancelAnimationFrame(T.r
 
 /* ------------------------------------------------------------ élève : le contenu du professeur est en lecture seule */
 const isT=id=>!!S&&S.kind=='s'&&PID=='p1'&&tks.has(id);
-const chT=f=>!!S&&S.kind=='s'&&PID=='p1'&&(ST.cards.some(c=>c.f==f&&tks.has(c.id))||Object.values(ST.les||{}).some(l=>l.f==f&&tks.has(l.id)));
+const chT=f=>!!S&&S.kind=='s'&&PID=='p1'&&(ST.cards.some(c=>inU(c,f)&&tks.has(c.id))||Object.values(ST.les||{}).some(l=>l.f==f&&tks.has(l.id)));
 const NC=new Map(),DROP=['u','fl','s','n','l','lr','ig'];
 function norm(id,xc,keys){let e=NC.get(id);if(!e||e.s!==xc){const o=JSON.parse(xc);keys.forEach(z=>delete o[z]);e={s:xc,n:JSON.stringify(o)};NC.set(id,e)}return e.n}
 function dif(id,xc,l){if(!l)return true;try{const m=Object.assign({},l);DROP.forEach(z=>delete m[z]);return JSON.stringify(m)!==norm(id,xc,DROP)}catch(e){return false}}
@@ -2165,7 +2178,7 @@ function pfAsk(){const o=document.getElementById('md');if(o)o.remove();const m=d
  m.querySelector('#pfg').onclick=()=>{close();PST=true;SP='pf';pbar()};
  const c=m.querySelector('.pfi.cur');if(c)c.focus()}
 let SP='look';
-const dataHtml=()=>{const pk=esc(pkName(PID)),pn=esc(PF.list.find(p=>p.id==PF.cur).name);return`<h3>Où sont mes données ?</h3><p class="mt">${DB?'Tes cartes et ta progression sont enregistrées en ligne, sur ton compte Flashcards : tu les retrouves sur tous tes appareils.':'Tes cartes et ta progression sont enregistrées dans ce navigateur, sur cet appareil. Pense à faire une sauvegarde intégrale de temps en temps.'}</p><p class="mt">${DB?'Cet appareil ne garde qu’une copie de travail légère (textes et progression) : les images restent sur ton compte, qui n’est limité que par son propre espace.':'Le navigateur limite cet espace à quelques mégaoctets.'} Copie sur cet appareil : <b>${(lsSize()/1e6).toFixed(1).replace('.',',')} Mo</b>.${LSE?` Dernier incident d’enregistrement local : ${esc(LSE)}.`:''}</p><h3>Sauvegarde intégrale</h3><p class="mt">Un seul fichier avec tous les paquets, toutes les leçons, tous les profils et leur progression. Pour garder une copie de secours, ou reprendre les cartes d’une autre version de Culture G.</p><div class="row"><button class="pri" id="fxe">${ICO.dl}<span>Tout sauvegarder</span></button><label class="btn">${ICO.up}<span>Restaurer une sauvegarde</span><input type="file" id="fxi" accept=".txt,.json,text/plain,application/json" hidden></label></div><h3>Paquet « ${pk} »</h3><p class="mt">Des fichiers .txt pour ce paquet seulement, avec la progression du profil <b>${pn}</b>.</p><div class="dgrp"><div class="dln"><div><b>Exporter</b><small>Les cartes et les leçons, la progression, ou les deux.</small></div><div class="dbt"><button class="sm" data-x="cards">Cartes</button><button class="sm" data-x="prog">Progression</button><button class="sm" data-x="all">Tout</button></div></div><div class="dln"><div><b>Importer</b><small>Le contenu est reconnu tout seul : des cartes s’ajoutent ou se mettent à jour, une progression s’applique aux cartes présentes, un export « Tout » remplace le paquet.</small></div><div class="dbt"><label class="btn sm">${ICO.up}<span>Choisir un fichier</span><input type="file" id="imf" accept=".txt,.json,text/plain,application/json" hidden></label></div></div><div class="dln"><div><b>Réinitialiser la progression</b><small>Remet à zéro la maîtrise des cartes de ce paquet. Les cartes et les XP du profil sont conservés.</small></div><div class="dbt"><button class="sm del" id="rp">Réinitialiser</button></div></div></div><h3>Parcours du jour</h3><p class="mt">Il est composé une fois par jour pour le profil <b>${pn}</b>, puis ne bouge plus. Après un import de progression, il se recompose tout seul.</p><div class="dgrp"><div class="dln"><div><b>Recomposer le parcours du jour</b><small>Refait le parcours d’aujourd’hui d’après la progression actuelle. Les étapes déjà faites aujourd’hui ne sont plus cochées.</small></div><div class="dbt"><button class="sm" id="mrd">Recomposer</button></div></div></div><p class="mt">Synchronisation : <b id="sy2">${window.CGST||'…'}</b></p><p class="mt ver">Flashcards · version 4.33.0</p>`};
+const dataHtml=()=>{const pk=esc(pkName(PID)),pn=esc(PF.list.find(p=>p.id==PF.cur).name);return`<h3>Où sont mes données ?</h3><p class="mt">${DB?'Tes cartes et ta progression sont enregistrées en ligne, sur ton compte Flashcards : tu les retrouves sur tous tes appareils.':'Tes cartes et ta progression sont enregistrées dans ce navigateur, sur cet appareil. Pense à faire une sauvegarde intégrale de temps en temps.'}</p><p class="mt">${DB?'Cet appareil ne garde qu’une copie de travail légère (textes et progression) : les images restent sur ton compte, qui n’est limité que par son propre espace.':'Le navigateur limite cet espace à quelques mégaoctets.'} Copie sur cet appareil : <b>${(lsSize()/1e6).toFixed(1).replace('.',',')} Mo</b>.${LSE?` Dernier incident d’enregistrement local : ${esc(LSE)}.`:''}</p><h3>Sauvegarde intégrale</h3><p class="mt">Un seul fichier avec tous les paquets, toutes les leçons, tous les profils et leur progression. Pour garder une copie de secours, ou reprendre les cartes d’une autre version de Culture G.</p><div class="row"><button class="pri" id="fxe">${ICO.dl}<span>Tout sauvegarder</span></button><label class="btn">${ICO.up}<span>Restaurer une sauvegarde</span><input type="file" id="fxi" accept=".txt,.json,text/plain,application/json" hidden></label></div><h3>Paquet « ${pk} »</h3><p class="mt">Des fichiers .txt pour ce paquet seulement, avec la progression du profil <b>${pn}</b>.</p><div class="dgrp"><div class="dln"><div><b>Exporter</b><small>Les cartes et les leçons, la progression, ou les deux.</small></div><div class="dbt"><button class="sm" data-x="cards">Cartes</button><button class="sm" data-x="prog">Progression</button><button class="sm" data-x="all">Tout</button></div></div><div class="dln"><div><b>Importer</b><small>Le contenu est reconnu tout seul : des cartes s’ajoutent ou se mettent à jour, une progression s’applique aux cartes présentes, un export « Tout » remplace le paquet.</small></div><div class="dbt"><label class="btn sm">${ICO.up}<span>Choisir un fichier</span><input type="file" id="imf" accept=".txt,.json,text/plain,application/json" hidden></label></div></div><div class="dln"><div><b>Réinitialiser la progression</b><small>Remet à zéro la maîtrise des cartes de ce paquet. Les cartes et les XP du profil sont conservés.</small></div><div class="dbt"><button class="sm del" id="rp">Réinitialiser</button></div></div></div><h3>Parcours du jour</h3><p class="mt">Il est composé une fois par jour pour le profil <b>${pn}</b>, puis ne bouge plus. Après un import de progression, il se recompose tout seul.</p><div class="dgrp"><div class="dln"><div><b>Recomposer le parcours du jour</b><small>Refait le parcours d’aujourd’hui d’après la progression actuelle. Les étapes déjà faites aujourd’hui ne sont plus cochées.</small></div><div class="dbt"><button class="sm" id="mrd">Recomposer</button></div></div></div><p class="mt">Synchronisation : <b id="sy2">${window.CGST||'…'}</b></p><p class="mt ver">Flashcards · version 4.34.0</p>`};
 function pbar(){applyTh();const cur=PR.list.find(p=>p.id==PID),pf=PF.list.find(p=>p.id==PF.cur),sk=streakN(),S=subsOf();
  pkDraw();
  $('#hx').innerHTML=`<span class="pill xp${GP&&GP.oc?' oc':''}" title="${GP&&GP.oc?'Surcharge d’XP active : XP doublés':'Points d’expérience'}">${ICO.bolt}<b>${fmt(ST.xp||0)}</b>XP${GP&&GP.oc?'<i class="x2">×2</i>':''}</span><span class="pill fire ${sk?'':'off'}" title="Jours de révision d’affilée">${ICO.flame}<b>${sk}</b>j</span>${CG.t?CG.bell():''}<button class="pfb" id="pfb" aria-haspopup="dialog" title="Profil : ${esc(pf.name)}" aria-label="Changer de profil. Profil actuel : ${esc(pf.name)}">${avH(pf)}</button><button class="ib ghost stb" id="stb" aria-haspopup="dialog" aria-label="Réglages" title="Réglages">${ICO.cog}</button>`;
@@ -2198,9 +2211,9 @@ const save=()=>saveX();
 const toast=m=>{const t=$('#toast');t.textContent=m;t.style.display='block';clearTimeout(toast.h);toast.h=setTimeout(()=>t.style.display='none',2600)};
 const uid=()=>Math.random().toString(36).slice(2,10);
 const shuf=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
-const igf=f=>(ST.ign||[]).includes(f),igO=c=>c.ig||igf(c.f||'__none'),isLk=c=>!!c.lk&&!!c.f&&!(ST.ulk&&ST.ulk[c.f]),isIg=c=>igO(c)||isLk(c);
+const igf=f=>(ST.ign||[]).includes(f),igO=c=>c.ig||(c.f?fsOf(c).every(igf):igf('__none')),isLk=c=>!!c.lk&&!!c.f&&!(ST.ulk&&ST.ulk[c.f]),isIg=c=>igO(c)||isLk(c);
 const HP='H::',isH=x=>String(x).startsWith(HP);
-const folderSet=()=>[...new Set([...ST.cards.map(c=>c.f),...Object.values(ST.les||{}).map(l=>l.f)].filter(Boolean))];
+const folderSet=()=>[...new Set([...ST.cards.flatMap(c=>fsOf(c)),...Object.values(ST.les||{}).map(l=>l.f)].filter(Boolean))];
 const layout=()=>{const s=folderSet(),o=ST.order||[],c=ST.cats||{},out=[],seen=new Set();o.forEach(x=>{if(seen.has(x))return;if(isH(x)?c[x.slice(HP.length)]!=null:s.includes(x)){seen.add(x);out.push(x)}});s.filter(f=>!seen.has(f)).sort().forEach(f=>out.push(f));return out};
 const folders=()=>layout().filter(x=>!isH(x));
 const TYPES={qcm:'QCM',text:'Réponse écrite',table:'Tableau',num:'Nombre',pairs:'Association',order:'Classement',slider:'Échelle',labels:'Étiquettes',cloze:'Texte à trous'};
@@ -2231,7 +2244,7 @@ function labPick(c,el){const d=c.d,T=labToks(d.text),R=T.map((x,i)=>x.r?i:-1).fi
 const rt=s=>esc(s).replace(/[ \u00a0\u202f]+([?!:;\u00bb%])/g,'\u00a0$1').replace(/(\u00ab)[ \u00a0\u202f]+/g,'$1\u00a0').replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/__(.+?)__/g,'<u>$1</u>').replace(/\/\/(.+?)\/\//g,'<i>$1</i>').replace(/==(.+?)==/g,'<span class="lb">$1</span>');
 const it=o=>(o.i?`<img src="${src(o.i)}">`:'')+`<span>${rt(o.t)}</span>`+(o.a?`<span class="pl" data-snd="${o.a}" title="Écouter">${ICO.spk}</span>`:'');
 let SLO=null,tab='rev',Q=null,D=null,RF='',LF='',LS='man',LP=0,BK=false,LV='f',LT='all',LRF='',SHL=true,QN=(()=>{try{return+KV.getItem('fcn')||10}catch(e){return 10}})(),QM=(()=>{try{return KV.getItem('fcm')||'learn'}catch(e){return'learn'}})();
-function nav(){pbar();document.body.classList.toggle('focus',tab=='rev'&&!!(Q&&Q.list));if(!(Q&&Q.fin))endBarOff();const cur=tab=='les'?(LTAB?'new':'list'):tab=='gen'?'list':tab;document.querySelectorAll('nav button').forEach(b=>{b.classList.toggle('on',b.dataset.t==cur);b.setAttribute('aria-current',b.dataset.t==cur?'page':'false');b.onclick=()=>{if(GI!=null){GI=null;D=null}tab=b.dataset.t;SM=false;EM=false;SC.clear();SF.clear();if(tab=='new'&&(!D||(!ST.cards.some(c=>c.id==D.id)&&!(D.q||'').trim()&&!D.qi&&!D.qa)))D=Object.assign(blank('qcm'),{f:D?D.f:''});if(tab!='rev'||(Q&&Q.fin))Q=null;nav();scrollTo(0,0)}});
+function nav(){pbar();document.body.classList.toggle('focus',tab=='rev'&&!!(Q&&Q.list));if(!(Q&&Q.fin))endBarOff();const cur=tab=='les'?(LTAB?'new':'list'):tab=='gen'?'list':tab;document.querySelectorAll('nav button').forEach(b=>{b.classList.toggle('on',b.dataset.t==cur);b.setAttribute('aria-current',b.dataset.t==cur?'page':'false');b.onclick=()=>{if(GI!=null){GI=null;D=null}tab=b.dataset.t;SM=false;EM=false;SC.clear();SF.clear();if(tab=='new'&&(!D||(!ST.cards.some(c=>c.id==D.id)&&!(D.q||'').trim()&&!D.qi&&!D.qa)))D=Object.assign(blank('qcm'),{f:D?D.f:'',fx:D&&D.fx?D.fx.slice():[]});if(tab!='rev'||(Q&&Q.fin))Q=null;nav();scrollTo(0,0)}});
  $('#fl').innerHTML=folders().map(f=>`<option value="${esc(f)}">`).join('');({rev:home,list:list,new:form,stats:statsPage,les:lessonEd,gen:genPage})[tab]()}
 
 /* ---------- Révision ---------- */
@@ -2315,14 +2328,14 @@ function saveLes(){const L=cleanL(LE);if(!L.b.length)return toast('Ajoute au moi
 function previewLes(){const L=cleanL(LE);if(!L.b.length)return toast('Ajoute au moins un bloc avec du contenu.');readLesson(L,()=>lessonEd(),true)}
 function cancelLes(){LE=null;tab='list';LV='f';nav()}
 /* ---------- Réviser ---------- */
-const fcards=f=>ST.cards.filter(c=>c.f==f&&!isIg(c));
+const fcards=f=>ST.cards.filter(c=>inU(c,f)&&!isIg(c));
 const wgt=c=>(1-(c.s==null?.3:c.s))+Math.min(c.l?(Date.now()-c.l)/864e5:30,30)*.03+Math.random()*.35,ordk=c=>c.o!=null?c.o:c.cr||0;
 const lpGet=()=>{if(!Array.isArray(ST.lp)){const a=[];for(const f of folders()){if(igf(f))continue;const cs=fcards(f);if(!cs.length&&ST.cards.some(c=>c.f==f&&isLk(c)))continue;if(cs.length&&cs.every(c=>c.s!=null))a.push(f);else break}ST.lp=a}return ST.lp};
 function learnPlan(){const lp=lpGet(),fs=folders().filter(f=>!igf(f)&&(fcards(f).length||lessonOf(f))),f=fs.find(x=>!lp.includes(x));
  if(!f)return{f:null,n:fs.length};
  const cur=fcards(f),ids=new Set(cur.map(c=>c.id)),by=(m=>(a,b)=>m.get(b)-m.get(a))(new Map(ST.cards.map(c=>[c,wgt(c)]))),
   ar=ST.cards.filter(c=>!isIg(c)&&c.lr<.8).sort(by),arS=new Set(ar),
-  rev=ST.cards.filter(c=>!isIg(c)&&!ids.has(c.id)&&!arS.has(c)&&c.s!=null&&lp.includes(c.f)).sort(by).slice(0,5),
+  rev=ST.cards.filter(c=>!isIg(c)&&!ids.has(c.id)&&!arS.has(c)&&c.s!=null&&fsOf(c).some(x=>lp.includes(x))).sort(by).slice(0,5),
   rest=cur.filter(c=>!arS.has(c)),nw=rest.filter(c=>c.s==null).sort((x,y)=>ordk(x)-ordk(y)),sn=rest.filter(c=>c.s!=null).sort(by);
  return{f,k:fs.indexOf(f)+1,n:fs.length,list:endHard([...ar,...rev,...nw,...sn]),nAr:ar.length,nRev:rev.length,nCur:cur.length}}
 function testRun(list,les){list=endHard(list);Q={list,i:0,sum:0,fail:[],log:[],xp:0,retry:false,N:list.length,les:les||null,lesDone:!les,solo:!list.length,test:true};tab='rev';nav()}
@@ -2349,7 +2362,7 @@ const mDef=(key,it)=>it&&it.p||(key=='all'?PID:key);
 function menuBuild(key){key=key||PID;const d=dkey(Date.now()),MM=GP.menus||(GP.menus={}),ex=MM[key],okx=ex&&ex.day==d&&Array.isArray(ex.items)&&!(GP.mrd&&GP.mrd.day==d&&(ex.r||0)<GP.mrd.r);
  const PS=key=='all'?subsOf():[key],own=new Map(),act=[],FS=[],SG=[],UN=[];
  PS.forEach((p,pi)=>withPack(p,()=>{lkCheck();unCollect(p,UN);ST.cards.forEach(c=>{if(!isIg(c)){own.set(c,p);act.push(c)}});const lp=lpGet(),A=ST.cards.filter(c=>!isIg(c));SG.push([p,lp.length,lp.join('|').length,A.length,A.filter(c=>c.s!=null).length,A.filter(c=>c.lr<.8).length].join(':'));folders().filter(f=>!igf(f)).forEach((f,o)=>{const q=fcards(f).filter(c=>!isIg(c));if(q.length)FS.push({ch:chTit(f),p,f,q,les:!!lessonOf(f),st:lp.includes(f),o,pi})})}));
- if(okx)return ex;if(SYW)return null;
+ if(okx)return ex;if(SYW||window.CGPULLED===false)return null;
  if(!act.length){delete MM[key];return null}
  const rf=c=>own.get(c)+':'+c.id,y=new Date();y.setDate(y.getDate()-1);const yk=dkey(y),W=new Map(act.map(c=>[c,wgt(c)])),by=(a,b)=>W.get(b)-W.get(a),used=new Set(),items=[],pl=n=>n>1?'s':'',one=a=>{const s=new Set(a.map(c=>own.get(c)));return s.size==1?[...s][0]:null};
  UN.slice(0,2).forEach(u=>{const L=u.q.slice(0,20);if(!L.length)return;L.forEach(c=>used.add(c));items.push({k:'new',un:1,ch:u.ch,p:u.p,f:u.f,t:u.f,why:`${L.length} carte${pl(L.length)} dans l’unité bilan du chapitre`,ids:L.map(rf)})});
@@ -2431,7 +2444,7 @@ function show(){stopLK();if(Q&&!Q.gmi){Q.gmi=1;if(!Q.test)Q.snap=snapQ();if(GP&&
  const c=Q.c=Q.list[Q.i];Q.done=false;document.body.classList.add('focus');const st=Q.retry?['var(--retry)','Erreur à corriger']:c.s==null?['var(--new)','Nouvelle carte']:c.lr<.8?['var(--warn)','Ratée la dernière fois']:['var(--ac)','Révision'],tot=Q.list.length;
  app.innerHTML=`<div class="sess"><button class="ib ghost" id="qx" title="Quitter la séance" aria-label="Quitter la séance">${ICO.x}</button><div class="sbw">${gmLine()}<div class="sbar" role="progressbar" aria-label="Progression" aria-valuemin="0" aria-valuemax="${tot}" aria-valuenow="${Q.i}"><i id="sbi" style="width:${Q.pw==null?Math.round(Q.i/tot*100):Q.pw}%"></i></div></div><span class="scount">${Q.i+1}<small> / ${tot}</small></span></div>
  <div class="qmeta"><button class="sm ghost flag ${c.fl?'on':''}" id="fg" title="Signaler un problème sur cette carte">${ICO.flag}<span>${c.fl?'Signalée':'Signaler'}</span></button></div>
- <div class="qwrap" style="--c:${st[0]}"><div class="pins"><span class="pin">${st[1]}</span>${c.h?'<span class="pin" style="--c:var(--ko)">Question difficile</span>':''}</div><div class="card qcard" style="--c:${st[0]}">${c.f?`<div class="qch"><span>${esc(c.f)}</span></div>`:''}<div class="q">${rt(c.q)}</div>${c.hint&&c.hint.trim()?`<p class="hintn">${ICO.help}<span>Une aide est disponible pour cette question</span></p>`:''}${c.qi?`<img class="qi" src="${src(c.qi)}" alt="">`:''}${c.qa?`<audio controls src="${src(c.qa)}" style="width:100%;margin-bottom:12px"></audio>`:''}<div id="ans"></div><div id="fb"></div></div></div>${!(Q.sk&&Q.sk.has(c))&&Q.i<Q.list.length-1?`<div class="skr"><button class="sm ghost skb" id="skb" title="Passer cette question : elle sera reposée à la fin de la séance">Passer${ICO.arrow}</button></div>`:''}${Q.test?'<p class="mt testnote">Mode test : rien n’est compté dans ta progression ni tes statistiques. <button class="sm" onclick="endTest()">Quitter le test</button></p>':''}`;
+ <div class="qwrap" style="--c:${st[0]}"><div class="pins"><span class="pin">${st[1]}</span>${c.h?'<span class="pin" style="--c:var(--ko)">Question difficile</span>':''}</div><div class="card qcard" style="--c:${st[0]}">${c.f?`<div class="qch"><span>${esc(fsOf(c).join(' · '))}</span></div>`:''}<div class="q">${rt(c.q)}</div>${c.hint&&c.hint.trim()?`<p class="hintn">${ICO.help}<span>Une aide est disponible pour cette question</span></p>`:''}${c.qi?`<img class="qi" src="${src(c.qi)}" alt="">`:''}${c.qa?`<audio controls src="${src(c.qa)}" style="width:100%;margin-bottom:12px"></audio>`:''}<div id="ans"></div><div id="fb"></div></div></div>${!(Q.sk&&Q.sk.has(c))&&Q.i<Q.list.length-1?`<div class="skr"><button class="sm ghost skb" id="skb" title="Passer cette question : elle sera reposée à la fin de la séance">Passer${ICO.arrow}</button></div>`:''}${Q.test?'<p class="mt testnote">Mode test : rien n’est compté dans ta progression ni tes statistiques. <button class="sm" onclick="endTest()">Quitter le test</button></p>':''}`;
  {const pw=Math.round(Q.i/tot*100),e=$('#sbi');if(e&&Q.pw!=null&&Q.pw!=pw){e.getBoundingClientRect();e.style.width=pw+'%'}Q.pw=pw}
  Q.ho=false;R[c.t](c,$('#ans'));if(c.hint&&c.hint.trim()){const A=$('#ans'),place=()=>{if(A.querySelector('.hintb'))return;const hb=document.createElement('button'),box=document.createElement('div');hb.className='hintb'+(Q.ho?' on':'');hb.setAttribute('aria-expanded',String(!!Q.ho));hb.innerHTML=`${ICO.help}<span>Aide</span>`;box.className='hint';box.hidden=!Q.ho;box.innerHTML=rtl(c.hint);
  hb.onclick=()=>{Q.ho=!Q.ho;box.hidden=!Q.ho;hb.setAttribute('aria-expanded',String(Q.ho));hb.classList.toggle('on',Q.ho)};
@@ -2442,7 +2455,7 @@ function show(){stopLK();if(Q&&!Q.gmi){Q.gmi=1;if(!Q.test)Q.snap=snapQ();if(GP&&
  {const sb=$('#skb');if(sb)sb.onclick=skipQ}
  const qx=$('#qx');qx.onclick=()=>{if(!qx.dataset.s){qx.dataset.s=1;qx.classList.add('armed');toast(Q.test?'Touche encore ✕ pour quitter le test':'Touche encore ✕ pour quitter : la séance sera annulée');setTimeout(()=>{if(qx.isConnected){delete qx.dataset.s;qx.classList.remove('armed')}},2600);return}if(Q.test)return endTest();quitUndo();Q=null;nav();scrollTo(0,0)}}
 const endHard=L=>{const h=c=>!!c.h;return[...L.filter(c=>!h(c)),...L.filter(h)]};
-const recap=(e,i)=>{const ok=e.r>=.8,col=ok?'var(--ok)':'var(--ko)',c=e.c;return`<div class="qwrap lw rw" style="--c:${col}"><div class="pins"><span class="pin">${ok?'Réussie':'Ratée'}</span></div><div class="card rc bcard"><div class="qch"><span>Carte ${i+1}${c.f?' · '+esc(c.f):''}</span></div><div class="q" style="font-size:18px;margin-bottom:12px">${rt(c.q)}</div>${c.qi?`<img class="qi" src="${src(c.qi)}" style="max-height:140px">`:''}<div><b>Bonne réponse :</b> ${e.right||''}</div>${!ok&&e.mine?`<div style="color:var(--ko)"><b>Ta réponse :</b> ${e.mine}</div>`:''}</div></div>`};
+const recap=(e,i)=>{const ok=e.r>=.8,col=ok?'var(--ok)':'var(--ko)',c=e.c;return`<div class="qwrap lw rw" style="--c:${col}"><div class="pins"><span class="pin">${ok?'Réussie':'Ratée'}</span></div><div class="card rc bcard"><div class="qch"><span>Carte ${i+1}${c.f?' · '+esc(fsOf(c).join(' · ')):''}</span></div><div class="q" style="font-size:18px;margin-bottom:12px">${rt(c.q)}</div>${c.qi?`<img class="qi" src="${src(c.qi)}" style="max-height:140px">`:''}<div><b>Bonne réponse :</b> ${e.right||''}</div>${!ok&&e.mine?`<div style="color:var(--ko)"><b>Ta réponse :</b> ${e.mine}</div>`:''}</div></div>`};
 function accept(){if(!Q)return;const U=Q.undo;if(!U)return;const c=U.c,e=Q.log[Q.log.length-1],f=$('#fb .fb'),ti=$('.ti'),ab=$('#acc'),K=['s','n','l','lr','u'];
  if(ab&&!ab.style.minWidth)ab.style.minWidth=ab.offsetWidth+'px';
  if(U.done){const S=U.snap;U.done=false;if(S.gm&&GP){GP.cb=S.gm.cb;GP.oc=S.gm.oc;GP.gt=Date.now();Q.cbm=S.gm.cbm;Q.ocOff=S.gm.ocOff;Q.bad=S.gm.bad;Q.ocq=S.gm.ocq;Q.ocNew=S.gm.ocNew}
@@ -2548,17 +2561,17 @@ const nz=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f
 const SKIPK=new Set(['k','j','i','a','bx','hr','hc','x','cs','rs','h','c','step','tol','min','max','id','u','cr','f','t_','s','n','l','lr','fl','ig','o','pre','qi','qa']);
 const strs=(o,a=[])=>{if(o==null)return a;if(typeof o=='string'){if(o[0]!='§')a.push(o)}else if(typeof o=='number')a.push(String(o));else if(Array.isArray(o))o.forEach(x=>strs(x,a));else if(typeof o=='object')Object.entries(o).forEach(([k,v])=>{if(!SKIPK.has(k))strs(v,a)});return a};
 const qmatch=h=>nz(SQ).split(' ').filter(Boolean).every(w=>h.includes(w));
-const cardOk=c=>!SQ.trim()||qmatch(nz([c.q,c.e,c.f,...strs(c.d)].join(' ')));
+const cardOk=c=>!SQ.trim()||qmatch(nz([c.q,c.e,...fsOf(c),...strs(c.d)].join(' ')));
 const lessonHay=f=>{const l=lessonOf(f);return l?nz([l.title,...strs(l.b)].join(' ')):''};
-const folderOk=f=>!SQ.trim()||qmatch(nz(f)+' '+lessonHay(f))||ST.cards.some(c=>(f=='__none'?!c.f:c.f==f)&&cardOk(c));
-const vis=()=>sorted(ST.cards.filter(c=>(!isLk(c)||!CG.s)&&!seqHide(c)&&cardOk(c)&&(!LF||(LF=='__none'?!c.f:c.f==LF))&&(LT=='new'?c.s==null:LT=='rev'?c.lr<.8:LT=='ign'?igO(c):LT=='mas'?(!isIg(c)&&c.s>=.995):true)));
+const folderOk=f=>!SQ.trim()||qmatch(nz(f)+' '+lessonHay(f))||ST.cards.some(c=>(inU(c,f))&&cardOk(c));
+const vis=()=>sorted(ST.cards.filter(c=>(!isLk(c)||!CG.s)&&!seqHide(c)&&cardOk(c)&&(!LF||inU(c,LF))&&(LT=='new'?c.s==null:LT=='rev'?c.lr<.8:LT=='ign'?igO(c):LT=='mas'?(!isIg(c)&&c.s>=.995):true)));
 function mvC(id,d){const a=vis(),i=a.findIndex(c=>c.id==id),c=a[i],b=a[i+d],k=x=>x.o!=null?x.o:x.cr||0;if(!c||!b||(c.f||'')!=(b.f||''))return;const kc=k(c);c.o=k(b);b.o=kc;c.u=b.u=Date.now();save();list()}
 function sorted(a){const fo=folders(),rk=c=>{const i=fo.indexOf(c.f);return i<0?fo.length:i},k={man:c=>rk(c)*1e14+(c.o!=null?c.o:c.cr||0),new:c=>-(c.cr||0),old:c=>c.cr||0,most:c=>-(c.n||0),least:c=>c.n||0,best:c=>c.s==null?null:-c.s,worst:c=>c.s==null?null:c.s}[LS];
  return [...a].sort((x,y)=>((y.fl?1:0)-(x.fl?1:0))||(k(x)==null)-(k(y)==null)||(k(x)-k(y)))}
 const PS=20,mc=s=>`color-mix(in oklch,var(--ok) ${Math.round(Math.max(0,Math.min(1,s))*100)}%,var(--ko))`;
 let SM=false,EM=false,SC=new Set(),SF=new Set();
-const selN=()=>{const ids=new Set(SC);ST.cards.forEach(c=>{if(c.f&&SF.has(c.f))ids.add(c.id)});return ids};
-function purge(ids,fs){const now=Date.now();ids.forEach(id=>{ST.dead[id]=now;SC.delete(id)});ST.cards=ST.cards.filter(c=>!ids.has(c.id));fs.forEach(f=>{Object.values(ST.les||{}).filter(l=>l.f==f).forEach(l=>{ST.dead[l.id]=now;delete ST.les[l.id]});chAuto(f);ST.order=(ST.order||[]).filter(x=>x!=f);ST.ign=(ST.ign||[]).filter(x=>x!=f);if(LF==f)LF=''});if(fs.length)ST.ou=now;save();toast('Suppression effectuée')}
+const selN=()=>{const ids=new Set(SC);ST.cards.forEach(c=>{const u=fsOf(c);if(u.length&&u.every(x=>SF.has(x)))ids.add(c.id)});return ids};
+function purge(ids,fs){const now=Date.now();ids.forEach(id=>{ST.dead[id]=now;SC.delete(id)});ST.cards=ST.cards.filter(c=>!ids.has(c.id));{const fsS=new Set(fs);ST.cards.forEach(c=>{const u=fsOf(c);if(u.some(x=>fsS.has(x))){setU(c,u.filter(x=>!fsS.has(x)));c.u=now}})}fs.forEach(f=>{Object.values(ST.les||{}).filter(l=>l.f==f).forEach(l=>{ST.dead[l.id]=now;delete ST.les[l.id]});chAuto(f);ST.order=(ST.order||[]).filter(x=>x!=f);ST.ign=(ST.ign||[]).filter(x=>x!=f);if(LF==f)LF=''});if(fs.length)ST.ou=now;save();toast('Suppression effectuée')}
 function addCat(){const id=uid();ST.cats=ST.cats||{};ST.cats[id]='Nouveau chapitre';ST.order=[...layout(),HP+id];ST.ou=Date.now();save();list();try{const e=app.querySelector(`[data-hn="${id}"]`);if(e){e.focus();e.select();e.scrollIntoView({block:'center'})}}catch(x){}}
 function toCat(v){const all=layout(),L=all.filter(x=>isH(x)||!SF.has(x)),mv=all.filter(x=>!isH(x)&&SF.has(x));let at;if(v=='__none'){at=L.findIndex(isH);if(at<0)at=L.length}else{const h=L.indexOf(HP+v);if(h<0)return;const e=L.findIndex((x,i)=>i>h&&isH(x));at=e<0?L.length:e}L.splice(at,0,...mv);ST.order=L;ST.ou=Date.now();save();SF.clear();toast('Unités rangées');list()}
 function selBar(){const el=$('#sb');if(!el)return;const n=SC.size+SF.size;
@@ -2582,7 +2595,7 @@ function ansHtml(c){const d=c.d,L=a=>a.map(x=>`<li>${it(x)}</li>`).join('');
  return`<b>${fmt(d.ans)} ${esc(d.unit||'')}</b> <span class="mt">(échelle de ${fmt(d.min)} à ${fmt(d.max)}${d.tol?', ± '+fmt(d.tol):''})</span>`}
 const closeMd=()=>{const m=$('#md');if(m)m.remove()};
 function openCard(id){const c=ST.cards.find(x=>x.id==id);if(!c)return;closeMd();const m=document.createElement('div');m.className='md';m.id='md';
- m.innerHTML=`<div class="qwrap lw mw" style="--c:${cCol(c)}">${cPins(c)}<div class="mb rc bcard"><button class="x mx" id="mx" title="Fermer" aria-label="Fermer">${ICO.x}</button>${c.f?`<div class="qch"><span>${esc(c.f)}</span></div>`:''}<div class="q">${rt(c.q)}</div>${c.qi?`<img class="qi" src="${src(c.qi)}" style="max-height:200px">`:''}${c.qa?`<audio controls src="${src(c.qa)}" style="width:100%;margin-top:8px"></audio>`:''}<div style="margin-top:12px"><b>Réponse</b></div><div style="margin-top:6px">${ansHtml(c)}</div></div></div>`;
+ m.innerHTML=`<div class="qwrap lw mw" style="--c:${cCol(c)}">${cPins(c)}<div class="mb rc bcard"><button class="x mx" id="mx" title="Fermer" aria-label="Fermer">${ICO.x}</button>${c.f?`<div class="qch"><span>${esc(fsOf(c).join(' · '))}</span></div>`:''}<div class="q">${rt(c.q)}</div>${c.qi?`<img class="qi" src="${src(c.qi)}" style="max-height:200px">`:''}${c.qa?`<audio controls src="${src(c.qa)}" style="width:100%;margin-top:8px"></audio>`:''}<div style="margin-top:12px"><b>Réponse</b></div><div style="margin-top:6px">${ansHtml(c)}</div></div></div>`;
  document.body.appendChild(m);m.onclick=e=>{if(e.target==m||e.target.closest('#mx'))closeMd()}}
 const cCol=c=>isIg(c)?'var(--ign)':c.fl?'var(--warn)':c.s==null?'var(--new)':c.lr<.8?'var(--warn)':mc(c.s);
 const cPins=c=>`<div class="pins">${isLk(c)?`<span class="pin pl" style="--c:var(--ign)" title="Carte verrouillée (niveau 2)" aria-label="Carte verrouillée (niveau 2)">${ICO.lock}</span>`:''}${igO(c)?'<span class="pin">Ignorée</span>':isLk(c)?'':c.fl?'<span class="pin">Signalée</span>':c.s==null?'<span class="pin">Nouvelle carte</span>':c.lr<.8?'<span class="pin" style="--c:var(--warn)">À revoir</span>':''}<span class="pin pn">${TYPES[c.t]}</span>${c.h&&!isIg(c)?'<span class="pin" style="--c:var(--ko)">Question difficile</span>':''}</div>`;
@@ -2600,7 +2613,7 @@ function statsPage(){
  const segs=[[nw.length,'var(--new)','Nouvelles','new'],[rv.length,'var(--warn)','À revoir','rev'],[prg,'var(--cb)','En progression',''],[mas.length,'var(--ok)','Maîtrisées',''],[ign,'var(--ign)','Ignorées','ign']],tc=cs.length||1;
  const bars=[];for(let i=SR-1;i>=0;i--){const x=new Date();x.setDate(x.getDate()-i);const v=H[dkey(x)]||[0,0];bars.push({x,a:v[0],g:v[1]})}
  const mx=Math.max(1,...bars.map(b=>b.a)),lab=b=>`${b.x.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'})} : ${b.a?b.a+' réponse'+(b.a>1?'s':'')+', dont '+b.g+' juste'+(b.g>1?'s':''):'aucune révision'}`;
- const L=[...folders(),...(cs.some(c=>!c.f)?['__none']:[])].map(f=>{const x=cs.filter(c=>f=='__none'?!c.f:c.f==f);return{f,n:x.length,m:x.length?x.reduce((a,c)=>a+(c.s||0),0)/x.length:0}}).filter(r=>r.n);if(SS=='weak')L.sort((a,b)=>a.m-b.m);
+ const L=[...folders(),...(cs.some(c=>!c.f)?['__none']:[])].map(f=>{const x=cs.filter(c=>inU(c,f));return{f,n:x.length,m:x.length?x.reduce((a,c)=>a+(c.s||0),0)/x.length:0}}).filter(r=>r.n);if(SS=='weak')L.sort((a,b)=>a.m-b.m);
  const TR=Object.keys(TYPES).map(k=>{const x=cs.filter(c=>c.t==k);return{k,n:x.length,m:x.length?x.reduce((a,c)=>a+(c.s||0),0)/x.length:0}}).filter(r=>r.n);
  const wk=seen.filter(c=>c.n>=1).sort((a,b)=>a.s-b.s).slice(0,5);
  const row=(l,sub,m,at)=>`<div class="fr2 ${at?'cv':''}" ${at||''}><div class="row between" style="margin:0"><span style="min-width:0">${l}</span><span class="mt">${sub}</span></div><div class="bar"><i style="width:${Math.round(m*100)}%;background:${mc(m)}"></i></div></div>`;
@@ -2625,7 +2638,7 @@ function statsPage(){
  app.querySelectorAll('.cb').forEach(b=>b.onclick=()=>{app.querySelectorAll('.cb').forEach(x=>x.style.outline='');b.style.outline='2px solid var(--ac)';$('#cd').textContent=lab(bars[+b.dataset.i])})}
 function togIgn(f){const a=ST.ign||[];ST.ign=a.includes(f)?a.filter(x=>x!=f):[...a,f];save();list();toast(ST.ign.includes(f)?`Unité ignorée pour le profil ${PF.list.find(p=>p.id==PF.cur).name}`:'Unité réactivée')}
 function renameF(f,n){n=String(n||'').trim();if(!n||n==f)return;if(folderSet().includes(n))return toast('Une unité porte déjà ce nom.');const now=Date.now(),R=a=>Array.isArray(a)?a.map(x=>x==f?n:x):a;
- ST.cards.forEach(c=>{if(c.f==f){c.f=n;c.u=now}});Object.values(ST.les||{}).forEach(l=>{if(l.f==f){l.f=n;l.u=now}});
+ ST.cards.forEach(c=>{if(c.f==f||(c.fx||[]).includes(f)){setU(c,fsOf(c).map(x=>x==f?n:x));c.u=now}});Object.values(ST.les||{}).forEach(l=>{if(l.f==f){l.f=n;l.u=now}});
  ST.order=R(ST.order);ST.ign=R(ST.ign);if(ST.ulk&&ST.ulk[f]){ST.ulk[n]=ST.ulk[f];delete ST.ulk[f]}if(ST.ig0)ST.ig0.f=R(ST.ig0.f);if(Array.isArray(ST.lp))ST.lp=R(ST.lp);if(RF==f)RF=n;if(LF==f)LF=n;if(SF.has(f)){SF.delete(f);SF.add(n)}
  ST.ou=now;save();toast('Unité renommée');list()}
 function renameAsk(f){const m=document.createElement('div');m.className='md';m.id='md';m.innerHTML=`<div class="mb" role="dialog" aria-modal="true" aria-labelledby="rnt"><h2 id="rnt" style="margin-top:0">Renommer l’unité</h2><p class="mt" style="margin:0">Ses cartes, sa leçon, sa place dans la liste et ta progression sont conservées.</p><label class="l" for="rnn">Nouveau nom</label><input id="rnn" value="${esc(f)}" maxlength="60" autocomplete="off"><div class="row" style="justify-content:flex-end"><button id="rnc">Annuler</button><button class="pri" id="rno">Renommer</button></div></div>`;document.body.appendChild(m);
@@ -2654,9 +2667,9 @@ function foldersHtml(fs){const LY=layout(),FOL=folders();let LS2=LY;
  const L=[...LS2,...(ST.cards.some(c=>!c.f)&&(!SQ.trim()||folderOk('__none'))?['__none']:[])];if(SQ.trim()&&!L.length)return'<p class="mt">Aucun résultat.</p>';if(!L.length)return'<p class="mt">Aucune unité pour l’instant : indique une unité en créant ou en modifiant une carte.</p>';
  const PFS=10,pages=[[]];{let cnt=0,pend=[],cur=null;L.forEach(x=>{if(isH(x)){pend.push(x);cur=x;return}let lead=[];if(cnt>=PFS){pages.push([]);cnt=0;if(!pend.length&&cur&&x!='__none')lead=['C::'+cur.slice(HP.length)]}pages[pages.length-1].push(...lead,...pend,x);pend=[];cnt++});if(pend.length)pages[pages.length-1].push(...pend)}
  const np=pages.length;LPF=Math.max(0,Math.min(LPF,np-1));
- FMENU='';const MM=FOL.filter(x=>!igf(x)).map(x=>{const q=ST.cards.filter(c=>c.f==x&&!isLk(c));return q.some(c=>c.s!=null)?[x,q.reduce((a,c)=>a+(c.s||0),0)/q.length]:null}).filter(Boolean);let BEST=null,WORST=null;if(MM.length>1){MM.sort((a,b)=>b[1]-a[1]);if(MM[0][1]>MM[MM.length-1][1]){BEST=MM[0][0];WORST=MM[MM.length-1][0]}}
+ FMENU='';const MM=FOL.filter(x=>!igf(x)).map(x=>{const q=ST.cards.filter(c=>inU(c,x)&&!isLk(c));return q.some(c=>c.s!=null)?[x,q.reduce((a,c)=>a+(c.s||0),0)/q.length]:null}).filter(Boolean);let BEST=null,WORST=null;if(MM.length>1){MM.sort((a,b)=>b[1]-a[1]);if(MM[0][1]>MM[MM.length-1][1]){BEST=MM[0][0];WORST=MM[MM.length-1][0]}}
  return pager(LPF,np,'f',true)+'<div class="fgrid">'+pages[LPF].map(f=>{if(f.startsWith('C::'))return`<div class="mt fcat" style="margin:14px 0 0;font-weight:600">${esc(ST.cats[f.slice(3)]||'')} (suite)</div>`;if(isH(f)){const id=f.slice(HP.length),pos=LY.indexOf(f);return`<div class="row fcat" style="margin:16px 0 0;align-items:center;gap:8px"><textarea data-hn="${id}" rows="1" aria-label="Titre de la catégorie" class="hnt">${esc(ST.cats[id])}</textarea><span class="cact">${SM?'':CE.has(id)?`<button class="cab del" data-hd="${id}" data-iz="1" title="Supprimer la catégorie" aria-label="Supprimer la catégorie">${ICO.trash}</button><button class="cab" data-mv="-1" data-fn="${esc(f)}" ${pos?'':'disabled'} title="Monter" aria-label="Monter la catégorie">↑</button><button class="cab" data-mv="1" data-fn="${esc(f)}" ${pos<LY.length-1?'':'disabled'} title="Descendre" aria-label="Descendre la catégorie">↓</button><button class="cab ok" data-hok="${id}" title="Valider" aria-label="Valider">${ICO.check}</button>`:`<button class="cab" data-hed="${id}" title="Modifier la catégorie" aria-label="Modifier la catégorie">${ICO.cog}</button>`}</span></div>`}
-  const k=f=='__none'?0:FOL.indexOf(f),pos=LY.indexOf(f),cs=ST.cards.filter(c=>(f=='__none'?!c.f:c.f==f)&&!isLk(c)),nlk=CG.s||f=='__none'?0:ST.cards.filter(c=>c.f==f&&isLk(c)).length,rv=cs.filter(c=>c.s!=null),m=rv.reduce((a,c)=>a+c.s,0)/(cs.length||1),st=!rv.length?['var(--new)','Nouveau']:rv.length<cs.length?['var(--ac)','En cours d’apprentissage']:null,col=st?st[0]:mc(m),ig=igf(f);
+  const k=f=='__none'?0:FOL.indexOf(f),pos=LY.indexOf(f),cs=ST.cards.filter(c=>(inU(c,f))&&!isLk(c)),nlk=CG.s||f=='__none'?0:ST.cards.filter(c=>c.f==f&&isLk(c)).length,rv=cs.filter(c=>c.s!=null),m=rv.reduce((a,c)=>a+c.s,0)/(cs.length||1),st=!rv.length?['var(--new)','Nouveau']:rv.length<cs.length?['var(--ac)','En cours d’apprentissage']:null,col=st?st[0]:mc(m),ig=igf(f);
   const nm=f=='__none'?'Sans unité':esc(f),pc=Math.round(m*100),les=f!='__none'&&lessonOf(f),kind=ig?'ig':!rv.length?'new':cs.length&&pc>=100?'best':cs.some(c=>!c.ig&&c.s!=null&&c.lr<.8)?'worst':'',fc=({ig:'var(--ign)',new:'var(--new)',best:'var(--ok)',worst:'var(--warn)'})[kind]||'var(--sf2)',meta=`${cs.length?`${cs.length} carte${cs.length>1?'s':''} · ${pc} %`:'Aucune carte'}${nlk?` · ${nlk} verrouillée${nlk>1?'s':''}`:''}${ig?' · ignoré':''}`;
   if(OPF===f&&!SM){const it=(k,i,l,x='')=>`<button class="fmi ${x}" data-iz="1" data-${k}="${esc(f)}">${ICO[i]}<span>${l}</span></button>`;
    FMENU=`<div class="md fmenu" id="fmenu"><div class="mb fsheet" role="dialog" aria-modal="true" aria-labelledby="fmt" style="--fc:${fc}"><div class="fsh"><span class="fsw" aria-hidden="true"></span><div style="min-width:0"><div class="mt" style="font-size:12.5px;font-weight:700">${f=='__none'?'Cartes sans unité':'Unité '+(k+1)}</div><h2 id="fmt">${nm}</h2><div class="mt">${meta}</div></div><button class="ib ghost fmx" aria-label="Fermer">${ICO.x}</button></div>
@@ -2688,7 +2701,7 @@ function imp(t){let o;try{o=JSON.parse(t)}catch(e){return toast('Fichier invalid
 function list(){const fs=folders(),all=vis(),np=Math.max(1,Math.ceil(all.length/PS));LP=Math.min(LP,np-1);const cs=all.slice(LP*PS,LP*PS+PS);
  const pgT=pager(LP,np,'c',true),pgB=pager(LP,np,'c',false);
  app.innerHTML=`<div class="ltb"><div class="seg segi" role="tablist" aria-label="Affichage"><button role="tab" aria-selected="${LV=='f'}" class="${LV=='f'?'on':''}" id="vf"><b>Unités</b></button><button role="tab" aria-selected="${LV=='c'}" class="${LV=='c'?'on':''}" id="vc"><b>Cartes</b></button></div><div class="row" style="margin:0 0 0 auto">${LV=='c'?`<button class="sm ${FO?'pri':''}" id="vfl">Filtrer${!FO&&(LF||LT!='all')?' (actif)':''}</button>`:''}<button class="sm ibs ${SO?'pri':''}" id="vsr" title="Rechercher" aria-label="Rechercher" aria-pressed="${SO}">${ICO.search}</button>${LV=='f'&&!SM&&!(CG.s&&PID=='p1')?`<button class="sm ${TM?'pri':''}" id="vt">${TM?'Terminer':'Trier'}</button>`:''}${TM&&LV=='f'?'':`<button class="sm ${SM?'pri':''}" id="vs">${SM?'Terminer la sélection':'Sélectionner'}</button>`}</div></div>${SO?`<input id="sq" type="search" autocomplete="off" placeholder="Mots à chercher : titres, questions, réponses, explications…" value="${esc(SQ)}" style="margin:0 0 12px">`:''}<div class="lhd"><h2>Mes ${LV=='f'?'unités':'cartes'} <span class="cnt">${LV=='f'?fs.length:ST.cards.filter(c=>!isLk(c)||(SLK&&!CG.s)).length}</span></h2><label class="btn sm" id="mimpl">${ICO.up}<span>Importer du contenu</span><input type="file" id="mimp" accept=".txt,.json,text/plain,application/json" hidden></label></div>${LV=='f'?foldersHtml(fs):`${FO?`<div class="sel3"><select id="lf"><option value="">Toutes les unités</option><option value="__none" ${LF=='__none'?'selected':''}>Sans unité</option>${fs.map(f=>`<option ${f==LF?'selected':''}>${esc(f)}</option>`).join('')}</select><select id="ls">${Object.entries(SORTS).map(([k,v])=>`<option value="${k}" ${k==LS?'selected':''}>${v}</option>`).join('')}</select><select id="lt">${[['all','Toutes les cartes'],['new','Nouvelles cartes uniquement'],['rev','Cartes à revoir uniquement'],['mas','Cartes maîtrisées (100 %)'],...(CG.s?[]:[['ign','Cartes ignorées uniquement']])].map(([k,v])=>`<option value="${k}" ${k==LT?'selected':''}>${v}</option>`).join('')}</select></div><div style="height:12px"></div>`:''}${pgT}
- ${cs.map(c=>`${EM?'<div class="xw">':''}<div class="qwrap lw cw" style="--c:${cCol(c)}">${cPins(c)}<div class="card cv ${isIg(c)?'ign':c.fl?'warn':''}" data-v="${c.id}">${c.fl?`<div><b>Problème signalé</b> <button class="sm" data-u="${c.id}">Retirer</button></div>`:''}<div class="row between" style="margin:0 0 6px"><span>${SM?`<input type="checkbox" data-sc="${c.id}" style="width:auto;margin-right:8px" ${SC.has(c.id)?'checked':''}>`:''}<button class="chb qch" data-ch="${c.id}" title="Changer d’unité" aria-label="Unité : ${esc(c.f||'aucun')}. Changer d’unité"><span class="${c.f?'':'non'}">${esc(c.f)||'Sans unité'}<i aria-hidden="true">▾</i></span></button></span>${LS=='man'?`<span style="white-space:nowrap"><button class="sm" data-cm="-1" data-ci="${c.id}" ${(all[all.indexOf(c)-1]||{}).f==c.f&&all.indexOf(c)?'':'disabled'}>↑</button> <button class="sm" data-cm="1" data-ci="${c.id}" ${all.indexOf(c)<all.length-1&&(all[all.indexOf(c)+1]||{}).f==c.f?'':'disabled'}>↓</button></span>`:''}</div><div class="ql">${c.qi?mi(ICO.img):''}${c.qa?mi(ICO.spk):''}<b>${esc((c.q||'(image)').replace(/\*\*|__|\/\//g,'').replace(/\s+/g,' '))}</b></div>
+ ${cs.map(c=>`${EM?'<div class="xw">':''}<div class="qwrap lw cw" style="--c:${cCol(c)}">${cPins(c)}<div class="card cv ${isIg(c)?'ign':c.fl?'warn':''}" data-v="${c.id}">${c.fl?`<div><b>Problème signalé</b> <button class="sm" data-u="${c.id}">Retirer</button></div>`:''}<div class="row between" style="margin:0 0 6px"><span>${SM?`<input type="checkbox" data-sc="${c.id}" style="width:auto;margin-right:8px" ${SC.has(c.id)?'checked':''}>`:''}<button class="chb qch" data-ch="${c.id}" title="Changer d’unité" aria-label="Unité : ${esc(fsOf(c).join(', ')||'aucun')}. Changer d’unité"><span class="${c.f?'':'non'}">${esc(fsOf(c).join(' · '))||'Sans unité'}<i aria-hidden="true">▾</i></span></button></span>${LS=='man'?`<span style="white-space:nowrap"><button class="sm" data-cm="-1" data-ci="${c.id}" ${(all[all.indexOf(c)-1]||{}).f==c.f&&all.indexOf(c)?'':'disabled'}>↑</button> <button class="sm" data-cm="1" data-ci="${c.id}" ${all.indexOf(c)<all.length-1&&(all[all.indexOf(c)+1]||{}).f==c.f?'':'disabled'}>↓</button></span>`:''}</div><div class="ql">${c.qi?mi(ICO.img):''}${c.qa?mi(ICO.spk):''}<b>${esc((c.q||'(image)').replace(/\*\*|__|\/\//g,'').replace(/\s+/g,' '))}</b></div>
  <div class="bar"><i style="width:${c.s==null?0:Math.round(c.s*100)}%;background:${c.s==null?'var(--bd)':mc(c.s)}"></i></div><div class="mt">${c.s==null?'Jamais révisée':'Maîtrise '+Math.round(c.s*100)+' % · vue '+c.n+' fois'}</div>
  <div class="row">${EM?'':`<button class="sm" data-rc="${c.id}">Réviser</button>`}<button class="sm" data-e="${c.id}">Modifier</button>${EM||CG.s?'':`<button class="sm" data-ig="${c.id}" style="opacity:.7">${c.ig?'Réactiver':'Ignorer'}</button>`}<button class="sm del" data-d="${c.id}" style="opacity:.8">Supprimer</button><button class="sm" data-xc="${c.id}" data-iz="1" title="Exporter cette carte" aria-label="Exporter cette carte">${ICO.dl}</button></div></div></div>${EM?`<button class="sm" data-xc="${c.id}" title="Extraire cette carte" aria-label="Extraire cette carte">${DLI}</button></div>`:''}`).join('')||'<p class="mt">Aucune carte ici.</p>'}${pgB}`}<div class="uprow"><button class="sm ibs" id="vup" title="Remonter en haut de la page" aria-label="Remonter en haut de la page"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button></div>${TM&&LV=='f'?'<div id="tsb" class="card" style="position:sticky;bottom:8px;z-index:5;margin:12px 0 0"><div><b>Mode « Trier »</b><div class="mt" style="margin:2px 0 0">Glisse les unités et les unités.</div></div><button class="pri" id="vtd">Tri terminé</button></div>':''}${SM?'<div id="sb" class="card" style="position:sticky;bottom:8px;z-index:5;margin:12px 0 0"></div>':''}`;
  if(LV=='c'&&FO){$('#lf').onchange=e=>{LF=e.target.value;LP=0;list()};$('#ls').onchange=e=>{LS=e.target.value;LP=0;list()};$('#lt').onchange=e=>{LT=e.target.value;LP=0;list()}}
@@ -2704,7 +2717,7 @@ function list(){const fs=folders(),all=vis(),np=Math.max(1,Math.ceil(all.length/
  app.querySelectorAll('[data-lese]').forEach(b=>b.onclick=e=>{e.stopPropagation();openLes(b.dataset.lese)});
  {const fm=$('#fmenu');if(fm){const cl=()=>{OPF=null;list()};fm.onclick=e=>{if(e.target==fm)cl()};fm.querySelector('.fmx').onclick=cl;fm.addEventListener('click',e=>{const b=e.target.closest('.fmi');if(!b)return;if(b.dataset.df!=null&&!b.dataset.s)return;OPF=null;setTimeout(()=>{if(fm.isConnected)fm.remove()},0)},true);fm.onkeydown=e=>{if(e.key=='Escape')cl()};setTimeout(()=>{const x=fm.querySelector('.fmi');if(x)x.focus({preventScroll:true})},30)}}
  app.querySelectorAll('[data-rc]').forEach(b=>b.onclick=e=>{e.stopPropagation();const c=ST.cards.find(x=>x.id==b.dataset.rc);if(c)testRun([c],null)});
- app.querySelectorAll('[data-rf]').forEach(b=>b.onclick=e=>{e.stopPropagation();const f=b.dataset.rf;testRun(ST.cards.filter(c=>(f=='__none'?!c.f:c.f==f)&&!(CG.s&&isLk(c))).sort((a,b)=>ordk(a)-ordk(b)),f=='__none'?null:lessonOf(f))});
+ app.querySelectorAll('[data-rf]').forEach(b=>b.onclick=e=>{e.stopPropagation();const f=b.dataset.rf;testRun(ST.cards.filter(c=>(inU(c,f))&&!(CG.s&&isLk(c))).sort((a,b)=>ordk(a)-ordk(b)),f=='__none'?null:lessonOf(f))});
  app.querySelectorAll('[data-nc]').forEach(b=>b.onclick=e=>{e.stopPropagation();D=blank('qcm');D.f=b.dataset.nc;tab='new';nav()});
  app.querySelectorAll('[data-hed]').forEach(b=>b.onclick=()=>{CE.add(b.dataset.hed);list()});app.querySelectorAll('[data-hok]').forEach(b=>b.onclick=()=>{CE.delete(b.dataset.hok);list()});
  app.querySelectorAll('[data-chp]').forEach(b=>b.onclick=()=>{const k=b.dataset.chp;if(opc().has(k))opc().delete(k);else opc().add(k);list()});app.querySelectorAll('[data-mg]').forEach(b=>b.onclick=e=>{e.stopPropagation();mvG(b.dataset.gi,+b.dataset.mg)});app.querySelectorAll('[data-bil]').forEach(b=>b.onclick=e=>{e.stopPropagation();bilSet(b.dataset.bil)});
@@ -2714,12 +2727,12 @@ function list(){const fs=folders(),all=vis(),np=Math.max(1,Math.ceil(all.length/
  app.querySelectorAll('[data-cm]').forEach(b=>b.onclick=()=>mvC(b.dataset.ci,+b.dataset.cm));
  app.querySelectorAll('[data-ig]').forEach(b=>b.onclick=()=>{const k=ST.cards.find(c=>c.id==b.dataset.ig);if(k.ig)delete k.ig;else k.ig=1;save();list();toast(k.ig?`Carte ignorée pour le profil ${PF.list.find(p=>p.id==PF.cur).name}`:'Carte réactivée')});
  app.querySelectorAll('[data-xc]').forEach(b=>b.onclick=e=>{e.stopPropagation();const id=b.dataset.xc;exportAsk('cette carte',w=>exportPart(new Set([id]),[],'carte',w))});
- app.querySelectorAll('[data-xf]').forEach(b=>b.onclick=e=>{e.stopPropagation();const f=b.dataset.xf,ids=new Set(ST.cards.filter(c=>f=='__none'?!c.f:c.f==f).map(c=>c.id));exportAsk(f=='__none'?'les cartes sans unité':'cette unité',w=>exportPart(ids,f=='__none'?[]:[f],'unite-'+(f=='__none'?'sans-unite':slug(f)),w))});
+ app.querySelectorAll('[data-xf]').forEach(b=>b.onclick=e=>{e.stopPropagation();const f=b.dataset.xf,ids=new Set(ST.cards.filter(c=>inU(c,f)).map(c=>c.id));exportAsk(f=='__none'?'les cartes sans unité':'cette unité',w=>exportPart(ids,f=='__none'?[]:[f],'unite-'+(f=='__none'?'sans-unite':slug(f)),w))});
  app.querySelectorAll('[data-ign]').forEach(b=>b.onclick=e=>{e.stopPropagation();togIgn(b.dataset.ign)});
  app.querySelectorAll('[data-les]').forEach(b=>b.onclick=e=>{e.stopPropagation();const f=b.dataset.les,l=lessonOf(f);if(!l||EM)return openLes(f);readLesson(l,()=>{tab='list';LV='f';nav()},true,()=>openLes(f))});
  app.querySelectorAll('[data-mvx]').forEach(b=>b.onclick=e=>{e.stopPropagation();placeAsk(b.dataset.mvx)});
  app.querySelectorAll('[data-rn]').forEach(b=>b.onclick=e=>{e.stopPropagation();renameAsk(b.dataset.rn)});
- app.querySelectorAll('[data-df]').forEach(b=>b.onclick=e=>{e.stopPropagation();const f=b.dataset.df,ids=new Set(ST.cards.filter(c=>c.f==f).map(c=>c.id));if(!b.dataset.s){const n=ids.size;b.dataset.s=1;b.textContent=n?`Confirmer ? (${n} carte${n>1?'s':''} supprimée${n>1?'s':''})`:'Confirmer ?';return}purge(ids,[f]);SF.delete(f);list()});
+ app.querySelectorAll('[data-df]').forEach(b=>b.onclick=e=>{e.stopPropagation();const f=b.dataset.df,ids=new Set(ST.cards.filter(c=>fsOf(c).length<2&&c.f==f).map(c=>c.id));if(!b.dataset.s){const n=ids.size;b.dataset.s=1;b.textContent=n?`Confirmer ? (${n} carte${n>1?'s':''} supprimée${n>1?'s':''})`:'Confirmer ?';return}purge(ids,[f]);SF.delete(f);list()});
  app.querySelectorAll('[data-sc]').forEach(b=>b.onchange=()=>{b.checked?SC.add(b.dataset.sc):SC.delete(b.dataset.sc);selBar()});
  app.querySelectorAll('[data-v]').forEach(b=>b.onclick=e=>{if(SM||e.target.closest('button,input,label,select,textarea'))return;openCard(b.dataset.v)});
  selBar();
@@ -2772,7 +2785,7 @@ const genJson=c=>{const d=c.d||{},T=x=>x&&x.t!=null?x.t:x;let o={t:c.t,q:c.q};
  else if(c.t=='cloze')o.text=d.text;
  o.e=c.e||'';return JSON.stringify(o)};
 async function genRun(f,tx,n,type,ctl,onProg,redo){const sm=await getSample();if(!sm)throw{code:'sampling_disabled'};
- const used=[...ST.cards.filter(c=>c.f==f).map(c=>c.q),...(GEN?GEN.cards.filter(c=>c!==redo).map(c=>c.q):[])],seen=new Set(used.map(normQ)),ex=redo?'':used.slice(-120).map(q=>'- '+String(q).replace(/\s+/g,' ').slice(0,120)).join('\n');
+ const used=[...ST.cards.filter(c=>inU(c,f)).map(c=>c.q),...(GEN?GEN.cards.filter(c=>c!==redo).map(c=>c.q):[])],seen=new Set(used.map(normQ)),ex=redo?'':used.slice(-120).map(q=>'- '+String(q).replace(/\s+/g,' ').slice(0,120)).join('\n');
  const prompt=`Tu es un enseignant qui crée des cartes de révision (flashcards) en français à partir d’une leçon.
 
 LEÇON (unité « ${f} ») :
@@ -2878,7 +2891,7 @@ function form(){if(!D)D=blank('qcm');const d=D.d,t=D.t;let h='';
  <div class="lbk">${bh('Aide','facultatif')}<textarea id="fh" oninput="D.hint=this.value" placeholder="Un indice affiché en révision, sans donner la réponse">${esc(D.hint||'')}</textarea>${fb('fh')}</div>
  <div class="lbk">${bh('Explication de la réponse','facultatif')}<textarea id="fe" oninput="D.e=this.value" placeholder="Une explication, affichée après obtention de la bonne réponse">${esc(D.e)}</textarea>${fb('fe')}</div>
  <label class="l" style="display:flex;gap:8px;align-items:center;color:var(--tx);font-size:15px"><input type="checkbox" ${D.h?'checked':''} onchange="D.h=this.checked?1:0">Question difficile (5 XP au lieu de 1)</label>
- <label class="l">Unité (existante ou nouvelle, facultatif)</label><input list="fl" value="${esc(D.f)}" oninput="D.f=this.value">
+ <label class="l">Unité (existante ou nouvelle, facultatif)</label><div class="fxw"><div class="fxr"><input list="fl" value="${esc(D.f)}" oninput="D.f=this.value"><button type="button" class="sm fxb" title="Ajouter une autre unité" aria-label="Ajouter une autre unité" onclick="fxAdd()">+</button></div>${(D.fx||[]).map((x,i)=>`<div class="fxr"><input list="fl" value="${esc(x)}" oninput="D.fx[${i}]=this.value" placeholder="Autre unité" aria-label="Autre unité ${i+2}"><button type="button" class="sm fxb" title="Retirer cette unité" aria-label="Retirer cette unité" onclick="fxDel(${i})">×</button></div>`).join('')}</div>
  <div class="row${nxBtn()?' ebt':''}"><button class="pri" onclick="saveCard()">Enregistrer</button>${nxBtn()}</div>${nxPos()}</div>`;if(t=='labels')labInfo();if(t=='cloze')clzInfo()}
 function clzInfo(){const e=document.getElementById('clz');if(!e||D.t!='cloze')return;const H=parseLab(D.d.text).filter(x=>x.h);e.innerHTML=H.length?H.map((x,i)=>{const p=x.h.split('|').map(s=>s.trim());return`<div class="clzr"><span class="bd">${i+1}</span><b>${esc(p[0])}</b><input placeholder="Variantes, séparées par |" value="${esc(p.slice(1).filter(Boolean).join(' | '))}" oninput="clzVar(${i},this.value)" aria-label="Variantes du trou ${i+1}"></div>`}).join(''):'<p class="mt" style="margin:0">Aucun trou pour l’instant.</p>'}
 function clzVar(i,v){let k=0;D.d.text=String(D.d.text).replace(/\[\[([^\]]+?)\]\]/g,(m,h)=>{if(k++!=i)return m;const vs=v.split('|').map(s=>s.trim()).filter(Boolean);return'[['+[h.split('|')[0].trim(),...vs].join('|')+']]'});const t=document.getElementById('ltx');if(t)t.value=D.d.text}
@@ -2900,7 +2913,7 @@ function labInfo(){const e=document.getElementById('linfo');if(!e||D.t!='labels'
  e.textContent=T.length?(m=='pick'?(R?R+' bonne'+(R>1?'s':'')+' réponse'+(R>1?'s':'')+'.':'Touche au moins un mot juste.'):(R?R+' trou'+(R>1?'s':'')+'.':'Touche au moins un mot.')):'';
  if(al)al.innerHTML=m=='pick'&&R>1?`<label class="l">Plusieurs mots justes</label><div class="tyg lmt" style="grid-template-columns:1fr 1fr" role="radiogroup"><button type="button" role="radio" aria-checked="${!D.d.all}" class="tyb ${D.d.all?'':'on'}" onclick="labAll(0)">Un seul suffit</button><button type="button" role="radio" aria-checked="${!!D.d.all}" class="tyb ${D.d.all?'on':''}" onclick="labAll(1)">Il faut tous les toucher</button></div>`:''}
 function holeSel(){const e=document.getElementById('ltx');if(!e)return;let a=e.selectionStart,b=e.selectionEnd;const v=e.value;while(a<b&&/\s/.test(v[a]))a++;while(b>a&&/\s/.test(v[b-1]))b--;if(a==b)return toast('Sélectionne d’abord le mot à cacher.');e.value=v.slice(0,a)+'[['+v.slice(a,b)+']]'+v.slice(b);e.dispatchEvent(new Event('input'));e.focus();e.setSelectionRange(a+2,b+2)}
-function saveCard(){const c=JSON.parse(JSON.stringify(D)),d=c.d,ok=o=>o.t.trim()||o.i||o.a,n=Number;c.q=c.q.trim();c.f=c.f.trim();lkFit(c);c.hint=String(c.hint||'').trim();if(!c.hint)delete c.hint;
+function saveCard(){const c=JSON.parse(JSON.stringify(D)),d=c.d,ok=o=>o.t.trim()||o.i||o.a,n=Number;c.q=c.q.trim();c.f=c.f.trim();fxFix(c);lkFit(c);c.hint=String(c.hint||'').trim();if(!c.hint)delete c.hint;
  const bad=m=>toast(m)||0;if(!c.q&&!c.qi&&!c.qa)return bad('Ajoute une question.');
  if(c.t=='qcm'&&!d.opts.every(ok))return bad('Remplis toutes les propositions.');
  if(c.t=='num'){if(d.ans===''||isNaN(n(d.ans)))return bad('Réponse numérique requise.');d.ans=n(d.ans);d.tol=n(d.tol)||0}
@@ -2915,7 +2928,7 @@ function saveCard(){const c=JSON.parse(JSON.stringify(D)),d=c.d,ok=o=>o.t.trim()
  if(c.t=='slider'){['min','max','step','ans','tol'].forEach(k=>d[k]=n(d[k])||0);d.step=d.step||1;if(d.min>=d.max||d.ans<d.min||d.ans>d.max)return bad('Échelle ou bonne valeur incohérente.')}
  if(GI!=null&&GEN){c.u=Date.now();c.cr=c.u;GEN.cards[GI]=c;GI=null;D=null;tab='gen';toast('Carte modifiée');return nav()}
  const NFU=c.f&&!folderSet().includes(c.f);c.u=Date.now();c.cr=c.cr||c.u;delete c.fl;delete ST.dead[c.id];const i=ST.cards.findIndex(x=>x.id==c.id);if(i>=0){Object.assign(c,{s:ST.cards[i].s,n:ST.cards[i].n,l:ST.cards[i].l});ST.cards[i]=c}else{c.s=null;c.n=0;ST.cards.push(c)}
- if(!save())return;toast('Carte enregistrée');if(i>=0){const nx=NXT&&ST.cards.find(x=>x.id==NXT);if(nx){D=JSON.parse(JSON.stringify(nx));scrollTo(0,0)}else{D=null;tab='list'}}else D=Object.assign(blank(c.t),{f:c.f});nav();if(NFU)chapAsk(c.f)}
+ if(!save())return;toast('Carte enregistrée');if(i>=0){const nx=NXT&&ST.cards.find(x=>x.id==NXT);if(nx){D=JSON.parse(JSON.stringify(nx));scrollTo(0,0)}else{D=null;tab='list'}}else D=Object.assign(blank(c.t),{f:c.f,fx:(c.fx||[]).slice()});nav();if(NFU)chapAsk(c.f)}
 /* ---------- Synchronisation ---------- */
 let PDN=false,PRN=false;
 const busyUI=()=>{const a=document.activeElement;return PDN||(a&&a!=document.body&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName)&&(app.contains(a)||$('#pb').contains(a)))};
@@ -3070,8 +3083,8 @@ function nextCard(d){const a=nxAt();if(!a)return;const nx=a.S[a.k+(d<0?-1:1)];if
  if(JSON.stringify(D)===JSON.stringify(a.o)){D=JSON.parse(JSON.stringify(nx));nav();scrollTo(0,0);return}
  NXT=nx.id;try{saveCard()}finally{NXT=null}}
 /* Mes cartes : l’unité s'affiche en haut de la carte ; un clic l'ouvre en champ de saisie avec la liste des unités */
-function chEdit(b){const c=ST.cards.find(x=>x.id==b.dataset.ch);if(!c)return;const i=document.createElement('input');i.className='fi chi';i.setAttribute('list','fl');i.placeholder='Unité (vide : sans unité)';i.value=c.f||'';i.setAttribute('aria-label','Unité de la carte');let done=false;
- const end=ok=>{if(done)return;done=true;const v=i.value.trim();if(ok&&v!=(c.f||'')){c.f=v;lkFit(c);c.u=Date.now();save();toast('Unité mise à jour')}list()};
+function chEdit(b){const c=ST.cards.find(x=>x.id==b.dataset.ch);if(!c)return;const i=document.createElement('input');i.className='fi chi';i.setAttribute('list','fl');i.placeholder='Unité (plusieurs : séparés par ;)';i.value=fsOf(c).join(' ; ');i.setAttribute('aria-label','Unité de la carte');let done=false;
+ const end=ok=>{if(done)return;done=true;const v=i.value.trim(),L=[...new Set(v.split(';').map(x=>x.trim()).filter(Boolean))];if(ok&&L.join('\u0001')!=fsOf(c).join('\u0001')){setU(c,L);lkFit(c);c.u=Date.now();save();toast('Unité mise à jour')}list()};
  i.onclick=e=>e.stopPropagation();i.onkeydown=e=>{e.stopPropagation();if(e.key=='Enter'){e.preventDefault();end(true)}else if(e.key=='Escape'){e.preventDefault();end(false)}};i.onchange=()=>end(true);i.onblur=()=>setTimeout(()=>end(true),150);
  b.parentNode.replaceChild(i,b);i.focus();i.select()}
 /* retour au menu après une étape : le score défile, la coche apparaît, puis l'étape suivante s'allume */
@@ -3240,8 +3253,8 @@ function ulApply(p){const U={};Object.keys(p||{}).forEach(k=>{if(k.slice(0,4)=='
 /* vérifie, dans le paquet courant, quelles unités verrouillées s'ouvrent : une unité bilan, quand toutes les autres unités de son chapitre sont à 100 % */
 function lkCheck(){if(!CG.s)lkMig();const nw=[];if(!ST.cards.some(c=>c.lk&&c.f))return nw;const U=ST.ulk||(ST.ulk={});let G=null;
  new Set(ST.cards.filter(c=>c.lk&&c.f).map(c=>c.f)).forEach(f=>{if(U[f]||igf(f))return;let ok=true;
-  if(isBil(f)){G=G||chaps();const g=G.find(x=>x.u.includes(f));(g?g.u:[]).forEach(u=>{if(u==f||isBil(u)||igf(u))return;const a=ST.cards.filter(c=>c.f==u&&!c.lk&&!c.ig);if(a.length&&Math.round(a.reduce((s,c)=>s+(c.s||0),0)/a.length*100)<100)ok=false})}
-  else{const a=ST.cards.filter(c=>c.f==f&&!c.lk&&!c.ig);if(a.length&&Math.round(a.reduce((s,c)=>s+(c.s||0),0)/a.length*100)<100)ok=false}
+  if(isBil(f)){G=G||chaps();const g=G.find(x=>x.u.includes(f));(g?g.u:[]).forEach(u=>{if(u==f||isBil(u)||igf(u))return;const a=ST.cards.filter(c=>inU(c,u)&&!c.lk&&!c.ig);if(a.length&&Math.round(a.reduce((s,c)=>s+(c.s||0),0)/a.length*100)<100)ok=false})}
+  else{const a=ST.cards.filter(c=>inU(c,f)&&!c.lk&&!c.ig);if(a.length&&Math.round(a.reduce((s,c)=>s+(c.s||0),0)/a.length*100)<100)ok=false}
   if(!ok)return;U[f]={n:0,l:Date.now()};nw.push(f)});if(nw.length)ST.ou=Date.now();return nw}
 function lkAll(){const o=[];[...new Set([PID,...((Q&&Q.packs)||[])])].forEach(p=>{if(!PR.list.some(x=>x.id==p))return;withPack(p,()=>{lkCheck().forEach(f=>o.push(f))})});return o}
 /* cartes de niveau 2 tout juste ouvertes et encore jamais vues, à proposer en priorité dans le menu du jour */
@@ -3294,14 +3307,14 @@ function toCat(v){const all=layout(),mv=all.filter(x=>!isH(x)&&SF.has(x));if(!mv
  else{const L=all.filter(x=>isH(x)||!SF.has(x)),h=L.indexOf(HP+v);if(h<0)return;const e=L.findIndex((x,i)=>i>h&&isH(x));L.splice(e<0?L.length:e,0,...mv);ST.order=L}
  chMig();ST.ou=Date.now();save();SF.clear();toast('Unités rangées');list()}
 /* maîtrise d'une unité (cartes visibles) et d'un chapitre (moyenne de ses unités) */
-function uStat(f){const cs=ST.cards.filter(c=>c.f==f&&!isLk(c));return{cs,m:cs.length?cs.reduce((a,c)=>a+(c.s||0),0)/cs.length:0,seen:cs.filter(c=>c.s!=null).length}}
+function uStat(f){const cs=ST.cards.filter(c=>inU(c,f)&&!isLk(c));return{cs,m:cs.length?cs.reduce((a,c)=>a+(c.s||0),0)/cs.length:0,seen:cs.filter(c=>c.s!=null).length}}
 function gStat(g){const us=g.u.filter(f=>!igf(f)).map(uStat).filter(x=>x.cs.length);return{n:us.length,m:us.length?us.reduce((a,x)=>a+x.m,0)/us.length:0,seen:us.reduce((a,x)=>a+x.seen,0),all:us.reduce((a,x)=>a+x.cs.length,0)}}
 /* verrouillage séquentiel (profil élève, paquet de la classe) : une unité s'ouvre quand les précédentes ont été apprises */
 function crown(){return'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5 8 12l4-6.5L16 12l4.5-3.5-1.7 10.5H5.2z"/><path d="M5.5 21.2h13"/></svg>'}
 function seqSet(){const S=new Set();let nx=null;if(CG.s&&PID!='p1')return{S,nx};
  const lp=lpGet(),fs=folders().filter(f=>!igf(f)&&(fcards(f).length||lessonOf(f)));nx=fs.find(x=>!lp.includes(x))||null;
- folders().forEach(f=>{if(igf(f)||isBil(f)||f==nx||lp.includes(f))return;if(!ST.cards.some(c=>c.f==f&&(!CG.s||CG.isT(c.id))))return;if(ST.cards.some(c=>c.f==f&&c.s!=null))return;S.add(f)});return{S,nx}}
-var SQM;function seqHide(c){if(!CG.s||PID!='p1'||!c.f||!CG.isT(c.id))return false;const n=Date.now();if(!SQM||n-SQM.t>400||SQM.p!=PID)SQM={t:n,p:PID,s:seqSet().S};return SQM.s.has(c.f)}
+ folders().forEach(f=>{if(igf(f)||isBil(f)||f==nx||lp.includes(f))return;if(!ST.cards.some(c=>inU(c,f)&&(!CG.s||CG.isT(c.id))))return;if(ST.cards.some(c=>inU(c,f)&&c.s!=null))return;S.add(f)});return{S,nx}}
+var SQM;function seqHide(c){if(!CG.s||PID!='p1'||!c.f||!CG.isT(c.id))return false;const n=Date.now();if(!SQM||n-SQM.t>400||SQM.p!=PID)SQM={t:n,p:PID,s:seqSet().S};return fsOf(c).every(x=>SQM.s.has(x))}
 /* rangement d'une unité dans un chapitre (menu « Déplacer › Ranger dans… ») */
 function rangerDans(f,v){let L=layout().filter(x=>x!=f);
  if(v=='__own'){const id=uid();ST.cats=ST.cats||{};ST.cats[id]=f;L.push(HP+id,f)}
@@ -3352,11 +3365,11 @@ function foldersHtml(fs){if(!CG.s){lkMig();chMig()}
  if(q&&!G.length&&!none)return'<p class="mt">Aucun résultat.</p>';if(!G.length&&!none)return'<p class="mt">Aucune unité pour l’instant : indique une unité en créant ou en modifiant une carte.</p>';
  FMENU='';const SQS=seqSet(),NUM=new Map();let cn=0,un0=0;G.forEach(g=>{if(!gCompact(g))NUM.set(g,++cn)});
  const unit=(f,idx,g)=>{const none=f=='__none',U=none?{cs:ST.cards.filter(c=>!c.f),seen:0}:uStat(f);if(none){U.seen=U.cs.filter(c=>c.s!=null).length;U.m=U.cs.length?U.cs.reduce((a,c)=>a+(c.s||0),0)/U.cs.length:0}
-  const cs=U.cs,m=U.m,rv=cs.filter(c=>c.s!=null),nlk=none?0:ST.cards.filter(c=>c.f==f&&isLk(c)).length,bl=!none&&isBil(f),lkd=bl&&bilLk(f),sq=!none&&SQS.S.has(f),ig=igf(f);
+  const cs=U.cs,m=U.m,rv=cs.filter(c=>c.s!=null),nlk=none?0:ST.cards.filter(c=>inU(c,f)&&isLk(c)).length,bl=!none&&isBil(f),lkd=bl&&bilLk(f),sq=!none&&SQS.S.has(f),ig=igf(f);
   const nm=none?'Sans unité':esc(f),pc=Math.round(m*100),les=!none&&!(CG.s&&(sq||lkd))&&lessonOf(f),
    kind=ig?'ig':lkd||sq?'lock':!rv.length?'new':cs.length&&pc>=100?'best':cs.some(c=>!c.ig&&c.s!=null&&c.lr<.8)?'worst':'',
    fc=({ig:'var(--ign)',lock:'var(--ign)',new:'var(--new)',best:'var(--ok)',worst:'var(--warn)'})[kind]||'var(--sf2)',
-   cnt=lkd?`${nlk} carte${nlk>1?'s':''}`:sq?`${ST.cards.filter(c=>c.f==f).length} carte${ST.cards.filter(c=>c.f==f).length>1?'s':''}`:cs.length?`${cs.length} carte${cs.length>1?'s':''} · ${pc} %`:'Aucune carte',
+   cnt=lkd?`${nlk} carte${nlk>1?'s':''}`:sq?`${ST.cards.filter(c=>inU(c,f)).length} carte${ST.cards.filter(c=>inU(c,f)).length>1?'s':''}`:cs.length?`${cs.length} carte${cs.length>1?'s':''} · ${pc} %`:'Aucune carte',
    meta=`${bl?'Unité bilan · ':''}${lkd||sq?'verrouillée · ':''}${cnt}${ig?' · ignorée':''}`,
    lab=lkd?'Bilan verrouillé':sq?'Verrouillée':(bl?'Bilan · ':'')+(({new:'Nouveau',best:'Maîtrisé',worst:'À retravailler',ig:'Ignoré'})[kind]||(rv.length<cs.length?'En cours':'Étudié')),
    ch=g&&!gCompact(g)?`Chapitre ${NUM.get(g)} · `:'',head=none?'Cartes sans unité':ch+(bl?'Unité bilan':'Unité '+idx),
@@ -3368,7 +3381,7 @@ function foldersHtml(fs){if(!CG.s){lkMig();chMig()}
     ${!none?`<div class="fmg">${it('df','trash','Supprimer l’unité','del')}</div>`:''}</div></div>`}
   return`<div class="fblk ${kind?'fcol k-'+kind:''} ${SM&&SF.has(f)?'sel':''}" data-f="${esc(f)}" ${lkm?`data-lkm="${esc(lkm)}"`:''} style="--fc:${fc};--kc:${kind?fc:'var(--mt)'}" tabindex="0" role="button" ${lkm?'aria-disabled="true"':'aria-haspopup="dialog"'} aria-label="${none?'Sans unité':`${bl?'Unité bilan':'Unité'} ${bl?'':idx+' '}: ${esc(f)}${lkd||sq?' (verrouillée)':''}`}">${SM&&!none?`<input type="checkbox" class="fchk" tabindex="-1" aria-hidden="true" ${SF.has(f)?'checked':''}>`:''}<span class="mdot" aria-hidden="true">${none?'—':lkd||sq?ICO.lock:bl?crown():idx}</span><div class="fin"><span class="fnum">${lab}</span><b class="fname">${nm}</b><span class="fmeta"><span class="fmt">${meta.replace(/^Unité bilan · /,'')}${nlk&&!lkd&&!CG.s?` · ${nlk} verrouillée${nlk>1?'s':''}`:''}</span>${kind=='best'||kind=='lock'?'':`<span class="fbar" aria-hidden="true"><i style="width:${pc}%;background:${mc(m)}"></i></span>`}</span></div>${les&&!SM&&!tm?`<button class="fles" data-les="${esc(f)}" data-iz="1" title="Lire la leçon" aria-label="Lire la leçon de « ${esc(f)} »">${ICO.book}</button>`:SM||tm?'':'<span class="fles fph" aria-hidden="true"></span>'}</div>`};
  const gblk=(g,pos,tot)=>{const S=gStat(g),pc=Math.round(S.m*100),
-   worst=g.u.some(f=>ST.cards.some(c=>c.f==f&&!c.ig&&!isLk(c)&&c.s!=null&&c.lr<.8)),
+   worst=g.u.some(f=>ST.cards.some(c=>inU(c,f)&&!c.ig&&!isLk(c)&&c.s!=null&&c.lr<.8)),
    kind=!S.seen?'new':S.all&&pc>=100?'best':worst?'worst':'',fc=({new:'var(--new)',best:'var(--ok)',worst:'var(--warn)'})[kind]||'var(--ac)',
    num=gCompact(g)?'':`<div class="pins"><span class="pin">Chapitre ${NUM.get(g)}</span></div>`;
   const un=g.u;let bi=0;const comp=gCompact(g),idxOf=f=>isBil(f)?0:comp?++un0:++bi;
@@ -3515,4 +3528,13 @@ function pkOpen(){const S=subsOf();if(S.length<2)return;const o0=document.getEle
  const pick=b=>{const id=b.dataset.pk;mHop(b);setTimeout(()=>{close();if(id=='all'?!all:(all||id!=PID))pickP(id)},260)};
  m.querySelectorAll('.pkx').forEach(b=>{b.onclick=()=>pick(b);b.onkeydown=e=>{if(e.key=='Enter'||e.key==' '){e.preventDefault();pick(b)}}});
  const c=m.querySelector('.pkx.cur');if(c)c.focus()}
+
+
+/* 4.34.0 : une carte peut appartenir à plusieurs unités. c.f = unité principale (inchangée), c.fx = unités supplémentaires. */
+function fsOf(c){return[c.f,...(c.fx||[])].filter(Boolean)}
+function inU(c,f){return(f==null||f=='__none')?!c.f:(c.f==f||!!(c.fx&&c.fx.includes(f)))}
+function setU(c,L){L=[...new Set((L||[]).map(x=>String(x||'').trim()).filter(Boolean))];c.f=L[0]||'';if(L.length>1)c.fx=L.slice(1);else delete c.fx}
+function fxFix(c){setU(c,[c.f,...(c.fx||[])])}
+function fxAdd(){if(!D)return;D.fx=[...(D.fx||[]),''];form();setTimeout(()=>{const i=[...document.querySelectorAll('.fxr input')].pop();if(i)i.focus()},0)}
+function fxDel(i){if(!D||!D.fx)return;D.fx=D.fx.filter((x,k)=>k!=i);form()}
 </script></body></html>
