@@ -1270,8 +1270,8 @@ body.focus main{padding-top:calc(10px + env(safe-area-inset-top,0px))}
 .tm .fblk,.tm .gch,.tm .pins,.tm .fsb{cursor:grab;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 .tm .gch{touch-action:pan-y}
 .tmdrag,.tmdrag *{cursor:grabbing!important;-webkit-user-select:none;user-select:none}
-.tmg{position:fixed;z-index:9999;pointer-events:none;margin:0!important;opacity:.93;transform:scale(1.02) rotate(-.6deg);box-shadow:0 16px 36px rgba(0,0,0,.45)}
-.tmsrc{opacity:.28}
+.tmg{position:fixed!important;z-index:9999;pointer-events:none;margin:0!important;opacity:.93;transform:scale(1.02) rotate(-.6deg);box-shadow:0 16px 36px rgba(0,0,0,.45)}
+.tmsrc{opacity:.28!important}
 .tmln{position:fixed;z-index:9998;height:4px;border-radius:3px;background:var(--ac);pointer-events:none;box-shadow:0 0 0 2px color-mix(in oklab,var(--ac) 30%,transparent)}
 .tmln[hidden]{display:none}
 /* 4.12.4 : bouton de leçon sobre (pictogramme blanc, fond gris) */
@@ -1682,7 +1682,7 @@ body.focus .pkd,body.lock .pkd{display:none}
 <main id="app"></main><div id="sy"></div><datalist id="fl"></datalist><div id="toast" role="status"></div>
 <nav class="tabs" aria-label="Navigation principale"><button data-t="rev"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect class="nv-a" x="3" y="7" width="13" height="14" rx="2.5"/><path class="nv-b" d="M7.5 3.5H18a3 3 0 0 1 3 3V17"/></svg><span>Réviser</span></button><button data-t="list"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path class="nv-f" d="M3 7.5A2.5 2.5 0 0 1 5.5 5H9l2 2.2h7.5A2.5 2.5 0 0 1 21 9.7v7.8a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5z"/></svg><span>Mes cartes</span></button><button data-t="new"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle class="nv-c" cx="12" cy="12" r="9"/><path class="nv-p" d="M12 8v8M8 12h8"/></svg><span>Créer</span></button><button data-t="stats"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path class="nv-s" style="--d:0s" d="M5 20v-6"/><path class="nv-s" style="--d:.09s" d="M11 20V5"/><path class="nv-s" style="--d:.18s" d="M17 20v-9"/><path d="M3 20h18"/></svg><span>Stats</span></button></nav>
 <script src="config.js"></script>
-<script>window.CG_VERSION="6.9.0";
+<script>window.CG_VERSION="6.9.1";
 /* Culture G · Classes — amorçage : connexion, stockage par compte, liaison avec la base en ligne.
    Ce script s'exécute avant l'application. Il fournit à l'application V3, inchangée par ailleurs :
      · KV      : remplace localStorage (mémoire + IndexedDB, une base par compte) ;
