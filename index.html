@@ -1682,7 +1682,7 @@ body.focus .pkd,body.lock .pkd{display:none}
 <main id="app"></main><div id="sy"></div><datalist id="fl"></datalist><div id="toast" role="status"></div>
 <nav class="tabs" aria-label="Navigation principale"><button data-t="rev"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect class="nv-a" x="3" y="7" width="13" height="14" rx="2.5"/><path class="nv-b" d="M7.5 3.5H18a3 3 0 0 1 3 3V17"/></svg><span>Réviser</span></button><button data-t="list"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path class="nv-f" d="M3 7.5A2.5 2.5 0 0 1 5.5 5H9l2 2.2h7.5A2.5 2.5 0 0 1 21 9.7v7.8a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5z"/></svg><span>Mes cartes</span></button><button data-t="new"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle class="nv-c" cx="12" cy="12" r="9"/><path class="nv-p" d="M12 8v8M8 12h8"/></svg><span>Créer</span></button><button data-t="stats"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path class="nv-s" style="--d:0s" d="M5 20v-6"/><path class="nv-s" style="--d:.09s" d="M11 20V5"/><path class="nv-s" style="--d:.18s" d="M17 20v-9"/><path d="M3 20h18"/></svg><span>Stats</span></button></nav>
 <script src="config.js"></script>
-<script>window.CG_VERSION="6.9.1";
+<script>window.CG_VERSION="6.9.2";
 /* Culture G · Classes — amorçage : connexion, stockage par compte, liaison avec la base en ligne.
    Ce script s'exécute avant l'application. Il fournit à l'application V3, inchangée par ailleurs :
      · KV      : remplace localStorage (mémoire + IndexedDB, une base par compte) ;
@@ -3074,7 +3074,7 @@ function crApply(it,d){const me=ST.cards.find(c=>c.id==it.id),ref=ST.cards.find(
  if(!mvOk(me))return toast('Cette carte vient de ton professeur : tu ne peux pas la déplacer.');
  const L=ST.cards.filter(c=>(c.f||'')==(me.f||'')&&mvOk(c)).sort((a,b)=>ordk(a)-ordk(b)),ids=L.filter(c=>c!=me);let at=ids.indexOf(ref);if(at<0)return;if(d.after)at++;ids.splice(at,0,me);
  const now=Date.now();let ch=0;ids.forEach((c,i)=>{if(c.o!==i){c.o=i;c.u=now;ch++}});if(ch)save();list()}
-function crBind(){const root=app.querySelector('.crroot');if(app._tmOff){app._tmOff();app._tmOff=null}if(!TM||LV!='c'||!root)return;
+function crBind(){const root=app.querySelector('.crroot');if(!TM||LV!='c'||!root)return;if(app._tmOff){app._tmOff();app._tmOff=null}
  const uOf=id=>{const c=ST.cards.find(x=>x.id==id);return c?(c.f||''):null};
  dnd(root,e=>{const w=e.target.closest('.qwrap.cw[data-cid]');return w?{id:w.dataset.cid,el:w}:null},
   (D,el)=>{const t=el.closest('.qwrap.cw[data-cid]');if(!t||t==D.it.el||uOf(t.dataset.cid)!==uOf(D.it.id))return null;const r=t.getBoundingClientRect(),af=D.y>r.top+r.height/2;return{d:{ref:t.dataset.cid,after:af},css:`top:${af?r.bottom+4:r.top-5}px;left:${r.left}px;width:${r.width}px`}},
